@@ -1,0 +1,9 @@
+const String mainMenuPage = '/mainMenuPage';
+const String splashPage = '/splashPage';
+const String homePage = '/homePage';
+const String loginPage = '/loginPage';
+const String loginGoogle = '/loginGoogle';
+const String contentPage = '/contentPage';
+const String categoryPage = '/categoryPage';
+const String contentFormPage = '/formContentPage';
+const String categoryFormPage = '/formCategoryPage';

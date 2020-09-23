@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "225967740919",
+    "firebase_url": "https://medisains-66a65.firebaseio.com",
+    "project_id": "medisains-66a65",
+    "storage_bucket": "medisains-66a65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225967740919:android:450905bdda9c07c42a00f2",
+        "android_client_info": {
+          "package_name": "com.medisains"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "225967740919-p707bap8de7vupsiok7n2ora4e5tt32e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCdI-fGNq_Q2PrBOLtLnuTVTla2wubMT8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "225967740919-p707bap8de7vupsiok7n2ora4e5tt32e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
