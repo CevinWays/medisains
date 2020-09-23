@@ -11,17 +11,6 @@ class FragmentHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List listMyCategory = [
-      "assets/images/img_jantung.png",
-      "assets/images/img_mata.png",
-      "assets/images/img_tht.png",
-    ];
-
-    List listMyContent = [
-      "assets/images/img_ads_1.png",
-      "assets/images/img_ads_2.png",
-    ];
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _widgetAppBarSection(),
@@ -29,7 +18,7 @@ class FragmentHomePage extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         color: Colors.white,
         padding: EdgeInsets.all(16),
-        child: _widgetBodySection(context,listMyCategory,listMyContent),
+        child: _widgetBodySection(context),
       ),
         floatingActionButton: SpeedDial(
           child: Icon(Icons.add),
@@ -74,7 +63,7 @@ class FragmentHomePage extends StatelessWidget {
     );
   }
 
-  Widget _widgetBodySection(BuildContext context, List listMyCategory, List listMyContent){
+  Widget _widgetBodySection(BuildContext context){
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
@@ -149,6 +138,7 @@ class FragmentHomePage extends StatelessWidget {
           return Center(child: Text("Data belum tersedia"));
         } else{
           return ListView(
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
               children: snapshot.data.docs.map((DocumentSnapshot item) {
                 return item.data()["uid"] == App().sharedPreferences.getString("uid") ? InkWell(
