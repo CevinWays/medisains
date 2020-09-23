@@ -7,7 +7,7 @@ import './bloc.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final auth.FirebaseAuth firebaseAuth = auth.FirebaseAuth.instance;
-  final CollectionReference fireStoreUsers = FirebaseFirestore.instance.collection("users");
+  final CollectionReference fireStoreUsers = FirebaseFirestore.instance.collection("category");
 
   CategoryBloc(CategoryState initialState) : super(initialState);
   @override
@@ -27,7 +27,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       auth.User currentUser = firebaseAuth.currentUser;
       DocumentReference documentReference = fireStoreUsers.doc(currentUser.uid);
       if(documentReference.id != null){
-        await documentReference.collection("category").add({
+        await documentReference.set({
           'title' : event.title,
           'desc' : event.desc,
         });
@@ -49,7 +49,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
             .collection("category")
             .get().then((querySnapshot){
               querySnapshot.docs.forEach((result){
-                print(result.data);
+                print(result.data());
               });
         });
       });

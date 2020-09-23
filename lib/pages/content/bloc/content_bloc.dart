@@ -7,7 +7,7 @@ import './bloc.dart';
 
 class ContentBloc extends Bloc<ContentEvent, ContentState> {
   final auth.FirebaseAuth firebaseAuth = auth.FirebaseAuth.instance;
-  final CollectionReference fireStoreUsers = FirebaseFirestore.instance.collection("users");
+  final CollectionReference fireStoreUsers = FirebaseFirestore.instance.collection("content");
 
   ContentBloc(ContentState initialState) : super(initialState);
   @override
@@ -30,7 +30,7 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
             .collection("content")
             .get().then((querySnapshot){
           querySnapshot.docs.forEach((result){
-            print(result.data);
+            print(result.data());
           });
         });
       });
@@ -46,7 +46,7 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       auth.User currentUser = firebaseAuth.currentUser;
       DocumentReference documentReference = fireStoreUsers.doc(currentUser.uid);
       if(documentReference.id != null){
-        await documentReference.collection("content").add({
+        await documentReference.set({
           'title' : event.title,
           'desc' : event.desc,
         });
