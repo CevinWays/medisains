@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () => _login(),
                   color: primaryColor,
                   child: Text(
-                    "LOGIN",
+                    "MASUK",
                     style: TextStyle(color: Colors.white),
                   ),
                   shape: RoundedRectangleBorder(
@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.all(16),
       child: GestureDetector(
         onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterPage())),
-        child: Text("Don’t have any account ? Register",
+        child: Text("Belum punya akun ? Daftar",
             style: TextStyle(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center),
       ),

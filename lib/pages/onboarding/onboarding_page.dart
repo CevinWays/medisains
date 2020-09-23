@@ -39,7 +39,7 @@ class OnBoardingPage extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(top: 32),
               child: Text(
-                "Lorem ipsum dolor sit \n amet consectetur adipiscing elit sed",
+                "Bersama medisains menjadi lebih mudah \n segera tulis penelitian mu",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
@@ -58,7 +58,7 @@ class OnBoardingPage extends StatelessWidget {
           _navigateToOnBoardingSecond(context);
         },
         color: primaryColor,
-        child: Text("NEXT", style: TextStyle(color: Colors.white),),
+        child: Text("LANJUT", style: TextStyle(color: Colors.white),),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4),
             side: BorderSide(color: primaryColor)

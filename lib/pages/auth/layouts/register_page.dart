@@ -155,7 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   onPressed: () => _register(),
                   color: primaryColor,
                   child: Text(
-                    "REGISTER",
+                    "DAFTAR",
                     style: TextStyle(color: Colors.white),
                   ),
                   shape: RoundedRectangleBorder(
@@ -174,7 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: EdgeInsets.all(16),
       child: GestureDetector(
         onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage())),
-        child: Text("Already have an account ? Login",
+        child: Text("Sudah punya akun ? Masuk",
             style: TextStyle(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center),
       ),
