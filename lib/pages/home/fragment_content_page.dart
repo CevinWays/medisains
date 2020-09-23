@@ -116,7 +116,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
 
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot item) {
-            return InkWell(
+            return item.data()["uid"] == App().sharedPreferences.getString("uid") ? InkWell(
               onTap: () => Navigator.pushNamed(context, contentPage),
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 8),
@@ -165,7 +165,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                   ],
                 ),
               ),
-            );
+            ) : Container();
           }
         ).toList()
       );
@@ -189,7 +189,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
 
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot item) {
-            return InkWell(
+            return item.data()["uid"] == App().sharedPreferences.getString("uid") ? InkWell(
               onTap: () => Navigator.pushNamed(context, categoryPage),
               child: Container(
                 child: Column(
@@ -217,7 +217,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                   ],
                 ),
               ),
-            );
+            ) : Container();
           }).toList(),
         );
       }

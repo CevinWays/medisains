@@ -49,6 +49,7 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
         await documentReference.set({
           'title' : event.title,
           'desc' : event.desc,
+          'uid' : currentUser.uid
         });
         yield CreateContentState();
       }else{
