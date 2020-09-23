@@ -33,25 +33,6 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
           backgroundColor: Colors.white,
           appBar: _widgetAppBarSection(),
           body: _widgetBodySection(context),
-          floatingActionButton: SpeedDial(
-            child: Icon(Icons.add),
-            animationSpeed: 1,
-            backgroundColor: primaryColor,
-            children: [
-              SpeedDialChild(
-                  child: Icon(Icons.description),
-                  label: "Content",
-                  backgroundColor: yellowColor,
-                  onTap: () => Navigator.pushNamed(context, contentFormPage)
-              ),
-              SpeedDialChild(
-                  child: Icon(Icons.class_),
-                  backgroundColor: redColor,
-                  label: "Category",
-                  onTap: () => Navigator.pushNamed(context, categoryFormPage)
-              ),
-            ],
-          )
       ),
     );
   }
@@ -116,7 +97,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
 
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot item) {
-            return item.data()["uid"] == App().sharedPreferences.getString("uid") ? InkWell(
+            return InkWell(
               onTap: () => Navigator.pushNamed(context, contentPage),
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 8),
@@ -165,7 +146,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                   ],
                 ),
               ),
-            ) : Container();
+            );
           }
         ).toList()
       );
@@ -189,7 +170,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
 
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot item) {
-            return item.data()["uid"] == App().sharedPreferences.getString("uid") ? InkWell(
+            return InkWell(
               onTap: () => Navigator.pushNamed(context, categoryPage),
               child: Container(
                 child: Column(
@@ -217,7 +198,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                   ],
                 ),
               ),
-            ) : Container();
+            );
           }).toList(),
         );
       }

@@ -62,9 +62,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("Welcome Back,",
+                    Text("Selamat Datang,",
                         style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 28)),
-                    Text("Register To Create Account",
+                    Text("Buat akun baru",
                         style: TextStyle(color: disableTextGreyColor, fontSize: 20)),
                   ],
                 ),

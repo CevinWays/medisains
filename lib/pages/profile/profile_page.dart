@@ -27,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: primaryColor,
-            title: Text("User Info"),
+            title: Text("Informasi Pengguna"),
           ),
           backgroundColor: Colors.white,
           body: _widgetContentSection(state),

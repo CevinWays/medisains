@@ -63,9 +63,9 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("Welcome Back,",
+                    Text("Selamat Datang,",
                         style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 28)),
-                    Text("Sign in to Continue",
+                    Text("Masuk untuk lanjutkan",
                         style: TextStyle(color: disableTextGreyColor, fontSize: 20)),
                   ],
                 ),
