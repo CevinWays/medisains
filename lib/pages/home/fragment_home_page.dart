@@ -147,97 +147,20 @@ class FragmentHomePage extends StatelessWidget {
           return Center(child: Text("Data belum tersedia"));
         } else if(snapshot.data == null){
           return Center(child: Text("Data belum tersedia"));
-        }
-
-        return ListView(
-          shrinkWrap: true,
-            children: snapshot.data.docs.map((DocumentSnapshot item) {
-              return item.data()["uid"] == App().sharedPreferences.getString("uid") ? InkWell(
-                onTap: () => Navigator.pushNamed(context, contentPage),
-                child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        width: 70,
-                        height: 70,
-                        margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black38,
-                                  blurRadius: 2,
-                                  spreadRadius: 0.2,
-                                  offset:Offset(0,2)
-                              )
-                            ]
-                        ),
-                        child: Icon(Icons.image,color: primaryColor,),
-                      ),
-                      Container(
-                        height: 70,
-                        margin: EdgeInsets.only(left: 4),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(item.data()['title'],style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
-                            SizedBox(height: 5),
-                            Text(item.data()['desc'],style: TextStyle(fontSize: 12),),
-                            SizedBox(height: 5),
-                            Row(
-                              children: <Widget>[
-                                Icon(Icons.description, color: primaryColor, size: 20,),
-                                Text("4 Artikel"),
-                                SizedBox(width: 5),
-                                Icon(Icons.play_circle_outline, color: primaryColor, size: 20),
-                                Text("3 Video"),
-                              ],
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ) : Container();
-            }
-            ).toList()
-        );
-      },
-    );
-  }
-
-  Widget _widgetCategory(){
-    CollectionReference fireStoreCategory = FirebaseFirestore.instance.collection("category");
-    return StreamBuilder<QuerySnapshot>(
-        stream: fireStoreCategory.snapshots(includeMetadataChanges: true),
-        builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
-
-          if (snapshot.hasError) {
-            return Center(child: Text("Terjadi Kesalahan"));
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: snapshot.data.docs.map((DocumentSnapshot item) {
-                  return item.data()["uid"] == App().sharedPreferences.getString("uid") ? InkWell(
-                    onTap: () => Navigator.pushNamed(context, categoryPage),
-                    child: Column(
+        } else{
+          return ListView(
+            shrinkWrap: true,
+              children: snapshot.data.docs.map((DocumentSnapshot item) {
+                return item.data()["uid"] == App().sharedPreferences.getString("uid") ? InkWell(
+                  onTap: () => Navigator.pushNamed(context, contentPage),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
                       children: <Widget>[
                         Container(
-                          width: 150,
+                          width: 70,
                           height: 70,
-                          margin: EdgeInsets.symmetric(vertical: 5.0,horizontal: 5.0),
+                          margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8),
@@ -253,18 +176,95 @@ class FragmentHomePage extends StatelessWidget {
                           child: Icon(Icons.image,color: primaryColor,),
                         ),
                         Container(
-                          padding: EdgeInsets.all(8),
-                          margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
-                          child: Text(item.data()["title"], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                        ),
-                        Divider()
+                          height: 70,
+                          margin: EdgeInsets.only(left: 4),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(item.data()['title'],style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
+                              SizedBox(height: 5),
+                              Text(item.data()['desc'],style: TextStyle(fontSize: 12),),
+                              SizedBox(height: 5),
+                              Row(
+                                children: <Widget>[
+                                  Icon(Icons.description, color: primaryColor, size: 20,),
+                                  Text("4 Artikel"),
+                                  SizedBox(width: 5),
+                                  Icon(Icons.play_circle_outline, color: primaryColor, size: 20),
+                                  Text("3 Video"),
+                                ],
+                              )
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  ) : Container();
-                }).toList(),
-              ),
-            ),
+                  ),
+                ) : Container();
+              }
+              ).toList()
           );
+        }
+
+      },
+    );
+  }
+
+  Widget _widgetCategory(){
+    CollectionReference fireStoreCategory = FirebaseFirestore.instance.collection("category");
+    return StreamBuilder<QuerySnapshot>(
+        stream: fireStoreCategory.snapshots(includeMetadataChanges: true),
+        builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
+
+          if (snapshot.hasError) {
+            return Center(child: Text("Terjadi Kesalahan"));
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }else{
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: snapshot.data.docs.map((DocumentSnapshot item) {
+                    return item.data()["uid"] == App().sharedPreferences.getString("uid") ? InkWell(
+                      onTap: () => Navigator.pushNamed(context, categoryPage),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            width: 150,
+                            height: 70,
+                            margin: EdgeInsets.symmetric(vertical: 5.0,horizontal: 5.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black38,
+                                      blurRadius: 2,
+                                      spreadRadius: 0.2,
+                                      offset:Offset(0,2)
+                                  )
+                                ]
+                            ),
+                            child: Icon(Icons.image,color: primaryColor,),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+                            child: Text(item.data()["title"], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                          ),
+                          Divider()
+                        ],
+                      ),
+                    ) : Container();
+                  }).toList(),
+                ),
+              ),
+            );
+          }
+
         }
     );
   }
