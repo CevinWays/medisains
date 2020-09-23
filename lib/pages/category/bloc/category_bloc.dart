@@ -25,9 +25,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     try{
       yield InitialCategoryState();
       auth.User currentUser = firebaseAuth.currentUser;
-      DocumentReference documentReference = fireStoreUsers.doc(currentUser.uid);
+      DocumentReference documentReference = fireStoreUsers.doc();
       if(documentReference.id != null){
         await documentReference.set({
+          "id_cat" : FieldValue.increment(1),
           'title' : event.title,
           'desc' : event.desc,
           'uid' : currentUser.uid

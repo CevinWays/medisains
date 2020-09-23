@@ -31,6 +31,12 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
         "title" : "Forum Diskusi",
         Function : _changePass
       },
+
+      {
+        "icon" : Icons.info,
+        "title" : "Tentang",
+        Function : _changePass
+      },
     ];
 
     listProfileSettings = [
