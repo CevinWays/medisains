@@ -24,6 +24,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   Stream<CategoryState> _mapCreateCategory(CreateCategoryEvent event) async*{
     try{
       yield InitialCategoryState();
+      yield LoadingState();
       auth.User currentUser = firebaseAuth.currentUser;
       DocumentReference documentReference = fireStoreUsers.doc();
       DateTime dateTimeNow = DateTime.now();

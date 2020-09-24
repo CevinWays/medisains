@@ -102,20 +102,25 @@ class _FormContentPageState extends State<FormContentPage> {
             ),
           ),
         ),
-        bottomNavigationBar: Container(
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.all(16),
-          child: FlatButton(
-            padding: EdgeInsets.all(16),
-            onPressed: () => _createContent(),
-            color: primaryColor,
-            child: Text(
-              "Submit",
-              style: TextStyle(color: Colors.white),
-            ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4), side: BorderSide(color: primaryColor)),
-          ),
+        bottomSheet: BlocBuilder(
+          cubit: _contentBloc,
+          builder: (context,state){
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.all(16),
+              child: FlatButton(
+                padding: EdgeInsets.all(16),
+                onPressed: () => state is LoadingState ? null : _createContent(),
+                color: state is LoadingState ? disableTextGreyColor : primaryColor,
+                child: Text(
+                  "Submit",
+                  style: TextStyle(color: state is LoadingState ? darkGreyColor : Colors.white),
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4), side: BorderSide(color: state is LoadingState ? disableTextGreyColor : primaryColor)),
+              ),
+            );
+          },
         ),
       ),
     );

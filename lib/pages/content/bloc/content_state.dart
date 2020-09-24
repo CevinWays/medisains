@@ -27,3 +27,5 @@ class CreateContentState extends ContentState{
   @override
   String toString() => 'CreateContentState';
 }
+
+class LoadingState extends ContentState{}

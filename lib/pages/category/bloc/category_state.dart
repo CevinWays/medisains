@@ -27,3 +27,5 @@ class ReadCategoryState extends CategoryState{
   @override
   String toString() => 'ReadCategoryState';
 }
+
+class LoadingState extends CategoryState{}
