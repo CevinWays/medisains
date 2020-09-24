@@ -32,6 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> _mapRegister(RegisterEvent event) async*{
     try{
       yield InitialAuthState();
+      yield LoadingState();
       _userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
           email: event.email,
           password: event.password
@@ -67,6 +68,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> _mapLogin(LoginEvent event) async*{
     try{
       yield InitialAuthState();
+      yield LoadingState();
       _userCredential = await _firebaseAuth.signInWithEmailAndPassword(
           email: event.email,
           password: event.password

@@ -45,12 +45,15 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       yield InitialContentState();
       auth.User currentUser = firebaseAuth.currentUser;
       DocumentReference documentReference = fireStoreUsers.doc();
+      DateTime dateTimeNow = DateTime.now();
       if(documentReference.id != null){
         await documentReference.set({
           "id_cont" : FieldValue.increment(1),
           'title' : event.title,
           'desc' : event.desc,
-          'uid' : currentUser.uid
+          'uid' : currentUser.uid,
+          'create_date' : dateTimeNow.toString(),
+          'update_date' : null,
         });
         yield CreateContentState();
       }else{

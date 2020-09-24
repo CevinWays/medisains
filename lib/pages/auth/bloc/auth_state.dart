@@ -6,6 +6,8 @@ abstract class AuthState {
   List<Object> get props => [];
 }
 
+class LoadingState extends AuthState{}
+
 class InitialAuthState extends AuthState {
   @override
   String toString() => 'InitialAuthState';

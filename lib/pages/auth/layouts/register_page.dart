@@ -148,19 +148,24 @@ class _RegisterPageState extends State<RegisterPage> {
                   ],
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: FlatButton(
-                  padding: EdgeInsets.all(16),
-                  onPressed: () => _register(),
-                  color: primaryColor,
-                  child: Text(
-                    "DAFTAR",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4), side: BorderSide(color: primaryColor)),
-                ),
+              BlocBuilder(
+                cubit: _authBloc,
+                builder: (context,state){
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: FlatButton(
+                      padding: EdgeInsets.all(16),
+                      onPressed: () => state is LoadingState ? null : _register(),
+                      color: state is LoadingState ? disableTextGreyColor : primaryColor,
+                      child: Text(
+                        "DAFTAR",
+                        style: TextStyle(color: state is LoadingState ? darkGreyColor : Colors.white),
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4), side: BorderSide(color: state is LoadingState ? disableTextGreyColor : primaryColor)),
+                    ),
+                  );
+                },
               ),
             ],
           ),

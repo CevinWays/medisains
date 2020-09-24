@@ -114,19 +114,24 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: FlatButton(
-                  padding: EdgeInsets.all(16),
-                  onPressed: () => _login(),
-                  color: primaryColor,
-                  child: Text(
-                    "MASUK",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4), side: BorderSide(color: primaryColor)),
-                ),
+              BlocBuilder(
+                cubit: _authBloc,
+                builder: (context,state){
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: FlatButton(
+                      padding: EdgeInsets.all(16),
+                      onPressed: () => state is LoadingState ? null : _login(),
+                      color: state is LoadingState ? disableTextGreyColor : primaryColor,
+                      child: Text(
+                        "MASUK",
+                        style: TextStyle(color: state is LoadingState ? darkGreyColor :  Colors.white),
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4), side: BorderSide(color: state is LoadingState ? disableTextGreyColor : primaryColor)),
+                    ),
+                  );
+                },
               ),
             ],
           ),

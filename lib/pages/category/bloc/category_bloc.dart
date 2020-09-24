@@ -26,12 +26,15 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       yield InitialCategoryState();
       auth.User currentUser = firebaseAuth.currentUser;
       DocumentReference documentReference = fireStoreUsers.doc();
+      DateTime dateTimeNow = DateTime.now();
       if(documentReference.id != null){
         await documentReference.set({
           "id_cat" : FieldValue.increment(1),
           'title' : event.title,
           'desc' : event.desc,
-          'uid' : currentUser.uid
+          'uid' : currentUser.uid,
+          'create_date' : dateTimeNow.toString(),
+          'update_date' : null,
         });
         yield CreateCategoryState();
       }else{
