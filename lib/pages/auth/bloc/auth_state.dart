@@ -49,3 +49,13 @@ class ReadUserDataState extends AuthState{
   @override
   String toString() => 'ReadUserDataState';
 }
+
+class LoginGoogleState extends AuthState{
+  @override
+  String toString() => 'LoginGoogleState';
+}
+
+class RegisterGoogleState extends AuthState{
+  @override
+  String toString() => 'RegisterGoogleState';
+}

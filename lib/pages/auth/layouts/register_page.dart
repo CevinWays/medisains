@@ -36,6 +36,8 @@ class _RegisterPageState extends State<RegisterPage> {
       listener: (context,state){
         if(state is RegisterState)
           Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
+        else if(state is RegisterGoogleState)
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
         else if(state is AuthErrorState)
           ToastHelper.showFlutterToast(state.msg);
       },
@@ -167,6 +169,16 @@ class _RegisterPageState extends State<RegisterPage> {
                   );
                 },
               ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.all(16),
+                child: Text("atau",textAlign: TextAlign.center,),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: _widgetButtonGoogle(),
+                margin: EdgeInsets.all(16),
+              ),
             ],
           ),
         ),
@@ -211,6 +223,36 @@ class _RegisterPageState extends State<RegisterPage> {
 
   _navigateToLogin() {
     Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+  }
+
+  Widget _widgetButtonGoogle(){
+    return FlatButton(
+      onPressed: (){
+        _authBloc.add(RegisterGoogleEvent());
+      },
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image(image: AssetImage("assets/images/img_google.png"), height: 30.0),
+            Container(
+              margin: EdgeInsets.only(left: 15),
+              child: Text(
+                "Daftar dengan Google",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/sharedpref_helper.dart';
 import 'package:medisains/pages/auth/models/user_model.dart';
+import 'package:medisains/pages/auth/repositories/auth_repository.dart';
 import 'bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -27,6 +28,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapLogout();
     else if(event is ReadUserDataEvent)
       yield* _mapReadUserData();
+    else if(event is LoginGoogleEvent)
+      yield* _mapLoginGoogle();
+    else if(event is RegisterGoogleEvent)
+      yield* _mapRegisterGoogle();
   }
 
   Stream<AuthState> _mapRegister(RegisterEvent event) async*{
@@ -94,6 +99,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     yield InitialAuthState();
     try{
       _firebaseAuth.signOut();
+      AuthRepository().signOutGoogle();
       SharedPrefHelper.deleteUserInfo();
       yield LogoutState();
     }catch(e){
@@ -108,6 +114,50 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         this.userModel = UserModel.fromJson(querySnapshot.data());
       });
       yield ReadUserDataState(email: userModel.email,username: userModel.username);
+    }catch(e){
+      yield AuthErrorState(e.toString());
+    }
+  }
+
+  Stream<AuthState> _mapLoginGoogle() async*{
+    yield InitialAuthState();
+    yield LoadingState();
+    try{
+      auth.User _user = await AuthRepository().loginWithGoogleService();
+      if(_user != null){
+        SharedPrefHelper.saveUserInfo(_user);
+        yield LoginGoogleState();
+      }else{
+        yield AuthErrorState("Gagal Login, silahkan coba kembali");
+      }
+    }catch(e){
+      AuthRepository().signOutGoogle();
+      SharedPrefHelper.deleteUserInfo();
+      yield AuthErrorState(e.toString());
+    }
+  }
+
+  Stream<AuthState> _mapRegisterGoogle() async*{
+    yield InitialAuthState();
+    yield LoadingState();
+    try{
+      auth.User _user = await AuthRepository().loginWithGoogleService();
+      if(_user != null){
+        DocumentReference documentReference = firestoreUsers.doc(_user.uid);
+        if(documentReference.id != null){
+          documentReference.set({
+            'email' : _user.email,
+            'username' : _user.displayName,
+            'uid' : _user.uid
+          });
+          SharedPrefHelper.saveUserInfo(_user);
+          yield RegisterGoogleState();
+        }else{
+          yield AuthErrorState("Gagal membuat akun");
+        }
+      }else{
+        yield AuthErrorState("Gagal Login, silahkan coba kembali");
+      }
     }catch(e){
       yield AuthErrorState(e.toString());
     }

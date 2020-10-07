@@ -37,4 +37,14 @@ class ReadUserDataEvent extends AuthEvent{
   String toString() => 'ReadUserDataEvent';
 }
 
+class LoginGoogleEvent extends AuthEvent{
+  @override
+  String toString() => 'LoginGoogleEvent';
+}
+
+class RegisterGoogleEvent extends AuthEvent{
+  @override
+  String toString() => 'RegisterGoogleEvent';
+}
+
 

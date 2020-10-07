@@ -7,7 +7,7 @@ class SharedPrefHelper{
     App().sharedPreferences.setString('displayName', user.displayName);
     App().sharedPreferences.setString('email', user.email);
     App().sharedPreferences.setString('phoneNumber', user.phoneNumber);
-    App().sharedPreferences.setString('photoUrl', user.photoUrl);
+    App().sharedPreferences.setString('photoUrl', user.photoURL);
   }
 
   static bool isUserLogin(){
