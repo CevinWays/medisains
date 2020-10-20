@@ -30,7 +30,6 @@ dependencies:
   flutter_speed_dial: ^1.2.5
   fluttertoast: ^7.1.1
   shared_preferences: ^0.5.11
-  flutter_stetho: ^0.5.2
   firebase_auth: ^0.18.0+1
   cloud_firestore: ^0.14.0+2
   firebase_core : ^0.5.0
