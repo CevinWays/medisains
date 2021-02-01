@@ -5,8 +5,10 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
+import 'package:medisains/helpers/sharedpref_helper.dart';
 import 'package:medisains/pages/category/bloc/bloc.dart';
 import 'package:medisains/pages/content/bloc/bloc.dart';
+import 'package:medisains/pages/content/model/content_model.dart';
 
 class FragmentContentPage extends StatefulWidget {
   @override
@@ -98,7 +100,10 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot item) {
             return InkWell(
-              onTap: () => Navigator.pushNamed(context, contentPage),
+              onTap: () {
+                ContentModel _contentModel = ContentModel.fromJson(item.data());
+                Navigator.pushNamed(context, contentPage, arguments: _contentModel);
+              },
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 8),
                 child: Row(
@@ -119,7 +124,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                             )
                           ]
                       ),
-                      child: Icon(Icons.image,color: primaryColor,),
+                      child: Icon(Icons.article_rounded,color: primaryColor,),
                     ),
                     Container(
                       height: 70,

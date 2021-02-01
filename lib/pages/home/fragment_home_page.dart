@@ -190,7 +190,8 @@ class FragmentHomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                ) : Image.asset("assets/images/img_no_cat.png");
+                ) : Container();
+                    // : Image.asset("assets/images/img_no_cat.png");
               }
               ).toList()
           );

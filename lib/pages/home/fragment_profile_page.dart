@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/toast_helper.dart';
 import 'package:medisains/pages/auth/bloc/bloc.dart';
@@ -33,8 +34,8 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
       },
 
       {
-        "icon" : Icons.info,
-        "title" : "Tentang",
+        "icon" : Icons.menu_book_outlined,
+        "title" : "Buku Panduan",
         Function : _changePass
       },
     ];
@@ -136,7 +137,7 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
   }
 
   void _changePass(){
-    ToastHelper.showFlutterToast("Terjadi kesalahan");
+    Fluttertoast.showToast(msg: "Coming Soon");
   }
 
   void _navigateToUserInformation(){

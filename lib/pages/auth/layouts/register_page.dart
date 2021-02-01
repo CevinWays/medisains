@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/toast_helper.dart';
 import 'package:medisains/helpers/validator_helper.dart';
@@ -15,6 +16,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   bool hidePassword = true;
   bool hideConfPassword = true;
+  bool isAgree = false;
   AuthBloc _authBloc;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _usernameController = TextEditingController();
@@ -33,12 +35,14 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return BlocListener(
       cubit: _authBloc,
-      listener: (context,state){
-        if(state is RegisterState)
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
-        else if(state is RegisterGoogleState)
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
-        else if(state is AuthErrorState)
+      listener: (context, state) {
+        if (state is RegisterState)
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
+        else if (state is RegisterGoogleState)
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
+        else if (state is AuthErrorState)
           ToastHelper.showFlutterToast(state.msg);
       },
       child: Scaffold(
@@ -65,9 +69,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text("Selamat Datang,",
-                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 28)),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 28)),
                     Text("Buat akun baru",
-                        style: TextStyle(color: disableTextGreyColor, fontSize: 20)),
+                        style: TextStyle(
+                            color: disableTextGreyColor, fontSize: 20)),
                   ],
                 ),
               ),
@@ -86,23 +94,28 @@ class _RegisterPageState extends State<RegisterPage> {
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: primaryColor),
                           ),
-                          labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                          labelStyle:
+                              TextStyle(color: Colors.black, fontSize: 16.0),
                         ),
-                        validator: (String value) => ValidatorHelper.validatorUsername(value: value,label: "Username"),
+                        validator: (String value) =>
+                            ValidatorHelper.validatorUsername(
+                                value: value, label: "Username"),
                       ),
                     ),
                     Container(
                       child: TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
-                        validator: (String value) => ValidatorHelper.validateEmail(value: value),
+                        validator: (String value) =>
+                            ValidatorHelper.validateEmail(value: value),
                         decoration: InputDecoration(
                           labelText: "Email",
                           hintText: "Your Email",
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: primaryColor),
                           ),
-                          labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                          labelStyle:
+                              TextStyle(color: Colors.black, fontSize: 16.0),
                         ),
                       ),
                     ),
@@ -110,16 +123,23 @@ class _RegisterPageState extends State<RegisterPage> {
                       controller: _passwordController,
                       keyboardType: TextInputType.text,
                       obscureText: hidePassword,
-                      validator: (String value) => ValidatorHelper.validatorPassword(value: value,label: "Password"),
+                      validator: (String value) =>
+                          ValidatorHelper.validatorPassword(
+                              value: value, label: "Password"),
                       decoration: InputDecoration(
                           labelText: "Password",
                           hintText: "Your Password",
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: primaryColor),
                           ),
-                          labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                          labelStyle:
+                              TextStyle(color: Colors.black, fontSize: 16.0),
                           suffixIcon: IconButton(
-                              icon: Icon(!hidePassword ? Icons.visibility : Icons.visibility_off, color: primaryColor),
+                              icon: Icon(
+                                  !hidePassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: primaryColor),
                               onPressed: () {
                                 setState(() {
                                   hidePassword = !hidePassword;
@@ -130,16 +150,23 @@ class _RegisterPageState extends State<RegisterPage> {
                       controller: _confirmPasswordController,
                       keyboardType: TextInputType.text,
                       obscureText: hideConfPassword,
-                      validator: (String value) => ValidatorHelper.validatorPassword(value: value,label: "Konfirmasi Password"),
+                      validator: (String value) =>
+                          ValidatorHelper.validatorPassword(
+                              value: value, label: "Konfirmasi Password"),
                       decoration: InputDecoration(
                           labelText: "Confirm Password",
                           hintText: "Your Password",
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: primaryColor),
                           ),
-                          labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                          labelStyle:
+                              TextStyle(color: Colors.black, fontSize: 16.0),
                           suffixIcon: IconButton(
-                              icon: Icon(!hideConfPassword ? Icons.visibility : Icons.visibility_off, color: primaryColor),
+                              icon: Icon(
+                                  !hideConfPassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: primaryColor),
                               onPressed: () {
                                 setState(() {
                                   hideConfPassword = !hideConfPassword;
@@ -152,27 +179,48 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               BlocBuilder(
                 cubit: _authBloc,
-                builder: (context,state){
+                builder: (context, state) {
                   return Container(
                     width: MediaQuery.of(context).size.width,
                     child: FlatButton(
                       padding: EdgeInsets.all(16),
-                      onPressed: () => state is LoadingState ? null : _register(),
-                      color: state is LoadingState ? disableTextGreyColor : primaryColor,
+                      onPressed: () {
+                        if(isAgree == true){
+                          state is LoadingState
+                              ? null
+                              : _register();
+                        }else{
+                          Fluttertoast.showToast(msg: "Silahkan klik setuju dengan kebijakan dan privasi terlebih dahulu");
+                        }
+                      },
+                      color: state is LoadingState
+                          ? disableTextGreyColor
+                          : primaryColor,
                       child: Text(
                         "DAFTAR",
-                        style: TextStyle(color: state is LoadingState ? darkGreyColor : Colors.white),
+                        style: TextStyle(
+                            color: state is LoadingState
+                                ? darkGreyColor
+                                : Colors.white),
                       ),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4), side: BorderSide(color: state is LoadingState ? disableTextGreyColor : primaryColor)),
+                          borderRadius: BorderRadius.circular(4),
+                          side: BorderSide(
+                              color: state is LoadingState
+                                  ? disableTextGreyColor
+                                  : primaryColor)),
                     ),
                   );
                 },
               ),
+              _widgetPrivacyPolicy(),
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.all(16),
-                child: Text("atau",textAlign: TextAlign.center,),
+                child: Text(
+                  "atau",
+                  textAlign: TextAlign.center,
+                ),
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -186,11 +234,80 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _widgetFooterSection(){
+  Widget _widgetPrivacyPolicy() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        children: [
+          Expanded(
+              child: Checkbox(
+            value: isAgree,
+            onChanged: (checked) {
+              setState(() {
+                isAgree = !isAgree;
+              });
+            },
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            activeColor: primaryColor,
+          )),
+          Expanded(
+            flex: 14,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Saya setuju dengan ',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                        },
+                        child: Text(
+                          'syarat dan kondisi ',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: primaryColor),
+                        ),
+                      ),
+                      Text(
+                        'serta ',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                    },
+                    child: Text(
+                      'kebijakan privasi medisains',
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: primaryColor),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _widgetFooterSection() {
     return Container(
       padding: EdgeInsets.all(16),
       child: GestureDetector(
-        onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage())),
+        onTap: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LoginPage())),
         child: Text("Sudah punya akun ? Masuk",
             style: TextStyle(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center),
@@ -211,23 +328,24 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   _register() {
-    if(_confirmPasswordController.text != _passwordController.text)
-      ToastHelper.showFlutterToast("Konfirmasi password harus sama dengan password");
-    else if(_formKey.currentState.validate())
+    if (_confirmPasswordController.text != _passwordController.text)
+      ToastHelper.showFlutterToast(
+          "Konfirmasi password harus sama dengan password");
+    else if (_formKey.currentState.validate())
       _authBloc.add(RegisterEvent(
           email: _emailController.text,
           password: _passwordController.text,
-          username: _usernameController.text
-      ));
+          username: _usernameController.text));
   }
 
   _navigateToLogin() {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LoginPage()));
   }
 
-  Widget _widgetButtonGoogle(){
+  Widget _widgetButtonGoogle() {
     return FlatButton(
-      onPressed: (){
+      onPressed: () {
         _authBloc.add(RegisterGoogleEvent());
       },
       color: Colors.white,
@@ -238,7 +356,9 @@ class _RegisterPageState extends State<RegisterPage> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image(image: AssetImage("assets/images/img_google.png"), height: 30.0),
+            Image(
+                image: AssetImage("assets/images/img_google.png"),
+                height: 30.0),
             Container(
               margin: EdgeInsets.only(left: 15),
               child: Text(
@@ -264,5 +384,4 @@ class _RegisterPageState extends State<RegisterPage> {
     _confirmPasswordController.dispose();
     super.dispose();
   }
-
 }

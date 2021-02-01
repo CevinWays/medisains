@@ -5,15 +5,15 @@ import 'package:medisains/pages/category/layout/category_page.dart';
 import 'package:medisains/pages/category/layout/form_category_page.dart';
 import 'package:medisains/pages/content/layout/content_page.dart';
 import 'package:medisains/pages/content/layout/form_content_page.dart';
+import 'package:medisains/pages/content/model/content_model.dart';
 
 class Routes{
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case contentPage:
-        return MaterialPageRoute(builder: (_) => ContentPage());
+        return MaterialPageRoute(builder: (_) => ContentPage(contentModel: routeSettings.arguments,));
       case categoryPage:
         return MaterialPageRoute(builder: (_) => CategoryPage());
-        break;
       case contentFormPage:
         return MaterialPageRoute(builder: (_) => FormContentPage());
       case categoryFormPage:

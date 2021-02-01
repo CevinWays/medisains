@@ -81,7 +81,7 @@ class _CategoryPageState extends State<CategoryPage> {
                             )
                           ]
                       ),
-                      child: Icon(Icons.image,color: primaryColor,),
+                      child: Icon(Icons.article,color: primaryColor,),
                     ),
                     Container(
                       height: 70,
