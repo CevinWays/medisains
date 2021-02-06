@@ -88,6 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: TextFormField(
                         controller: _usernameController,
                         keyboardType: TextInputType.text,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                           labelText: "Username",
                           hintText: "Your Username",
@@ -106,6 +107,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (String value) =>
                             ValidatorHelper.validateEmail(value: value),
                         decoration: InputDecoration(

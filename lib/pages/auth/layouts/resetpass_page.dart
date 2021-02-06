@@ -35,6 +35,7 @@ class _ResetPassPageState extends State<ResetPassPage> {
             TextFormField(
               controller: resetPassController,
               keyboardType: TextInputType.emailAddress,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (String value) =>
                   ValidatorHelper.validateEmail(value: value),
               decoration: InputDecoration(

@@ -85,6 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (String value) => ValidatorHelper.validateEmail(value: value),
                         decoration: InputDecoration(
                           labelText: "Email",
@@ -99,6 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                     TextFormField(
                       controller: _passwordController,
                       keyboardType: TextInputType.text,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       obscureText: hidePassword,
                       validator: (String value) => ValidatorHelper.validatorEmpty(value: value,label: "Password"),
                       decoration: InputDecoration(

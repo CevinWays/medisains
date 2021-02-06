@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/datetime_helper.dart';
 import 'package:medisains/helpers/sharedpref_helper.dart';
+import 'package:medisains/helpers/validator_helper.dart';
 import 'package:medisains/pages/auth/models/user_model.dart';
 import 'package:medisains/pages/auth/repositories/auth_repository.dart';
 import 'bloc.dart';
@@ -183,11 +184,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> _mapResetPassword(ResetPassEvent event) async*{
     yield InitialAuthState();
     try{
-      if(event.email != ""){
-        _firebaseAuth.sendPasswordResetEmail(email: event.email);
-        yield ResetPassState();
+      String validateEmail = ValidatorHelper.validateEmail(value: event.email);
+      if(validateEmail != "Email tidak boleh kosong" && validateEmail != "masukkan email yang valid"){
+        if(event.email == App().sharedPreferences.getString("email")){
+          _firebaseAuth.sendPasswordResetEmail(email: event.email);
+          yield ResetPassState();
+        }else{
+          yield AuthErrorState("Email tidak sama dengan email user sekarang");
+        }
       }else{
-        yield AuthErrorState("email tidak boleh kosong");
+        yield AuthErrorState("Masukkan email yang valid");
       }
     }catch(e){
       yield AuthErrorState(e.toString());
