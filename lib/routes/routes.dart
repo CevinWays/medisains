@@ -8,10 +8,13 @@ import 'package:medisains/pages/category/layout/form_category_page.dart';
 import 'package:medisains/pages/content/layout/content_page.dart';
 import 'package:medisains/pages/content/layout/form_content_page.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
+import 'package:medisains/pages/home/home_page.dart';
 
 class Routes{
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
+      case homePage:
+        return MaterialPageRoute(builder: (_) => HomePage());
       case contentPage:
         return MaterialPageRoute(builder: (_) => ContentPage(contentModel: routeSettings.arguments,));
       case categoryPage:

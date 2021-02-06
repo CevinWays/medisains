@@ -6,6 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
+import 'package:medisains/pages/content/model/content_model.dart';
+import 'package:medisains/pages/profile/profile_page.dart';
 
 class FragmentHomePage extends StatelessWidget {
   @override
@@ -13,7 +15,7 @@ class FragmentHomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _widgetAppBarSection(),
+      appBar: _widgetAppBarSection(context),
       body: Container(
         width: MediaQuery.of(context).size.width,
         color: Colors.white,
@@ -42,7 +44,7 @@ class FragmentHomePage extends StatelessWidget {
     );
   }
 
-  Widget _widgetAppBarSection(){
+  Widget _widgetAppBarSection(BuildContext context){
     return AppBar(
       elevation: 0.0,
       backgroundColor: Colors.white,
@@ -57,7 +59,11 @@ class FragmentHomePage extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(right: 16),
           alignment: Alignment.centerRight,
-          child: Icon(Icons.search, color: Colors.black,),
+          child: InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
+              },
+              child: Icon(Icons.account_circle, color: Colors.grey,size: 32,)),
         ),
       ],
     );
@@ -142,7 +148,10 @@ class FragmentHomePage extends StatelessWidget {
             shrinkWrap: true,
               children: snapshot.data.docs.map((DocumentSnapshot item) {
                 return item.data()["uid"] == App().sharedPreferences.getString("uid") ? InkWell(
-                  onTap: () => Navigator.pushNamed(context, contentPage),
+                  onTap: () {
+                    ContentModel _contentModel = ContentModel.fromJson(item.data());
+                    Navigator.pushNamed(context, contentPage, arguments: _contentModel);
+                  },
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 8),
                     child: Row(

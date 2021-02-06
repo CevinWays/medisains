@@ -14,6 +14,7 @@ class FormContentPage extends StatefulWidget {
 class _FormContentPageState extends State<FormContentPage> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descController = TextEditingController();
+  TextEditingController _catController = TextEditingController();
   ContentBloc _contentBloc;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -70,6 +71,7 @@ class _FormContentPageState extends State<FormContentPage> {
                       ),
                       Container(
                         child: TextFormField(
+                          controller: _catController,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             labelText: "Kategori Penyakit",
@@ -130,6 +132,7 @@ class _FormContentPageState extends State<FormContentPage> {
   void _createContent(){
     if(_formKey.currentState.validate())
       _contentBloc.add(CreateContentEvent(
+          category: _catController.text,
           title: _titleController.text,
           desc: _descController.text));
   }

@@ -59,6 +59,10 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
           'title' : event.title,
           'desc' : event.desc,
           'uid' : currentUser.uid,
+          'rating' : 1,
+          'category' : event.category,
+          'author_name' : App().sharedPreferences.getString("displayName"),
+          'photo_url' : App().sharedPreferences.getString("photoUrl"),
           'create_date' : dateTimeNow,
           'update_date' : null,
         });

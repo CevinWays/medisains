@@ -76,6 +76,10 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
           child: Column(
             children: <Widget>[
               Container(
+                alignment: Alignment.center,
+                child: Icon(Icons.account_circle, color: primaryColor, size: 80,),
+              ),
+              Container(
                 margin: EdgeInsets.only(bottom: 16),
                 child: Column(
                   children: <Widget>[

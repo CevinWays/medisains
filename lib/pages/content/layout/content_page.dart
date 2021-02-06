@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
+import 'package:medisains/helpers/constant_routes.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
 
 class ContentPage extends StatefulWidget {
@@ -19,6 +22,17 @@ class _ContentPageState extends State<ContentPage> {
         title: Text(widget.contentModel.title,style: TextStyle(color: Colors.white)),
         backgroundColor: primaryColor,
         centerTitle: true,
+        actions: [
+          widget.contentModel.uid == App().sharedPreferences.getString("uid")
+              ? Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: InkWell(
+                onTap: ()async{
+                  await _deleteDialog();
+                },
+                child: Icon(Icons.delete,color: Colors.white,size: 24,)),
+          ) : Container()
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(16),
@@ -38,6 +52,40 @@ class _ContentPageState extends State<ContentPage> {
           ],
         )
       ),
+    );
+  }
+
+  Future<void> _deleteDialog() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("Hapus Content"),
+            content: Text('Yakin ingin menghapus content ini?'),
+            actions: [
+              FlatButton(
+                padding: EdgeInsets.all(7),
+                onPressed: () {
+                  CollectionReference contents = FirebaseFirestore.instance.collection('content');
+                  contents.doc(widget.contentModel.idCont).delete().then((value) => Fluttertoast.showToast(msg: "Berhasil hapus data"));
+                  Navigator.popAndPushNamed(context, homePage);
+                },
+                child: Text('Ya',
+                    style: TextStyle(
+                      fontSize: 18.0, color: Colors.grey,)),
+              ),
+              FlatButton(
+                padding: EdgeInsets.all(7),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Tidak',
+                    style: TextStyle(
+                      fontSize: 18.0, color: primaryColor,)),
+              ),
+            ],
+          );
+        }
     );
   }
 }

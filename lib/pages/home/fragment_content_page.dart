@@ -45,7 +45,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
       backgroundColor: Colors.white,
       automaticallyImplyLeading: false,
       title: Text(
-        "Content",
+        "Explore",
         style: TextStyle(color: Colors.black ,fontSize: 18.0, fontWeight: FontWeight.bold),
       ),
       actions: <Widget>[

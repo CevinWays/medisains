@@ -8,8 +8,9 @@ abstract class ContentEvent extends Equatable {
 class CreateContentEvent extends ContentEvent{
   final String title;
   final String desc;
+  final String category;
 
-  CreateContentEvent({this.title, this.desc});
+  CreateContentEvent({this.category, this.title, this.desc});
   @override
   String toString() => 'CreateContentEvent';
 }
