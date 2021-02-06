@@ -47,4 +47,13 @@ class RegisterGoogleEvent extends AuthEvent{
   String toString() => 'RegisterGoogleEvent';
 }
 
+class ResetPassEvent extends AuthEvent{
+  final String email;
+
+  ResetPassEvent({this.email});
+
+  @override
+  String toString() => 'ResetPassEvent';
+}
+
 

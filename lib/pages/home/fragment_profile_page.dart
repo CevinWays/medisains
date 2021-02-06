@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/helpers/constant_color.dart';
+import 'package:medisains/helpers/constant_routes.dart';
 import 'package:medisains/helpers/toast_helper.dart';
 import 'package:medisains/pages/auth/bloc/bloc.dart';
 import 'package:medisains/pages/auth/layouts/login_page.dart';
@@ -30,13 +31,13 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
       {
         "icon" : Icons.question_answer,
         "title" : "Forum Diskusi",
-        Function : _changePass
+        Function : _comingSoon
       },
 
       {
         "icon" : Icons.menu_book_outlined,
         "title" : "Buku Panduan",
-        Function : _changePass
+        Function : _comingSoon
       },
     ];
 
@@ -44,7 +45,7 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
       {
         "icon" : Icons.settings,
         "title" : "Ubah Password",
-        Function : _changePass
+        Function : _resetPass
       },
       {
         "icon" : Icons.exit_to_app,
@@ -136,7 +137,7 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
     );
   }
 
-  void _changePass(){
+  void _comingSoon(){
     Fluttertoast.showToast(msg: "Coming Soon");
   }
 
@@ -146,5 +147,9 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
 
   void _logout(){
     _authBloc.add(LogoutEvent());
+  }
+
+  void _resetPass(){
+    Navigator.pushNamed(context, resetPassPage);
   }
 }

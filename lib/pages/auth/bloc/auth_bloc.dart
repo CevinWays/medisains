@@ -34,6 +34,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapLoginGoogle();
     else if(event is RegisterGoogleEvent)
       yield* _mapRegisterGoogle();
+    else if(event is ResetPassEvent)
+      yield* _mapResetPassword(event);
   }
 
   Stream<AuthState> _mapRegister(RegisterEvent event) async*{
@@ -172,6 +174,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }else{
         yield AuthErrorState("Gagal Login, silahkan coba kembali");
+      }
+    }catch(e){
+      yield AuthErrorState(e.toString());
+    }
+  }
+
+  Stream<AuthState> _mapResetPassword(ResetPassEvent event) async*{
+    yield InitialAuthState();
+    try{
+      if(event.email != ""){
+        _firebaseAuth.sendPasswordResetEmail(email: event.email);
+        yield ResetPassState();
+      }else{
+        yield AuthErrorState("email tidak boleh kosong");
       }
     }catch(e){
       yield AuthErrorState(e.toString());

@@ -59,3 +59,8 @@ class RegisterGoogleState extends AuthState{
   @override
   String toString() => 'RegisterGoogleState';
 }
+
+class ResetPassState extends AuthState{
+  @override
+  String toString() => 'ResetPassState';
+}
