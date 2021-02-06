@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:medisains/app.dart';
+import 'package:medisains/helpers/datetime_helper.dart';
 import 'package:medisains/helpers/sharedpref_helper.dart';
 import 'package:medisains/pages/auth/models/user_model.dart';
 import 'package:medisains/pages/auth/repositories/auth_repository.dart';
@@ -13,6 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
   auth.UserCredential _userCredential;
   CollectionReference firestoreUsers = FirebaseFirestore.instance.collection('users');
+  String dateTimeNow = DateTimeHelper.currentDate();
 
   AuthBloc(AuthState initialState) : super(initialState);
   @override
@@ -49,7 +51,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           documentReference.set({
             'email' : event.email,
             'username' : event.username,
-            'uid' : _userCredential.user.uid
+            'uid' : _userCredential.user.uid,
+            'create_date' : dateTimeNow,
+            'update_date' : null,
           });
           SharedPrefHelper.saveUserInfo(_userCredential.user);
           yield RegisterState();
@@ -157,7 +161,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           documentReference.set({
             'email' : _user.email,
             'username' : _user.displayName,
-            'uid' : _user.uid
+            'uid' : _user.uid,
+            'create_date' : dateTimeNow,
+            'update_date' : null,
           });
           SharedPrefHelper.saveUserInfo(_user);
           yield RegisterGoogleState();

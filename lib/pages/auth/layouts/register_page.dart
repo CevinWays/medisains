@@ -345,7 +345,11 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _widgetButtonGoogle() {
     return FlatButton(
       onPressed: () {
-        _authBloc.add(RegisterGoogleEvent());
+        if(isAgree == true){
+          _authBloc.add(RegisterGoogleEvent());
+        }else{
+          Fluttertoast.showToast(msg: "Silahkan klik setuju dengan kebijakan dan privasi terlebih dahulu");
+        }
       },
       color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),

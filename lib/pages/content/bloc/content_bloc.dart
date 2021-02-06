@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:medisains/app.dart';
+import 'package:medisains/helpers/datetime_helper.dart';
 import './bloc.dart';
 
 class ContentBloc extends Bloc<ContentEvent, ContentState> {
@@ -51,14 +52,14 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       DocumentReference documentReferenceImg = fireStoreImages.doc();
       DocumentReference documentReferenceArt = fireStoreArticles.doc();
       DocumentReference documentReferenceVid = fireStoreVideo.doc();
-      DateTime dateTimeNow = DateTime.now();
+      String dateTimeNow = DateTimeHelper.currentDate();
       if(documentReference.id != null){
         await documentReference.set({
           "id_cont" : documentReference.id,
           'title' : event.title,
           'desc' : event.desc,
           'uid' : currentUser.uid,
-          'create_date' : dateTimeNow.toString(),
+          'create_date' : dateTimeNow,
           'update_date' : null,
         });
         yield CreateContentState();
