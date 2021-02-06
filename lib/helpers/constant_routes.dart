@@ -8,3 +8,4 @@ const String categoryPage = '/categoryPage';
 const String contentFormPage = '/formContentPage';
 const String categoryFormPage = '/formCategoryPage';
 const String resetPassPage = '/resetPassPage';
+const String editContentPage = '/editContentPage';

@@ -58,6 +58,7 @@ class _FormContentPageState extends State<FormContentPage> {
                         child: TextFormField(
                           controller: _titleController,
                           keyboardType: TextInputType.text,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Judul",value: value),
                           decoration: InputDecoration(
                             labelText: "Judul",
@@ -73,6 +74,7 @@ class _FormContentPageState extends State<FormContentPage> {
                         child: TextFormField(
                           controller: _catController,
                           keyboardType: TextInputType.text,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: InputDecoration(
                             labelText: "Kategori Penyakit",
                             hintText: "Kategori",
@@ -87,6 +89,7 @@ class _FormContentPageState extends State<FormContentPage> {
                         child: TextFormField(
                           controller: _descController,
                           keyboardType: TextInputType.text,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Studi kasus",value: value),
                           decoration: InputDecoration(
                             labelText: "Studi Kasus",

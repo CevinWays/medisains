@@ -52,6 +52,13 @@ class _ContentPageState extends State<ContentPage> {
           ],
         )
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor,
+        child: Icon(Icons.edit),
+        onPressed: (){
+          Navigator.pushNamed(context, editContentPage,arguments: widget.contentModel);
+        },
+      ),
     );
   }
 
@@ -67,7 +74,7 @@ class _ContentPageState extends State<ContentPage> {
                 padding: EdgeInsets.all(7),
                 onPressed: () {
                   CollectionReference contents = FirebaseFirestore.instance.collection('content');
-                  contents.doc(widget.contentModel.idCont).delete().then((value) => Fluttertoast.showToast(msg: "Berhasil hapus data"));
+                  contents.doc(widget.contentModel.idCont).delete().then((value) => Fluttertoast.showToast(msg: "Berhasil hapus content"));
                   Navigator.popAndPushNamed(context, homePage);
                 },
                 child: Text('Ya',

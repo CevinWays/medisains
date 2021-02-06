@@ -6,6 +6,7 @@ import 'package:medisains/pages/auth/layouts/resetpass_page.dart';
 import 'package:medisains/pages/category/layout/category_page.dart';
 import 'package:medisains/pages/category/layout/form_category_page.dart';
 import 'package:medisains/pages/content/layout/content_page.dart';
+import 'package:medisains/pages/content/layout/edit_content_page.dart';
 import 'package:medisains/pages/content/layout/form_content_page.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
 import 'package:medisains/pages/home/home_page.dart';
@@ -25,6 +26,8 @@ class Routes{
         return MaterialPageRoute(builder: (_) => FormCategoryPage());
       case resetPassPage:
         return MaterialPageRoute(builder: (_) => ResetPassPage());
+      case editContentPage:
+        return MaterialPageRoute(builder: (_) => EditContentPage(contentModel: routeSettings.arguments,));
     }
   }
 }
