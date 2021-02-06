@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/toast_helper.dart';
 import 'package:medisains/helpers/validator_helper.dart';
@@ -32,12 +33,15 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener(
       cubit: _authBloc,
       listener: (context,state){
-        if(state is LoginState)
+        if(state is LoginState){
           Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
-        else if(state is LoginGoogleState)
+        }
+        else if(state is LoginGoogleState){
           Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
-        else if(state is AuthErrorState)
-          ToastHelper.showFlutterToast(state.msg);
+        }
+        else if(state is AuthErrorState){
+          Fluttertoast.showToast(msg: state.msg);
+        }
       },
       child: WillPopScope(
         onWillPop: _onWillPop,

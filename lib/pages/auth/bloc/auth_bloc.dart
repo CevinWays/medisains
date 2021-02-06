@@ -124,11 +124,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     yield LoadingState();
     try{
       auth.User _user = await AuthRepository().loginWithGoogleService();
-      if(_user != null){
-        SharedPrefHelper.saveUserInfo(_user);
-        yield LoginGoogleState();
+      await firestoreUsers.doc(_user.uid).get().then((querySnapShot){
+        this.userModel = UserModel.fromJson(querySnapShot.data());
+      });
+
+      if(this.userModel.uid != "null"){
+        if(_user != null){
+          SharedPrefHelper.saveUserInfo(_user);
+          yield LoginGoogleState();
+        }else{
+          yield AuthErrorState("Gagal Login, silahkan coba kembali");
+        }
       }else{
-        yield AuthErrorState("Gagal Login, silahkan coba kembali");
+        AuthRepository().signOutGoogle();
+        yield AuthErrorState("Akun tidak ditemukan, daftar terlebih dahulu");
       }
     }catch(e){
       AuthRepository().signOutGoogle();

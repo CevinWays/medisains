@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/toast_helper.dart';
 import 'package:medisains/helpers/validator_helper.dart';
@@ -31,7 +32,7 @@ class _FormContentPageState extends State<FormContentPage> {
         if(state is CreateContentState)
           Navigator.pop(context);
         else if(state is ContentErrorState)
-          ToastHelper.showFlutterToast(state.message);
+          Fluttertoast.showToast(msg: state.message);
       },
       child: Scaffold(
         backgroundColor: Colors.white,

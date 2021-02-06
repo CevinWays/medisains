@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/helpers/constant_routes.dart';
 import 'package:medisains/helpers/toast_helper.dart';
 import 'package:medisains/pages/category/layout/category_page.dart';
@@ -18,8 +19,6 @@ class Routes{
         return MaterialPageRoute(builder: (_) => FormContentPage());
       case categoryFormPage:
         return MaterialPageRoute(builder: (_) => FormCategoryPage());
-      default:
-        return ToastHelper.showFlutterToast("Halaman ${routeSettings.name} tidak ada");
     }
   }
 }

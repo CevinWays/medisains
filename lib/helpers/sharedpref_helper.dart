@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:medisains/app.dart';
+import 'package:medisains/pages/auth/models/user_model.dart';
 
 class SharedPrefHelper{
   static saveUserInfo(User user){
@@ -22,5 +23,11 @@ class SharedPrefHelper{
     App().sharedPreferences.remove('email');
     App().sharedPreferences.remove('phone_number');
     App().sharedPreferences.remove('photo_url');
+  }
+
+  static saveTempUserLogin(UserModel userModel){
+    App().sharedPreferences.setString('uidTempUserLogin', userModel.uid);
+    App().sharedPreferences.setString('emailTempUserLogin', userModel.email);
+    App().sharedPreferences.setString('usernameTempUserLogin', userModel.username);
   }
 }

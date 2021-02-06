@@ -16,9 +16,9 @@ class UserModel {
   }
 
   UserModel.fromJson(Map<String, dynamic> json):
-    username = json['username'],
-    email = json['email'],
-    uid = json['uid'];
+    username = json != null ? json['username'] : "null",
+    email = json != null ? json['email'] : "null",
+    uid = json != null ? json['uid'] : "null";
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();

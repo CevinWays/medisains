@@ -43,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage()));
         else if (state is AuthErrorState)
-          ToastHelper.showFlutterToast(state.msg);
+          Fluttertoast.showToast(msg: state.msg);
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -329,8 +329,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   _register() {
     if (_confirmPasswordController.text != _passwordController.text)
-      ToastHelper.showFlutterToast(
-          "Konfirmasi password harus sama dengan password");
+      Fluttertoast.showToast(msg: "Konfirmasi password harus sama dengan password");
     else if (_formKey.currentState.validate())
       _authBloc.add(RegisterEvent(
           email: _emailController.text,
