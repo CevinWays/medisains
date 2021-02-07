@@ -3,8 +3,25 @@ class ContentModel{
   String title;
   String desc;
   String idCont;
+  String authorName;
+  String category;
+  String rating;
+  String photoUrl;
+  String createDate;
+  String updateDate;
 
-  ContentModel({this.uid, this.title, this.desc, this.idCont});
+
+  ContentModel(
+      {this.uid,
+      this.title,
+      this.desc,
+      this.idCont,
+      this.authorName,
+      this.category,
+      this.rating,
+      this.photoUrl,
+      this.createDate,
+      this.updateDate});
 
   ContentModel.map(dynamic obj) {
     this.uid = obj["uid"];
@@ -16,6 +33,12 @@ class ContentModel{
         uid = json['uid'],
         title = json['title'],
         desc = json['desc'],
+        authorName = json['author_name'],
+        category = json['category'],
+        rating = json['rating'].toString(),
+        photoUrl = json['photo_url'],
+        createDate = json['create_date'],
+        updateDate = json['update_date'],
         idCont = json['id_cont'].toString();
 
   Map<String, dynamic> toMap() {

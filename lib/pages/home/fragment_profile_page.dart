@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
 import 'package:medisains/helpers/toast_helper.dart';
@@ -76,8 +78,18 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
           child: Column(
             children: <Widget>[
               Container(
-                alignment: Alignment.center,
-                child: Icon(Icons.account_circle, color: primaryColor, size: 80,),
+                width: 80,
+                height: 80,
+                margin: EdgeInsets.only(right: 16),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        fit: BoxFit.contain,
+                        image: CachedNetworkImageProvider(
+                          App().sharedPreferences.getString("photoUrl"),
+                        )
+                    )
+                ),
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 16),

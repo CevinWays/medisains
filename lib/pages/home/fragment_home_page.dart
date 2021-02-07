@@ -1,11 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
+import 'package:medisains/helpers/datetime_helper.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
 import 'package:medisains/pages/profile/profile_page.dart';
 
@@ -56,15 +59,24 @@ class FragmentHomePage extends StatelessWidget {
         style: TextStyle(color: Colors.black ,fontSize: 18.0, fontWeight: FontWeight.bold),
       ),
       actions: <Widget>[
-        Container(
+        App().sharedPreferences.getString("photoUrl") != null ? Container(
+          width: 32,
+          height: 32,
           margin: EdgeInsets.only(right: 16),
-          alignment: Alignment.centerRight,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                  fit: BoxFit.contain,
+                  image: CachedNetworkImageProvider(
+                    App().sharedPreferences.getString("photoUrl"),
+                  )
+              )
+          ),
           child: InkWell(
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
-              },
-              child: Icon(Icons.account_circle, color: Colors.grey,size: 32,)),
-        ),
+              },),
+        ) : Icon(Icons.account_circle, color: Colors.grey,size: 32),
       ],
     );
   }
@@ -114,13 +126,13 @@ class FragmentHomePage extends StatelessWidget {
           Container(
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.symmetric(vertical: 8),
-            child: Text("My Category", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
+            child: Text("Categories", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
           ),
           _widgetCategory(),
           Container(
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.symmetric(vertical: 8),
-            child: Text("My Content", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
+            child: Text("My Content", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
           ),
           _widgetMedicines(),
         ],
@@ -153,49 +165,90 @@ class FragmentHomePage extends StatelessWidget {
                     Navigator.pushNamed(context, contentPage, arguments: _contentModel);
                   },
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    child: Row(
+                    padding: EdgeInsets.all(16),
+                    margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black38,
+                              blurRadius: 2,
+                              spreadRadius: 0.2,
+                              offset:Offset(0,2)
+                          )
+                        ]
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Container(
-                          width: 70,
-                          height: 70,
-                          margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black38,
-                                    blurRadius: 2,
-                                    spreadRadius: 0.2,
-                                    offset:Offset(0,2)
-                                )
-                              ]
-                          ),
-                          child: Icon(Icons.image,color: primaryColor,),
+                        Row(
+                          children: [
+                            Text(item.data()['title'],style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: textDark)),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 6),
+                                  child: Text(double.parse(item.data()['rating'].toString()).toString(),style: TextStyle(fontSize: 14,color: textDark,fontWeight: FontWeight.w300)),
+                                ),
+                                RatingBar.builder(
+                                  itemSize: 18,
+                                  initialRating: double.parse(item.data()['rating'].toString()),
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 1,
+                                  itemPadding: EdgeInsets.only(right: 4),
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star,
+                                    color: primaryColor,
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    print(rating);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         ),
-                        Container(
-                          height: 70,
-                          margin: EdgeInsets.only(left: 4),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(item.data()['title'],style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
-                              SizedBox(height: 5),
-                              Text(item.data()['desc'],style: TextStyle(fontSize: 12),),
-                              SizedBox(height: 5),
-                              Row(
-                                children: <Widget>[
-                                  Icon(Icons.description, color: primaryColor, size: 20,),
-                                  Text("4 Artikel"),
-                                  SizedBox(width: 5),
-                                  Icon(Icons.play_circle_outline, color: primaryColor, size: 20),
-                                  Text("3 Video"),
-                                ],
-                              )
-                            ],
-                          ),
-                        )
+                        SizedBox(height: 5),
+                        Text(item.data()['category'],style: TextStyle(fontSize: 12,color: disableTextGreyColor)),
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Icon(Icons.person_outline,color: Colors.grey,size: 20),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(item.data()['author_name'],style: TextStyle(color: textDark),),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(Icons.location_on_outlined,color: Colors.grey,size: 20),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text('Universitas Negeri Malang'),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(Icons.date_range_outlined,color: Colors.grey,size: 20),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(DateTimeHelper.dateTimeFormatFromString(item.data()['create_date'])),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 4),
+                        Divider(),
+                        Text("Description",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.black)),
+                        SizedBox(height: 5),
+                        Text(item.data()['desc'],style: TextStyle(fontSize: 12),),
                       ],
                     ),
                   ),

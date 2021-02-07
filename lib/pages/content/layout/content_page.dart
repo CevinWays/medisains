@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
@@ -39,6 +40,57 @@ class _ContentPageState extends State<ContentPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              child: Text("Author", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
+            ),
+            Container(
+              child: Text(
+                  widget.contentModel.authorName
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              child: Text("Create Date", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
+            ),
+            Container(
+              child: Text(
+                  widget.contentModel.createDate
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              child: Text("Category", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
+            ),
+            Container(
+              child: Text(
+                  widget.contentModel.category
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              child: Text("Rating", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
+            ),
+            RatingBar.builder(
+              itemSize: 32,
+              initialRating: double.parse(widget.contentModel.rating),
+              minRating: 1,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+              itemBuilder: (context, _) => Icon(
+                Icons.star,
+                color: primaryColor,
+              ),
+              onRatingUpdate: (rating) {
+                print(rating);
+              },
+            ),
             Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.symmetric(vertical: 8),
