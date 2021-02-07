@@ -4,14 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/datetime_helper.dart';
+import 'package:medisains/pages/content/model/content_model.dart';
 import './bloc.dart';
 
 class ContentBloc extends Bloc<ContentEvent, ContentState> {
   final auth.FirebaseAuth firebaseAuth = auth.FirebaseAuth.instance;
   final CollectionReference fireStoreUsers = FirebaseFirestore.instance.collection("content");
-  final CollectionReference fireStoreVideo = FirebaseFirestore.instance.collection("video");
-  final CollectionReference fireStoreArticles = FirebaseFirestore.instance.collection("articles");
-  final CollectionReference fireStoreImages = FirebaseFirestore.instance.collection("images");
 
   ContentBloc(ContentState initialState) : super(initialState);
   @override
@@ -20,16 +18,38 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
   @override
   Stream<ContentState> mapEventToState(ContentEvent event) async* {
     if(event is ReadContentEvent)
-      yield* _mapReadContent();
+      yield* _mapReadContent(event);
     else if(event is CreateContentEvent)
       yield* _mapCreateContent(event);
   }
 
-  Stream<ContentState> _mapReadContent() async*{
+  Stream<ContentState> _mapReadContent(ReadContentEvent event) async*{
     try{
       yield InitialContentState();
-      List<DocumentSnapshot> listMyContent = (await fireStoreUsers.where('uid',isEqualTo: App().sharedPreferences.getString("uid")).get()).docs;
-      yield ReadContentState(listMyContent: listMyContent);
+      List<DocumentSnapshot> listMyContent;
+      List<ContentModel> listContentModel = List<ContentModel>();
+
+      if(event.category != null){
+        if(event.uid == App().sharedPreferences.getString("uid")){
+          listMyContent = (await fireStoreUsers.where('uid',isEqualTo: event.uid).get()).docs;
+          listMyContent.forEach((item) {
+            listContentModel.add(ContentModel.fromJson(item.data()));
+          });
+          listContentModel = listContentModel.where((i) => i.category == event.category).toList();
+        }else{
+          listMyContent = (await fireStoreUsers.get()).docs;
+          listMyContent.forEach((item) {
+            listContentModel.add(ContentModel.fromJson(item.data()));
+          });
+          listContentModel = listContentModel.where((i) => i.category == event.category).toList();
+        }
+      }else{
+        listMyContent = (await fireStoreUsers.where('uid',isEqualTo: App().sharedPreferences.getString("uid")).get()).docs;
+        listMyContent.forEach((item) {
+          listContentModel.add(ContentModel.fromJson(item.data()));
+        });
+      }
+      yield ReadContentState(listContentModel: listContentModel);
     }catch(e){
       yield ContentErrorState(e.toString());
     }
@@ -40,9 +60,6 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       yield InitialContentState();
       auth.User currentUser = firebaseAuth.currentUser;
       DocumentReference documentReference = fireStoreUsers.doc();
-      DocumentReference documentReferenceImg = fireStoreImages.doc();
-      DocumentReference documentReferenceArt = fireStoreArticles.doc();
-      DocumentReference documentReferenceVid = fireStoreVideo.doc();
       String dateTimeNow = DateTimeHelper.currentDate();
       if(documentReference.id != null){
         await documentReference.set({

@@ -16,6 +16,10 @@ class CreateContentEvent extends ContentEvent{
 }
 
 class ReadContentEvent extends ContentEvent{
+  final String category;
+  final String uid;
+
+  ReadContentEvent({this.category,this.uid});
   @override
   String toString() => 'ReadContentEvent';
 }

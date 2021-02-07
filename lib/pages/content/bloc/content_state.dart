@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:medisains/pages/content/model/content_model.dart';
 
 abstract class ContentState extends Equatable {
   @override
@@ -20,9 +21,9 @@ class ContentErrorState extends ContentState{
 }
 
 class ReadContentState extends ContentState{
-  final List<DocumentSnapshot> listMyContent;
+  final List<ContentModel> listContentModel;
 
-  ReadContentState({this.listMyContent});
+  ReadContentState({this.listContentModel});
   @override
   String toString() => 'ReadContentState';
 }

@@ -209,7 +209,9 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           InkWell(
-            onTap: () => null,
+            onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
+                category: "Penyakit",
+            )),
             child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -241,7 +243,9 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
           ),
           SizedBox(height: 16,),
           InkWell(
-            onTap: () => null,
+            onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
+                category: "Obat",
+            )),
             child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -273,7 +277,9 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
           ),
           SizedBox(height: 16,),
           InkWell(
-            onTap: () => null,
+            onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
+                category: "HidupSehat",
+            )),
             child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -305,7 +311,10 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
           ),
           SizedBox(height: 16,),
           InkWell(
-            onTap: () => null,
+            onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
+                category: "Kesehatan",
+                uid: App().sharedPreferences.getString("uid")
+            )),
             child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(

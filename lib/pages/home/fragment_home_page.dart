@@ -170,7 +170,7 @@ class FragmentHomePage extends StatelessWidget {
           BlocBuilder(
             cubit: _contentBloc,
             builder: (context,state){
-             return state is ReadContentState && state.listMyContent.length > 0
+             return state is ReadContentState && state.listContentModel.length > 0
                  ? Container(
                width: MediaQuery.of(context).size.width,
                margin: EdgeInsets.only(top: 32,bottom: 16),
@@ -181,7 +181,7 @@ class FragmentHomePage extends StatelessWidget {
           BlocBuilder(
               cubit: _contentBloc,
               builder: (context,state){
-                return state is ReadContentState && state.listMyContent.length > 0
+                return state is ReadContentState && state.listContentModel.length > 0
                     ? _widgetMedicines()
                     : Container();
               },
@@ -322,7 +322,10 @@ class FragmentHomePage extends StatelessWidget {
         child: Row(
           children: [
             InkWell(
-              onTap: () => null,
+              onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
+                category: "Penyakit",
+                uid: App().sharedPreferences.getString("uid")
+              )),
               child: Column(
                 children: <Widget>[
                   Container(
@@ -348,7 +351,10 @@ class FragmentHomePage extends StatelessWidget {
                 ],
               ),
             ),InkWell(
-              onTap: () => null,
+              onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
+                  category: "Obat",
+                  uid: App().sharedPreferences.getString("uid")
+              )),
               child: Column(
                 children: <Widget>[
                   Container(
@@ -374,7 +380,10 @@ class FragmentHomePage extends StatelessWidget {
                 ],
               ),
             ),InkWell(
-              onTap: () => null,
+              onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
+                  category: "HidupSehat",
+                  uid: App().sharedPreferences.getString("uid")
+              )),
               child: Column(
                 children: <Widget>[
                   Container(
@@ -400,7 +409,10 @@ class FragmentHomePage extends StatelessWidget {
                 ],
               ),
             ),InkWell(
-              onTap: () => null,
+              onTap: () => Navigator.pushNamed(context, categoryPage,arguments:ContentModel(
+                  category: "Kesehatan",
+                  uid: App().sharedPreferences.getString("uid")
+              )),
               child: Column(
                 children: <Widget>[
                   Container(

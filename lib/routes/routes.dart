@@ -19,7 +19,7 @@ class Routes{
       case contentPage:
         return MaterialPageRoute(builder: (_) => ContentPage(contentModel: routeSettings.arguments,));
       case categoryPage:
-        return MaterialPageRoute(builder: (_) => CategoryPage());
+        return MaterialPageRoute(builder: (_) => CategoryPage(contentModel: routeSettings.arguments,));
       case contentFormPage:
         return MaterialPageRoute(builder: (_) => FormContentPage());
       case categoryFormPage:
