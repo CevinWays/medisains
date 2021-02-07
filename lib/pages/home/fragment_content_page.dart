@@ -190,7 +190,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                     Divider(),
                     Text("Description",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.black)),
                     SizedBox(height: 5),
-                    Text(item.data()['desc'],style: TextStyle(fontSize: 12),),
+                    Text(item.data()['desc'],style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis),
                   ],
                 ),
               ),
@@ -211,7 +211,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
           InkWell(
             onTap: () => null,
             child: Container(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -232,8 +232,8 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                     Text("Penyakit",style: TextStyle(fontWeight: FontWeight.w500,),),
-                      SizedBox(height: 8,),
-                    Text("Penyakit adalah kondisi abnormal tertentu... ",style: TextStyle(fontWeight: FontWeight.w300),)
+                      SizedBox(height: 4,),
+                    Text("Penyakit adalah kondisi abnormal tertentu... ",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12),)
                   ],)
                 ],
               ),
@@ -243,7 +243,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
           InkWell(
             onTap: () => null,
             child: Container(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -264,8 +264,8 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Obat",style: TextStyle(fontWeight: FontWeight.w500,),),
-                      SizedBox(height: 8,),
-                      Text("Penyakit adalah kondisi abnormal tertentu... ",style: TextStyle(fontWeight: FontWeight.w300),)
+                      SizedBox(height: 4,),
+                      Text("Obat didefinisikan sebagai zat yang digunakan...",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12),)
                     ],)
                 ],
               ),
@@ -275,7 +275,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
           InkWell(
             onTap: () => null,
             child: Container(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -296,8 +296,8 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Hidup Sehat",style: TextStyle(fontWeight: FontWeight.w500,),),
-                      SizedBox(height: 8,),
-                      Text("Penyakit adalah kondisi abnormal tertentu... ",style: TextStyle(fontWeight: FontWeight.w300),)
+                      SizedBox(height: 4,),
+                      Text("Hidup sehat adalah hidup yang bebas dari... ",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12),)
                     ],)
                 ],
               ),
@@ -307,7 +307,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
           InkWell(
             onTap: () => null,
             child: Container(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -328,8 +328,8 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Kesehatan",style: TextStyle(fontWeight: FontWeight.w500,),),
-                      SizedBox(height: 8,),
-                      Text("Penyakit adalah kondisi abnormal tertentu... ",style: TextStyle(fontWeight: FontWeight.w300),)
+                      SizedBox(height: 4,),
+                      Text("Kesehatan adalah keadaan sejahtera dari badan... ",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12),)
                     ],)
                 ],
               ),

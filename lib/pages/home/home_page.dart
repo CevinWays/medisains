@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
             label: "Home",
           ),
           BottomNavigationBarItem(
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
             label: "Explore",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
+            icon: Icon(Icons.person_outline),
             label: "Profile",
           ),
         ]

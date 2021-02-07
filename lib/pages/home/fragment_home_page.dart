@@ -81,6 +81,44 @@ class FragmentHomePage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 8,bottom: 16,right: 4,left: 4),
+            child: TextFormField(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.only(left: 14.0),
+                hintText: "Search contents",
+                hintStyle: TextStyle(color: disableTextGreyColor,),
+                prefixIcon: Icon(Icons.search,color: primaryColor,),
+                fillColor: Colors.white,
+                hoverColor: Colors.white,
+                filled: true,
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black38,
+                      blurRadius: 2,
+                      spreadRadius: 0.2,
+                      offset:Offset(0,2)
+                  )
+                ]
+            ),
+          ),
           Flexible(
             child: Container(
               width: MediaQuery.of(context).size.width,
@@ -89,7 +127,7 @@ class FragmentHomePage extends StatelessWidget {
                     height: 120.0,
                     autoPlay: true,
                     viewportFraction: 1.0,
-                    autoPlayInterval: Duration(seconds: 3),
+                    autoPlayInterval: Duration(seconds: 5),
                 ),
                 items: [1,2,3,4,5].map((i) {
                   return Builder(
@@ -242,7 +280,7 @@ class FragmentHomePage extends StatelessWidget {
                         Divider(),
                         Text("Description",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.black)),
                         SizedBox(height: 5),
-                        Text(item.data()['desc'],style: TextStyle(fontSize: 12),),
+                        Text(item.data()['desc'],style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
                       ],
                     ),
                   ),
