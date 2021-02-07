@@ -33,14 +33,8 @@ class FragmentHomePage extends StatelessWidget {
             SpeedDialChild(
                 child: Icon(Icons.description),
                 label: "Content",
-                backgroundColor: yellowColor,
+                backgroundColor: blueColor,
                 onTap: () => Navigator.pushNamed(context, contentFormPage)
-            ),
-            SpeedDialChild(
-                child: Icon(Icons.class_),
-                backgroundColor: redColor,
-                label: "Category",
-                onTap: () => Navigator.pushNamed(context, categoryFormPage)
             ),
           ],
         )
@@ -125,14 +119,14 @@ class FragmentHomePage extends StatelessWidget {
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.symmetric(vertical: 8),
-            child: Text("Categories", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+            margin: EdgeInsets.symmetric(vertical: 16),
+            child: Text("My Categories", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
           ),
-          _widgetCategory(),
+          _widgetCategory(context),
           Container(
             width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.symmetric(vertical: 8),
-            child: Text("My Content", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+            margin: EdgeInsets.only(top: 32,bottom: 16),
+            child: Text("My Contents", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
           ),
           _widgetMedicines(),
         ],
@@ -263,62 +257,121 @@ class FragmentHomePage extends StatelessWidget {
     );
   }
 
-  Widget _widgetCategory(){
-    CollectionReference fireStoreCategory = FirebaseFirestore.instance.collection("category");
-    return StreamBuilder<QuerySnapshot>(
-        stream: fireStoreCategory.snapshots(includeMetadataChanges: true),
-        builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
-
-          if (snapshot.hasError) {
-            return Center(child: Text("Terjadi Kesalahan"));
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }else{
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: snapshot.data.docs.map((DocumentSnapshot item) {
-                    return item.data()["uid"] == App().sharedPreferences.getString("uid") ? InkWell(
-                      onTap: () => Navigator.pushNamed(context, categoryPage),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: 150,
-                            height: 70,
-                            margin: EdgeInsets.symmetric(vertical: 5.0,horizontal: 5.0),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black38,
-                                      blurRadius: 2,
-                                      spreadRadius: 0.2,
-                                      offset:Offset(0,2)
-                                  )
-                                ]
-                            ),
-                            child: Icon(Icons.image,color: primaryColor,),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(8),
-                            margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
-                            child: Text(item.data()["title"], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                          ),
-                          Divider()
-                        ],
-                      ),
-                    ) : Container();
-                  }).toList(),
-                ),
+  Widget _widgetCategory(BuildContext context){
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          children: [
+            InkWell(
+              onTap: () => null,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: 80,
+                    height: 80,
+                    margin: EdgeInsets.symmetric(vertical: 5.0,horizontal: 5.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black38,
+                              blurRadius: 2,
+                              spreadRadius: 0.2,
+                              offset:Offset(0,2)
+                          )
+                        ]
+                    ),
+                    child: Icon(Icons.coronavirus_rounded,color: primaryColor,size: 30,),
+                  ),
+                  SizedBox(height: 5,),
+                  Container(child: Text("Penyakit",style: TextStyle(fontWeight: FontWeight.w500),))
+                ],
               ),
-            );
-          }
-
-        }
+            ),InkWell(
+              onTap: () => null,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: 80,
+                    height: 80,
+                    margin: EdgeInsets.symmetric(vertical: 5.0,horizontal: 5.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black38,
+                              blurRadius: 2,
+                              spreadRadius: 0.2,
+                              offset:Offset(0,2)
+                          )
+                        ]
+                    ),
+                    child: Icon(Icons.medical_services_rounded,color: primaryColor,size: 30,),
+                  ),
+                  SizedBox(height: 5,),
+                  Container(child: Text("Obat",style: TextStyle(fontWeight: FontWeight.w500),))
+                ],
+              ),
+            ),InkWell(
+              onTap: () => null,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: 80,
+                    height: 80,
+                    margin: EdgeInsets.symmetric(vertical: 5.0,horizontal: 5.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black38,
+                              blurRadius: 2,
+                              spreadRadius: 0.2,
+                              offset:Offset(0,2)
+                          )
+                        ]
+                    ),
+                    child: Icon(Icons.accessibility_new_outlined,color: primaryColor,size: 30,),
+                  ),
+                  SizedBox(height: 5,),
+                  Container(child: Text("Hidup Sehat",style: TextStyle(fontWeight: FontWeight.w500),))
+                ],
+              ),
+            ),InkWell(
+              onTap: () => null,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: 80,
+                    height: 80,
+                    margin: EdgeInsets.symmetric(vertical: 5.0,horizontal: 5.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black38,
+                              blurRadius: 2,
+                              spreadRadius: 0.2,
+                              offset:Offset(0,2)
+                          )
+                        ]
+                    ),
+                    child: Icon(Icons.favorite,color: primaryColor,size: 30,),
+                  ),
+                  SizedBox(height: 5,),
+                  Container(child: Text("Kesehatan",style: TextStyle(fontWeight: FontWeight.w500),))
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

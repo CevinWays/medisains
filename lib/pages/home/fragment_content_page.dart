@@ -64,8 +64,8 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
         unselectedLabelColor: Colors.black,
         indicatorColor: primaryColor,
         tabs: <Widget>[
-          new Tab(text: "Content"),
-          new Tab(text: "Category"),
+          new Tab(text: "Contents"),
+          new Tab(text: "Categories"),
         ],
       ),
     );
@@ -203,53 +203,140 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
   }
 
   Widget _widgetCategory(){
-    CollectionReference fireStoreCategory = FirebaseFirestore.instance.collection("category");
-    return StreamBuilder<QuerySnapshot>(
-      stream: fireStoreCategory.snapshots(includeMetadataChanges: true),
-      builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
-
-        if (snapshot.hasError) {
-          return Center(child: Text("Terjadi Kesalahan"));
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        }
-
-        return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot item) {
-            return InkWell(
-              onTap: () => Navigator.pushNamed(context, categoryPage),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
-                      width: MediaQuery.of(context).size.width,
-                      child: Text(item.data()["title"], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black38,
-                                blurRadius: 2,
-                                spreadRadius: 0.2,
-                                offset:Offset(0,2)
-                            )
-                          ]
-                      ),
-                    ),
-                    Divider()
-                  ],
-                ),
+    return Container(
+      padding: EdgeInsets.all(8),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            onTap: () => null,
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black38,
+                        blurRadius: 2,
+                        spreadRadius: 0.2,
+                        offset:Offset(0,2)
+                    )
+                  ]
               ),
-            );
-          }).toList(),
-        );
-      }
+              child: Row(
+                children: [
+                  Icon(Icons.coronavirus_rounded,color: primaryColor,size: 35,),
+                  SizedBox(width: 8,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text("Penyakit",style: TextStyle(fontWeight: FontWeight.w500,),),
+                      SizedBox(height: 8,),
+                    Text("Penyakit adalah kondisi abnormal tertentu... ",style: TextStyle(fontWeight: FontWeight.w300),)
+                  ],)
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 16,),
+          InkWell(
+            onTap: () => null,
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black38,
+                        blurRadius: 2,
+                        spreadRadius: 0.2,
+                        offset:Offset(0,2)
+                    )
+                  ]
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.medical_services_rounded,color: primaryColor,size: 35,),
+                  SizedBox(width: 8,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Obat",style: TextStyle(fontWeight: FontWeight.w500,),),
+                      SizedBox(height: 8,),
+                      Text("Penyakit adalah kondisi abnormal tertentu... ",style: TextStyle(fontWeight: FontWeight.w300),)
+                    ],)
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 16,),
+          InkWell(
+            onTap: () => null,
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black38,
+                        blurRadius: 2,
+                        spreadRadius: 0.2,
+                        offset:Offset(0,2)
+                    )
+                  ]
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.accessibility_new_outlined,color: primaryColor,size: 35,),
+                  SizedBox(width: 8,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Hidup Sehat",style: TextStyle(fontWeight: FontWeight.w500,),),
+                      SizedBox(height: 8,),
+                      Text("Penyakit adalah kondisi abnormal tertentu... ",style: TextStyle(fontWeight: FontWeight.w300),)
+                    ],)
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 16,),
+          InkWell(
+            onTap: () => null,
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black38,
+                        blurRadius: 2,
+                        spreadRadius: 0.2,
+                        offset:Offset(0,2)
+                    )
+                  ]
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.favorite,color: primaryColor,size: 35,),
+                  SizedBox(width: 8,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Kesehatan",style: TextStyle(fontWeight: FontWeight.w500,),),
+                      SizedBox(height: 8,),
+                      Text("Penyakit adalah kondisi abnormal tertentu... ",style: TextStyle(fontWeight: FontWeight.w300),)
+                    ],)
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

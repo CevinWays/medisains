@@ -32,6 +32,8 @@ class _HomePageState extends State<HomePage> {
   Widget _widgetFooterSection() {
     return BottomNavigationBar(
         selectedItemColor: primaryColor,
+        backgroundColor: Colors.white,
+        unselectedItemColor: Colors.grey,
         onTap: onTabTapped,
         currentIndex: _currentIndex,
         items: [
@@ -40,7 +42,7 @@ class _HomePageState extends State<HomePage> {
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.category),
+            icon: Icon(Icons.search),
             label: "Explore",
           ),
           BottomNavigationBarItem(
