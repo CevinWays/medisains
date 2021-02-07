@@ -28,17 +28,8 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
   Stream<ContentState> _mapReadContent() async*{
     try{
       yield InitialContentState();
-      await fireStoreUsers.doc(App().sharedPreferences.getString('uid')).get().then((querySnapshot) async{
-        await fireStoreUsers
-            .doc(querySnapshot.id)
-            .collection("content")
-            .get().then((querySnapshot){
-          querySnapshot.docs.forEach((result){
-            print(result.data());
-          });
-        });
-      });
-      yield ReadContentState();
+      List<DocumentSnapshot> listMyContent = (await fireStoreUsers.where('uid',isEqualTo: App().sharedPreferences.getString("uid")).get()).docs;
+      yield ReadContentState(listMyContent: listMyContent);
     }catch(e){
       yield ContentErrorState(e.toString());
     }

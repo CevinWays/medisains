@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class ContentState extends Equatable {
@@ -19,6 +20,9 @@ class ContentErrorState extends ContentState{
 }
 
 class ReadContentState extends ContentState{
+  final List<DocumentSnapshot> listMyContent;
+
+  ReadContentState({this.listMyContent});
   @override
   String toString() => 'ReadContentState';
 }

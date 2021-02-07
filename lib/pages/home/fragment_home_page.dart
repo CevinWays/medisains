@@ -2,19 +2,25 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
 import 'package:medisains/helpers/datetime_helper.dart';
+import 'package:medisains/pages/content/bloc/bloc.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
 import 'package:medisains/pages/profile/profile_page.dart';
 
 class FragmentHomePage extends StatelessWidget {
+  ContentBloc _contentBloc;
   @override
   Widget build(BuildContext context) {
+    _contentBloc = ContentBloc(InitialContentState());
+    _contentBloc.add(ReadContentEvent());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -161,12 +167,25 @@ class FragmentHomePage extends StatelessWidget {
             child: Text("My Categories", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
           ),
           _widgetCategory(context),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(top: 32,bottom: 16),
-            child: Text("My Contents", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+          BlocBuilder(
+            cubit: _contentBloc,
+            builder: (context,state){
+             return state is ReadContentState && state.listMyContent.length > 0
+                 ? Container(
+               width: MediaQuery.of(context).size.width,
+               margin: EdgeInsets.only(top: 32,bottom: 16),
+               child: Text("My Contents", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+             ): Container();
+            }
           ),
-          _widgetMedicines(),
+          BlocBuilder(
+              cubit: _contentBloc,
+              builder: (context,state){
+                return state is ReadContentState && state.listMyContent.length > 0
+                    ? _widgetMedicines()
+                    : Container();
+              },
+          ),
         ],
       ),
     );
