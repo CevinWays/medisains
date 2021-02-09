@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
 abstract class ContentEvent extends Equatable {
@@ -9,8 +11,9 @@ class CreateContentEvent extends ContentEvent{
   final String title;
   final String desc;
   final String category;
+  final File file;
 
-  CreateContentEvent({this.category, this.title, this.desc});
+  CreateContentEvent({this.file,this.category, this.title, this.desc});
   @override
   String toString() => 'CreateContentEvent';
 }

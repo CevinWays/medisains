@@ -98,10 +98,7 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
                     BlocBuilder(
                       cubit: _authBloc,
                       builder: (context,state){
-                        return Text(
-                          state is ReadUserDataState
-                              ? state.username
-                              : "Username",
+                        return Text( App().sharedPreferences.getString("displayName"),
                           style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold, color: Colors.black),
                         );
                       },

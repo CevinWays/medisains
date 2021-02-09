@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/datetime_helper.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import './bloc.dart';
 
 class ContentBloc extends Bloc<ContentEvent, ContentState> {
@@ -61,6 +62,17 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       auth.User currentUser = firebaseAuth.currentUser;
       DocumentReference documentReference = fireStoreUsers.doc();
       String dateTimeNow = DateTimeHelper.currentDate();
+
+      firebase_storage.FirebaseStorage storage =
+          firebase_storage.FirebaseStorage.instance;
+
+      var snapShot = await storage.ref().child('images')
+          .child(App().sharedPreferences.getString('uid'))
+          .child(documentReference.id)
+          .putFile(event.file);
+
+      var imageUrl = await snapShot.ref.getDownloadURL();
+
       if(documentReference.id != null){
         await documentReference.set({
           "id_cont" : documentReference.id,
@@ -75,6 +87,7 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
           'update_date' : null,
           'instance' : 'Instansi Kesehatan',
           'isRecommend' : false,
+          'imageUrl' : imageUrl.toString(),
         });
         yield CreateContentState();
       }else{

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -100,7 +101,31 @@ class _ContentPageState extends State<ContentPage> {
               child: Text(
                   widget.contentModel.desc
               ),
-            )
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              child: Text("Asset Gambar", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
+            ),
+            widget.contentModel.imageUrl != null
+                && widget.contentModel.imageUrl != "" ? Container(
+              width: 100,
+              height: 100,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  image: DecorationImage(
+                      fit: BoxFit.contain,
+                      image: CachedNetworkImageProvider(
+                        widget.contentModel.imageUrl,
+                      )
+                  )
+              ),
+              child: InkWell(
+                onTap: (){
+
+                },),
+            ) : Container(child: Text("Tidak ada asset gambar"),),
           ],
         )
       ),

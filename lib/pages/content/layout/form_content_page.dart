@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/toast_helper.dart';
 import 'package:medisains/helpers/validator_helper.dart';
 import 'package:medisains/pages/content/bloc/bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class FormContentPage extends StatefulWidget {
   @override
@@ -17,6 +22,8 @@ class _FormContentPageState extends State<FormContentPage> {
   TextEditingController _catController = TextEditingController();
   ContentBloc _contentBloc;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  File _image;
+  final picker = ImagePicker();
 
   @override
   void initState() {
@@ -76,7 +83,7 @@ class _FormContentPageState extends State<FormContentPage> {
                           keyboardType: TextInputType.text,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: InputDecoration(
-                            labelText: "Kategori Penyakit",
+                            labelText: "Kategori",
                             hintText: "Kategori",
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: primaryColor),
@@ -90,10 +97,11 @@ class _FormContentPageState extends State<FormContentPage> {
                           controller: _descController,
                           keyboardType: TextInputType.text,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
+                          maxLines: 3,
                           validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Studi kasus",value: value),
                           decoration: InputDecoration(
-                            labelText: "Studi Kasus",
-                            hintText: "Studi Kasus",
+                            labelText: "Deskripsi",
+                            hintText: "Deskripsi Singkat",
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: primaryColor),
                             ),
@@ -101,6 +109,51 @@ class _FormContentPageState extends State<FormContentPage> {
                           ),
                         ),
                       ),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 16),
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          children: [
+                            _image == null ? Container(
+                              padding: EdgeInsets.all(16),
+                              child: Icon(Icons.add_a_photo,size: 40,),
+                              decoration: BoxDecoration(
+                                  color: lightRedColor,
+                                  borderRadius: BorderRadius.circular(8),
+                              ),
+                            ) : Container(child: Image.file(_image,width: 80,height: 80,),),
+                            SizedBox(width: 16,),
+                            Column(
+                              children: [
+                                Container(
+                                  width : 150,
+                                  child: _image == null ? Text(
+                                      "No image selected",)
+                                      : Text(_image.path.toString(),
+                                    overflow: TextOverflow.ellipsis,)
+                                ),
+                                SizedBox(height: 8,),
+                                Container(
+                                  width: 150,
+                                  child: FlatButton(
+                                    padding: EdgeInsets.all(16),
+                                    onPressed: () async {
+                                      await getImage();
+                                    },
+                                    color: primaryColor,
+                                    child: Text(
+                                      "Pick Image",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(4)),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -133,10 +186,36 @@ class _FormContentPageState extends State<FormContentPage> {
   }
 
   void _createContent(){
+
+    File file = File(_image.path);
+
     if(_formKey.currentState.validate())
       _contentBloc.add(CreateContentEvent(
           category: _catController.text,
           title: _titleController.text,
-          desc: _descController.text));
+          desc: _descController.text,
+          file: file));
   }
+
+  Future getImage() async {
+    // await Permission.photos.request();
+    await Permission.camera.request();
+
+    // var permissionPhotosStatus = await Permission.photos.status;
+    var permissionCameraStatus = await Permission.camera.status;
+
+    if(permissionCameraStatus.isGranted){
+      final pickedFile = await picker.getImage(source: ImageSource.camera);
+      setState(() {
+        if (pickedFile != null) {
+          _image = File(pickedFile.path);
+        } else {
+          print('No image selected.');
+        }
+      });
+    }else{
+      Fluttertoast.showToast(msg: "Tidak di izinkan, silahkan coba lagi");
+    }
+  }
+
 }
