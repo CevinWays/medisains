@@ -73,6 +73,8 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
           'photo_url' : App().sharedPreferences.getString("photoUrl"),
           'create_date' : dateTimeNow,
           'update_date' : null,
+          'instance' : 'Instansi Kesehatan',
+          'isRecommend' : false,
         });
         yield CreateContentState();
       }else{
