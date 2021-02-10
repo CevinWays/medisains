@@ -10,6 +10,7 @@ import 'package:medisains/helpers/datetime_helper.dart';
 import 'package:medisains/helpers/sharedpref_helper.dart';
 import 'package:medisains/pages/category/bloc/bloc.dart';
 import 'package:medisains/pages/content/bloc/bloc.dart';
+import 'package:medisains/pages/content/layout/search_content_page.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
 
 class FragmentContentPage extends StatefulWidget {
@@ -51,10 +52,13 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
         style: TextStyle(color: Colors.black ,fontSize: 18.0, fontWeight: FontWeight.bold),
       ),
       actions: <Widget>[
-        Container(
-          margin: EdgeInsets.only(right: 16),
-          alignment: Alignment.centerRight,
-          child: Icon(Icons.search, color: Colors.black,),
+        InkWell(
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchContentPage())),
+          child: Container(
+            margin: EdgeInsets.only(right: 16),
+            alignment: Alignment.centerRight,
+            child: Icon(Icons.search, color: Colors.black,),
+          ),
         ),
       ],
       bottom: TabBar(
