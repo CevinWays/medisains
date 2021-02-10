@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/pages/auth/bloc/bloc.dart';
 
@@ -43,19 +44,11 @@ class _ProfilePageState extends State<ProfilePage> {
         children: <Widget>[
           ListTile(
             title: Text("Username"),
-            trailing: Text(
-                state is ReadUserDataState
-                ? state.username
-                : "Username"
-            ) ,
+            trailing: Text(App().sharedPreferences.getString("displayName")) ,
           ),
           ListTile(
             title: Text("Email"),
-            trailing: Text(
-                state is ReadUserDataState
-                    ? state.email
-                    : "Email"
-            ),
+            trailing: Text(App().sharedPreferences.getString("email")),
           ),
         ],
       ),

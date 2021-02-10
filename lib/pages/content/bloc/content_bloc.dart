@@ -22,6 +22,8 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       yield* _mapReadContent(event);
     else if(event is CreateContentEvent)
       yield* _mapCreateContent(event);
+    if(event is SearchContentEvent)
+      yield* _mapSearchContent(event);
   }
 
   Stream<ContentState> _mapReadContent(ReadContentEvent event) async*{
@@ -93,6 +95,25 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       }else{
         yield ContentErrorState("Gagal membuat data");
       }
+    }catch(e){
+      yield ContentErrorState(e.toString());
+    }
+  }
+
+  Stream<ContentState> _mapSearchContent(SearchContentEvent event) async*{
+    try{
+      yield InitialContentState();
+
+      List<DocumentSnapshot> listMySearchContent = List<DocumentSnapshot>();
+      List<ContentModel> listSearchContentModel = List<ContentModel>();
+
+      listMySearchContent = (await fireStoreUsers.where('title',isEqualTo: event.searchText).get()).docs;
+
+      listMySearchContent.forEach((item) {
+        listSearchContentModel.add(ContentModel.fromJson(item.data()));
+      });
+
+      yield SearchContentState(listContentSearchResult: listSearchContentModel);
     }catch(e){
       yield ContentErrorState(e.toString());
     }

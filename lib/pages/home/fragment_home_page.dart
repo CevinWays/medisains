@@ -12,6 +12,7 @@ import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
 import 'package:medisains/helpers/datetime_helper.dart';
 import 'package:medisains/pages/content/bloc/bloc.dart';
+import 'package:medisains/pages/content/layout/search_content_page.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
 import 'package:medisains/pages/profile/profile_page.dart';
 
@@ -90,6 +91,8 @@ class FragmentHomePage extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(top: 8,bottom: 16,right: 4,left: 4),
             child: TextFormField(
+              readOnly: true,
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchContentPage())),
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(left: 14.0),
                 hintText: "Search contents",

@@ -27,3 +27,12 @@ class ReadContentEvent extends ContentEvent{
   String toString() => 'ReadContentEvent';
 }
 
+class SearchContentEvent extends ContentEvent{
+  final String searchText;
+
+  SearchContentEvent({this.searchText});
+
+  @override
+  String toString() => 'SearchContentEvent';
+}
+

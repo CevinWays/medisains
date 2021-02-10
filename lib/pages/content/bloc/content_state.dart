@@ -34,3 +34,12 @@ class CreateContentState extends ContentState{
 }
 
 class LoadingState extends ContentState{}
+
+class SearchContentState extends ContentState{
+  final List<ContentModel> listContentSearchResult;
+
+  SearchContentState({this.listContentSearchResult});
+
+  @override
+  String toString() => 'SearchContentState';
+}

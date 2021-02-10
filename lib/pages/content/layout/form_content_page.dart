@@ -116,7 +116,7 @@ class _FormContentPageState extends State<FormContentPage> {
                           children: [
                             _image == null ? Container(
                               padding: EdgeInsets.all(16),
-                              child: Icon(Icons.add_a_photo,size: 40,),
+                              child: Icon(Icons.image_outlined,size: 40,color: Colors.white,),
                               decoration: BoxDecoration(
                                   color: lightRedColor,
                                   borderRadius: BorderRadius.circular(8),
