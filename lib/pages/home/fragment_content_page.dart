@@ -172,7 +172,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                         Icon(Icons.location_on_outlined,color: Colors.grey,size: 20),
                         Padding(
                           padding: const EdgeInsets.only(left: 16),
-                          child: Text('Universitas Negeri Malang'),
+                          child: Text(item.data()['instance']),
                         ),
                       ],
                     ),
