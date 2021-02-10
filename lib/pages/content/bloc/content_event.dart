@@ -11,9 +11,10 @@ class CreateContentEvent extends ContentEvent{
   final String title;
   final String desc;
   final String category;
-  final File file;
+  final File fileImage;
+  final File fileDoc;
 
-  CreateContentEvent({this.file,this.category, this.title, this.desc});
+  CreateContentEvent({this.fileImage,this.category, this.title, this.desc, this.fileDoc});
   @override
   String toString() => 'CreateContentEvent';
 }

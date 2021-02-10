@@ -61,6 +61,7 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
   Stream<ContentState> _mapCreateContent(CreateContentEvent event) async*{
     try{
       yield InitialContentState();
+      yield LoadingState();
       auth.User currentUser = firebaseAuth.currentUser;
       DocumentReference documentReference = fireStoreUsers.doc();
       String dateTimeNow = DateTimeHelper.currentDate();
@@ -71,9 +72,16 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       var snapShot = await storage.ref().child('images')
           .child(App().sharedPreferences.getString('uid'))
           .child(documentReference.id)
-          .putFile(event.file);
+          .putFile(event.fileImage);
 
       var imageUrl = await snapShot.ref.getDownloadURL();
+
+      var snapShotDoc = await storage.ref().child('docs')
+          .child(App().sharedPreferences.getString('uid'))
+          .child(documentReference.id)
+          .putFile(event.fileDoc);
+
+      var docUrl = await snapShotDoc.ref.getDownloadURL();
 
       if(documentReference.id != null){
         await documentReference.set({
@@ -90,6 +98,7 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
           'instance' : 'Instansi Kesehatan',
           'isRecommend' : false,
           'imageUrl' : imageUrl.toString(),
+          'docUrl' : docUrl.toString()
         });
         yield CreateContentState();
       }else{

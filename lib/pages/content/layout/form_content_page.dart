@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_document_picker/flutter_document_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medisains/app.dart';
@@ -23,6 +24,7 @@ class _FormContentPageState extends State<FormContentPage> {
   ContentBloc _contentBloc;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   File _image;
+  File _doc;
   final picker = ImagePicker();
 
   @override
@@ -50,116 +52,168 @@ class _FormContentPageState extends State<FormContentPage> {
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
         ),
-        body: Form(
-          key: _formKey,
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 32),
+        body: BlocBuilder(
+          cubit: _contentBloc,
+          builder: (context,state){
+            return state is LoadingState ? Center(child: CircularProgressIndicator()) : Form(
+              key: _formKey,
+              child: Container(
+                padding: EdgeInsets.all(16),
+                child: SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        child: TextFormField(
-                          controller: _titleController,
-                          keyboardType: TextInputType.text,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Judul",value: value),
-                          decoration: InputDecoration(
-                            labelText: "Judul",
-                            hintText: "Judul",
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: primaryColor),
-                            ),
-                            labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: TextFormField(
-                          controller: _catController,
-                          keyboardType: TextInputType.text,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          decoration: InputDecoration(
-                            labelText: "Kategori",
-                            hintText: "Kategori",
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: primaryColor),
-                            ),
-                            labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: TextFormField(
-                          controller: _descController,
-                          keyboardType: TextInputType.text,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          maxLines: 3,
-                          validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Studi kasus",value: value),
-                          decoration: InputDecoration(
-                            labelText: "Deskripsi",
-                            hintText: "Deskripsi Singkat",
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: primaryColor),
-                            ),
-                            labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 16),
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          children: [
-                            _image == null ? Container(
-                              padding: EdgeInsets.all(16),
-                              child: Icon(Icons.image_outlined,size: 40,color: Colors.white,),
-                              decoration: BoxDecoration(
-                                  color: lightRedColor,
-                                  borderRadius: BorderRadius.circular(8),
-                              ),
-                            ) : Container(child: Image.file(_image,width: 80,height: 80,),),
-                            SizedBox(width: 16,),
-                            Column(
-                              children: [
-                                Container(
-                                  width : 150,
-                                  child: _image == null ? Text(
-                                      "No image selected",)
-                                      : Text(_image.path.toString(),
-                                    overflow: TextOverflow.ellipsis,)
-                                ),
-                                SizedBox(height: 8,),
-                                Container(
-                                  width: 150,
-                                  child: FlatButton(
-                                    padding: EdgeInsets.all(16),
-                                    onPressed: () async {
-                                      await getImage();
-                                    },
-                                    color: primaryColor,
-                                    child: Text(
-                                      "Pick Image",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(4)),
+                        margin: EdgeInsets.only(top: 32),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              child: TextFormField(
+                                controller: _titleController,
+                                keyboardType: TextInputType.text,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Judul",value: value),
+                                decoration: InputDecoration(
+                                  labelText: "Judul",
+                                  hintText: "Judul",
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: primaryColor),
                                   ),
-                                )
-                              ],
+                                  labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: TextFormField(
+                                controller: _catController,
+                                keyboardType: TextInputType.text,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                decoration: InputDecoration(
+                                  labelText: "Kategori",
+                                  hintText: "Kategori",
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: primaryColor),
+                                  ),
+                                  labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: TextFormField(
+                                controller: _descController,
+                                keyboardType: TextInputType.text,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                maxLines: 3,
+                                validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Studi kasus",value: value),
+                                decoration: InputDecoration(
+                                  labelText: "Deskripsi",
+                                  hintText: "Deskripsi Singkat",
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: primaryColor),
+                                  ),
+                                  labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 16),
+                              width: MediaQuery.of(context).size.width,
+                              child: Row(
+                                children: [
+                                  _image == null ? Container(
+                                    padding: EdgeInsets.all(16),
+                                    child: Icon(Icons.image_outlined,size: 40,color: Colors.white,),
+                                    decoration: BoxDecoration(
+                                      color: lightRedColor,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ) : Container(child: Image.file(_image,width: 80,height: 80,),),
+                                  SizedBox(width: 16,),
+                                  Column(
+                                    children: [
+                                      Container(
+                                          width : 150,
+                                          child: _image == null ? Text(
+                                            "No image selected",)
+                                              : Text(_image.path.toString(),
+                                            overflow: TextOverflow.ellipsis,)
+                                      ),
+                                      SizedBox(height: 8,),
+                                      Container(
+                                        width: 150,
+                                        child: FlatButton(
+                                          padding: EdgeInsets.all(16),
+                                          onPressed: () async {
+                                            await getImage();
+                                          },
+                                          color: primaryColor,
+                                          child: Text(
+                                            "Pick Image",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(4)),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 16),
+                              width: MediaQuery.of(context).size.width,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(16),
+                                    child: Icon(Icons.description_outlined,size: 40,color: Colors.white,),
+                                    decoration: BoxDecoration(
+                                      color: lightRedColor,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  SizedBox(width: 16,),
+                                  Column(
+                                    children: [
+                                      Container(
+                                          width : 150,
+                                          child: _doc == null ? Text(
+                                            "No document selected",)
+                                              : Text(_doc.path.toString(),
+                                            overflow: TextOverflow.ellipsis,)
+                                      ),
+                                      SizedBox(height: 8,),
+                                      Container(
+                                        width: 150,
+                                        child: FlatButton(
+                                          padding: EdgeInsets.all(16),
+                                          onPressed: () async {
+                                            await getDocument();
+                                          },
+                                          color: primaryColor,
+                                          child: Text(
+                                            "Pick Document",
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(4)),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
+              ),
+            ) ;
+          },
         ),
         bottomSheet: BlocBuilder(
           cubit: _contentBloc,
@@ -187,14 +241,17 @@ class _FormContentPageState extends State<FormContentPage> {
 
   void _createContent(){
 
-    File file = File(_image.path);
+    File fileImage = File(_image.path);
+    File fileDoc = File(_doc.path);
 
     if(_formKey.currentState.validate())
       _contentBloc.add(CreateContentEvent(
           category: _catController.text,
           title: _titleController.text,
           desc: _descController.text,
-          file: file));
+          fileImage: fileImage,
+          fileDoc: fileDoc
+      ));
   }
 
   Future getImage() async {
@@ -212,6 +269,25 @@ class _FormContentPageState extends State<FormContentPage> {
         } else {
           print('No image selected.');
         }
+      });
+    }else{
+      Fluttertoast.showToast(msg: "Tidak di izinkan, silahkan coba lagi");
+    }
+  }
+
+  Future getDocument() async{
+    // await Permission.photos.request();
+    await Permission.storage.request();
+
+    var permissionStorageStatus = await Permission.storage.status;
+
+    if(permissionStorageStatus.isGranted){
+      FlutterDocumentPickerParams params = FlutterDocumentPickerParams(
+        allowedFileExtensions: ['pdf'],
+      );
+      final path = await FlutterDocumentPicker.openDocument(params: params);
+      setState(() {
+        _doc = File(path);
       });
     }else{
       Fluttertoast.showToast(msg: "Tidak di izinkan, silahkan coba lagi");

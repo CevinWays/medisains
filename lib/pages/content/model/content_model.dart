@@ -10,6 +10,7 @@ class ContentModel{
   String createDate;
   String updateDate;
   String imageUrl;
+  String docUrl;
   String instance;
 
 
@@ -25,7 +26,8 @@ class ContentModel{
       this.createDate,
       this.updateDate,
         this.imageUrl,
-        this.instance
+        this.instance,
+        this.docUrl
       });
 
   ContentModel.map(dynamic obj) {
@@ -46,7 +48,9 @@ class ContentModel{
         updateDate = json['update_date'],
         idCont = json['id_cont'].toString(),
         instance = json['instance'],
-        imageUrl = json['imageUrl'] ?? "";
+        imageUrl = json['imageUrl'] ?? "",
+        docUrl = json['docUrl'] ?? ""
+  ;
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();

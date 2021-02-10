@@ -7,6 +7,7 @@ import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContentPage extends StatefulWidget {
   final ContentModel contentModel;
@@ -126,6 +127,44 @@ class _ContentPageState extends State<ContentPage> {
 
                 },),
             ) : Container(child: Text("Tidak ada asset gambar"),),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(vertical: 8),
+              child: Text("Asset Dokumen", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 16),
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    child: Icon(Icons.description_outlined,size: 40,color: Colors.white,),
+                    decoration: BoxDecoration(
+                      color: lightRedColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  SizedBox(width: 16,),
+                  Container(
+                    width: 150,
+                    child: FlatButton(
+                      padding: EdgeInsets.all(16),
+                      onPressed: () async {
+                        await _launchURL();
+                      },
+                      color: primaryColor,
+                      child: Text(
+                        "Open Document",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4)),
+                    ),
+                  )
+                ],
+              ),
+            )
           ],
         )
       ),
@@ -171,5 +210,14 @@ class _ContentPageState extends State<ContentPage> {
           );
         }
     );
+  }
+
+  _launchURL() async {
+    String url = widget.contentModel.docUrl;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
