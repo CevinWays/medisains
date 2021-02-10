@@ -18,12 +18,18 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
 
   @override
   Stream<ContentState> mapEventToState(ContentEvent event) async* {
-    if(event is ReadContentEvent)
+    if(event is ReadContentEvent){
       yield* _mapReadContent(event);
-    else if(event is CreateContentEvent)
+    }
+    else if(event is CreateContentEvent){
       yield* _mapCreateContent(event);
-    if(event is SearchContentEvent)
+    }
+    else if(event is SearchContentEvent){
       yield* _mapSearchContent(event);
+    }
+    else if(event is UpdateContentEvent){
+      yield* _mapUpdateContent(event);
+    }
   }
 
   Stream<ContentState> _mapReadContent(ReadContentEvent event) async*{
@@ -123,6 +129,19 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       });
 
       yield SearchContentState(listContentSearchResult: listSearchContentModel);
+    }catch(e){
+      yield ContentErrorState(e.toString());
+    }
+  }
+
+  Stream<ContentState>_mapUpdateContent(UpdateContentEvent event) async*{
+    try{
+      yield InitialContentState();
+      yield LoadingState();
+
+      //Update proses move here
+
+      yield UpdateContentState();
     }catch(e){
       yield ContentErrorState(e.toString());
     }

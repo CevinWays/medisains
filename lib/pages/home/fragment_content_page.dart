@@ -282,40 +282,6 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
           SizedBox(height: 16,),
           InkWell(
             onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
-                category: "HidupSehat",
-            )),
-            child: Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black38,
-                        blurRadius: 2,
-                        spreadRadius: 0.2,
-                        offset:Offset(0,2)
-                    )
-                  ]
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.accessibility_new_outlined,color: primaryColor,size: 35,),
-                  SizedBox(width: 8,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Hidup Sehat",style: TextStyle(fontWeight: FontWeight.w500,),),
-                      SizedBox(height: 4,),
-                      Text("Hidup sehat adalah hidup yang bebas dari... ",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12),)
-                    ],)
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 16,),
-          InkWell(
-            onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
                 category: "Kesehatan",
                 uid: App().sharedPreferences.getString("uid")
             )),
@@ -343,6 +309,40 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                       Text("Kesehatan",style: TextStyle(fontWeight: FontWeight.w500,),),
                       SizedBox(height: 4,),
                       Text("Kesehatan adalah keadaan sejahtera dari badan... ",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12),)
+                    ],)
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 16,),
+          InkWell(
+            onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
+              category: "Lainnya",
+            )),
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black38,
+                        blurRadius: 2,
+                        spreadRadius: 0.2,
+                        offset:Offset(0,2)
+                    )
+                  ]
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.accessibility_new_outlined,color: primaryColor,size: 35,),
+                  SizedBox(width: 8,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Lainnya",style: TextStyle(fontWeight: FontWeight.w500,),),
+                      SizedBox(height: 4,),
+                      Text("Hidup sehat adalah hidup yang bebas dari... ",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12),)
                     ],)
                 ],
               ),

@@ -517,36 +517,8 @@ class FragmentHomePage extends StatelessWidget {
                   Container(child: Text("Obat",style: TextStyle(fontWeight: FontWeight.w500),))
                 ],
               ),
-            ),InkWell(
-              onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
-                  category: "HidupSehat",
-                  uid: App().sharedPreferences.getString("uid")
-              )),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    width: 80,
-                    height: 80,
-                    margin: EdgeInsets.symmetric(vertical: 5.0,horizontal: 5.0),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black38,
-                              blurRadius: 2,
-                              spreadRadius: 0.2,
-                              offset:Offset(0,2)
-                          )
-                        ]
-                    ),
-                    child: Icon(Icons.accessibility_new_outlined,color: primaryColor,size: 30,),
-                  ),
-                  SizedBox(height: 5,),
-                  Container(child: Text("Hidup Sehat",style: TextStyle(fontWeight: FontWeight.w500),))
-                ],
-              ),
-            ),InkWell(
+            ),
+            InkWell(
               onTap: () => Navigator.pushNamed(context, categoryPage,arguments:ContentModel(
                   category: "Kesehatan",
                   uid: App().sharedPreferences.getString("uid")
@@ -573,6 +545,36 @@ class FragmentHomePage extends StatelessWidget {
                   ),
                   SizedBox(height: 5,),
                   Container(child: Text("Kesehatan",style: TextStyle(fontWeight: FontWeight.w500),))
+                ],
+              ),
+            ),
+            InkWell(
+              onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
+                  category: "Lainnya",
+                  uid: App().sharedPreferences.getString("uid")
+              )),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: 80,
+                    height: 80,
+                    margin: EdgeInsets.symmetric(vertical: 5.0,horizontal: 5.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black38,
+                              blurRadius: 2,
+                              spreadRadius: 0.2,
+                              offset:Offset(0,2)
+                          )
+                        ]
+                    ),
+                    child: Icon(Icons.accessibility_new_outlined,color: primaryColor,size: 30,),
+                  ),
+                  SizedBox(height: 5,),
+                  Container(child: Text("Lainnya",style: TextStyle(fontWeight: FontWeight.w500),))
                 ],
               ),
             ),

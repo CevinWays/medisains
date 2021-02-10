@@ -37,3 +37,17 @@ class SearchContentEvent extends ContentEvent{
   String toString() => 'SearchContentEvent';
 }
 
+class UpdateContentEvent extends ContentEvent{
+  final String title;
+  final String desc;
+  final String category;
+  final File fileImage;
+  final File fileDoc;
+
+  UpdateContentEvent({this.title, this.desc, this.category, this.fileImage, this.fileDoc});
+
+  @override
+  String toString() =>'UpdateContentEvent';
+
+}
+

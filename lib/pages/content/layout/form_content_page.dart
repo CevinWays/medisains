@@ -39,10 +39,13 @@ class _FormContentPageState extends State<FormContentPage> {
     return BlocListener(
       cubit: _contentBloc,
       listener: (context,state){
-        if(state is CreateContentState)
+        if(state is CreateContentState){
+          Fluttertoast.showToast(msg: "Sukses menambahkan content");
           Navigator.pop(context);
-        else if(state is ContentErrorState)
+        }
+        else if(state is ContentErrorState){
           Fluttertoast.showToast(msg: state.message);
+        }
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -240,18 +243,33 @@ class _FormContentPageState extends State<FormContentPage> {
   }
 
   void _createContent(){
+    try{
+      File fileImage;
+      File fileDoc;
 
-    File fileImage = File(_image.path);
-    File fileDoc = File(_doc.path);
+      if(_image.path !=null && _doc.path != null){
+        fileImage = File(_image.path);
+        fileDoc = File(_doc.path);
+      }else{
+        Fluttertoast.showToast(msg: 'Asset Gambar dan Dokumen diperlukan');
+      }
 
-    if(_formKey.currentState.validate())
-      _contentBloc.add(CreateContentEvent(
-          category: _catController.text,
-          title: _titleController.text,
-          desc: _descController.text,
-          fileImage: fileImage,
-          fileDoc: fileDoc
-      ));
+      if(_formKey.currentState.validate()){
+        if(fileImage != null && fileDoc != null){
+          _contentBloc.add(CreateContentEvent(
+              category: _catController.text,
+              title: _titleController.text,
+              desc: _descController.text,
+              fileImage: fileImage,
+              fileDoc: fileDoc
+          ));
+        }else{
+          Fluttertoast.showToast(msg: 'Asset Gambar dan Dokumen diperlukan');
+        }
+      }
+    }catch (e){
+      Fluttertoast.showToast(msg: 'Lengkapi semua data');
+    }
   }
 
   Future getImage() async {

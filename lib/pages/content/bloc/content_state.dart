@@ -43,3 +43,8 @@ class SearchContentState extends ContentState{
   @override
   String toString() => 'SearchContentState';
 }
+
+class UpdateContentState extends ContentState{
+  @override
+  String toString() => 'UpdateContentState';
+}
