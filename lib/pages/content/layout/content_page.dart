@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
+import 'package:medisains/helpers/datetime_helper.dart';
 import 'package:medisains/pages/content/bloc/bloc.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -72,6 +73,16 @@ class _ContentPageState extends State<ContentPage> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.symmetric(vertical: 8),
+                child: Text("Judul", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
+              ),
+              Container(
+                child: Text(
+                    widget.contentModel.title
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.symmetric(vertical: 8),
                 child: Text("Author", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
               ),
               Container(
@@ -82,11 +93,11 @@ class _ContentPageState extends State<ContentPage> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.symmetric(vertical: 8),
-                child: Text("Create Date", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
+                child: Text("Date Created", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
               ),
               Container(
                 child: Text(
-                    widget.contentModel.createDate
+                    DateTimeHelper.dateTimeFormatFromString(widget.contentModel.createDate)
                 ),
               ),
               Container(
@@ -105,7 +116,7 @@ class _ContentPageState extends State<ContentPage> {
                 child: Text("Rating", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
               ),
               RatingBar.builder(
-                itemSize: 32,
+                itemSize: 20,
                 initialRating: double.parse(widget.contentModel.rating),
                 minRating: 1,
                 direction: Axis.horizontal,
@@ -160,38 +171,23 @@ class _ContentPageState extends State<ContentPage> {
                 child: Text("Asset Dokumen", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
               ),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 16),
                 width: MediaQuery.of(context).size.width,
-                child: Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(16),
-                      child: Icon(Icons.description_outlined,size: 40,color: Colors.white,),
-                      decoration: BoxDecoration(
-                        color: lightRedColor,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                margin: EdgeInsets.only(bottom: 16,top: 8),
+                child: Card(
+                  child: ListTile(
+                    leading: Container(
+                      child: Icon(Icons.description_outlined,size: 25,color: primaryColor),
                     ),
-                    SizedBox(width: 16,),
-                    Container(
-                      width: 150,
-                      child: FlatButton(
-                        padding: EdgeInsets.all(16),
-                        onPressed: () async {
+                    title: Text(widget.contentModel.docUrl.split('/').last.toString(),
+                      overflow: TextOverflow.ellipsis,),
+                    trailing: InkWell(
+                        onTap: () async {
                           await _launchURL();
                         },
-                        color: primaryColor,
-                        child: Text(
-                          "Open Document",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4)),
-                      ),
-                    )
-                  ],
+                        child: Icon(Icons.open_in_new_outlined)),
+                  ),
                 ),
-              )
+              ),
             ],
           )
         ),

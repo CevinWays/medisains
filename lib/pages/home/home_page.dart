@@ -40,10 +40,11 @@ class _HomePageState extends State<HomePage> {
         items: [
           TabItem(icon: _currentIndex == 0 ? Icons.home : Icons.home_outlined),
           TabItem(icon: _currentIndex == 1 ? Icons.saved_search : Icons.search_outlined),
-          TabItem(icon: _currentIndex == 2 ? Icons.add : Icons.add),
+          TabItem(icon: _currentIndex == 2 ? Icons.add_circle_outlined : Icons.add),
           TabItem(icon: _currentIndex == 3 ? Icons.article : Icons.article_outlined),
           TabItem(icon: _currentIndex == 4 ? Icons.person : Icons.person_outline),
         ],
+        initialActiveIndex: 0,
         color: primaryColor,
         backgroundColor: Colors.white,
         activeColor: primaryColor,
