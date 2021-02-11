@@ -7,6 +7,7 @@ import 'package:medisains/helpers/validator_helper.dart';
 import 'package:medisains/pages/auth/bloc/bloc.dart';
 import 'package:medisains/pages/auth/layouts/login_page.dart';
 import 'package:medisains/pages/home/home_page.dart';
+import 'package:medisains/pages/profile/edit_profile_page.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -38,10 +39,10 @@ class _RegisterPageState extends State<RegisterPage> {
       listener: (context, state) {
         if (state is RegisterState)
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomePage()));
+              context, MaterialPageRoute(builder: (context) => EditProfilePage(isWizard: true,)));
         else if (state is RegisterGoogleState)
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomePage()));
+              context, MaterialPageRoute(builder: (context) => EditProfilePage(isWizard: true,)));
         else if (state is AuthErrorState)
           Fluttertoast.showToast(msg: state.msg);
       },

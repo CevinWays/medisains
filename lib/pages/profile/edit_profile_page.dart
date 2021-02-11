@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/validator_helper.dart';
 import 'package:medisains/pages/auth/bloc/bloc.dart';
+import 'package:medisains/pages/home/home_page.dart';
 
 class EditProfilePage extends StatefulWidget {
+  final bool isWizard;
+
+  const EditProfilePage({Key key, this.isWizard}) : super(key: key);
+
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }
@@ -14,6 +20,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   AuthBloc _authBloc;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _educationController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _instansiController = TextEditingController();
   TextEditingController _noHpController = TextEditingController();
   String dropDownGender;
@@ -27,6 +35,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
     // TODO: implement initState
     super.initState();
     _authBloc = AuthBloc(InitialAuthState());
+    _nameController.text = App().sharedPreferences.getString("displayName");
+    _emailController.text = App().sharedPreferences.getString("email");
   }
 
   @override
@@ -35,8 +45,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
       cubit: _authBloc,
       listener: (context,state){
         if(state is UpdateProfileState){
-          Fluttertoast.showToast(msg: "Berhasil perbaharui data profile");
-          Navigator.pop(context);
+          if(widget.isWizard){
+            Fluttertoast.showToast(msg: "Berhasil melengkapi data pengguna");
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomePage()));
+          }else{
+            Fluttertoast.showToast(msg: "Berhasil perbaharui data profile");
+            Navigator.pop(context);
+          }
         }else if(state is AuthErrorState){
           Fluttertoast.showToast(msg: state.msg);
         }
@@ -44,11 +60,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text("Edit Profile",style: TextStyle(color: Colors.black),),
+          title: Text(widget.isWizard? "Lengkapi Data Diri" : "Edit Profile",style: TextStyle(color: Colors.black),),
           elevation: 0.0,
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
-          leading: IconButton(
+          leading: widget.isWizard ? Container() : IconButton(
             onPressed: () => Navigator.pop(context),
             icon: Icon(Icons.arrow_back,color: Colors.black,),),
         ),
@@ -74,11 +90,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               padding: EdgeInsets.only(right:8,left: 8 ),
                               child: TextFormField(
                                 readOnly: true,
+                                controller: _nameController,
                                 keyboardType: TextInputType.text,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Judul",value: value),
                                 decoration: InputDecoration(
                                   hintText: "Nama",
+                                  enabledBorder: InputBorder.none,
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Card(
+                            elevation: 2.0,
+                            child: Container(
+                              padding: EdgeInsets.only(right:8,left: 8 ),
+                              child: TextFormField(
+                                readOnly: true,
+                                controller: _emailController,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  hintText: "Email",
                                   enabledBorder: InputBorder.none,
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
@@ -223,7 +256,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 },
                 color: state is LoadingState ? disableTextGreyColor : primaryColor,
                 child: Text(
-                  "Update",
+                  widget.isWizard ? "Submit" :"Update",
                   style: TextStyle(color: state is LoadingState ? darkGreyColor : Colors.white),
                 ),
                 shape: RoundedRectangleBorder(

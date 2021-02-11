@@ -42,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
             backgroundColor: primaryColor,
             child: Icon(Icons.edit),
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfilePage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfilePage(isWizard: false,)));
             },
           ),
         );
@@ -57,11 +57,17 @@ class _ProfilePageState extends State<ProfilePage> {
         children: <Widget>[
           ListTile(
             title: Text("Username"),
-            trailing: Text(App().sharedPreferences.getString("displayName")) ,
+            trailing: Text(App().sharedPreferences.getString("displayName") != null
+                ? App().sharedPreferences.getString("displayName")
+                : "Username"
+            ) ,
           ),
           ListTile(
             title: Text("Email"),
-            trailing: Text(App().sharedPreferences.getString("email")),
+            trailing: Text(App().sharedPreferences.getString("email") != null
+                ? App().sharedPreferences.getString("email")
+                : "Email"
+            ),
           ),
         ],
       ),

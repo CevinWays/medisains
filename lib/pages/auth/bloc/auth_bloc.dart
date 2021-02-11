@@ -60,7 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             'create_date' : dateTimeNow,
             'update_date' : null,
           });
-          SharedPrefHelper.saveUserInfo(_userCredential.user);
+          SharedPrefHelper.saveUserInfo(_userCredential.user,email: event.email,name: event.username);
           yield RegisterState();
         }else{
           yield AuthErrorState("Gagal membuat akun");
@@ -83,12 +83,33 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try{
       yield InitialAuthState();
       yield LoadingState();
+      UserModel userModel = UserModel();
+      String name;
+
       _userCredential = await _firebaseAuth.signInWithEmailAndPassword(
           email: event.email,
           password: event.password
       );
       if(_userCredential.user != null){
-        SharedPrefHelper.saveUserInfo(_userCredential.user);
+
+        List<DocumentSnapshot> listUsers = (await firestoreUsers.where('uid',isEqualTo: _userCredential.user.uid).get()).docs;
+        List<UserModel> _listUserModel = List<UserModel>();
+
+        listUsers.forEach((item) {
+          _listUserModel.add(UserModel.fromJson(item.data()));
+        });
+
+        _listUserModel.forEach((item) {
+          userModel = UserModel(
+            email: item.email,
+            uid: item.uid,
+            username: item.username
+          );
+        });
+
+        name = userModel.username;
+
+        SharedPrefHelper.saveUserInfo(_userCredential.user,email: event.email,name: name);
         yield LoginState();
       }else{
         yield AuthErrorState("Gagal Login");
@@ -207,9 +228,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield InitialAuthState();
       yield LoadingState();
 
-      auth.User _user = await AuthRepository().loginWithGoogleService();
-
-      await firestoreUsers.doc(_user.uid).update(({
+      await firestoreUsers.doc(App().sharedPreferences.getString("uid")).update(({
         'instansi' : event.instansi,
         'no_hp' : event.noHp,
         'gender' : event.gender,

@@ -77,7 +77,8 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
           padding: EdgeInsets.all(16),
           child: Column(
             children: <Widget>[
-              Container(
+              App().sharedPreferences.getString("photoUrl") != null
+                  ? Container(
                 width: 80,
                 height: 80,
                 margin: EdgeInsets.only(right: 16),
@@ -90,6 +91,8 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
                         )
                     )
                 ),
+              ) : Container(
+                child: Icon(Icons.account_circle,color: Colors.grey,size: 80,),
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 16),
@@ -98,7 +101,10 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
                     BlocBuilder(
                       cubit: _authBloc,
                       builder: (context,state){
-                        return Text( App().sharedPreferences.getString("displayName"),
+                        return Text(
+                            App().sharedPreferences.getString("displayName") != null
+                                ? App().sharedPreferences.getString("displayName")
+                                : "Anonymus",
                           style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold, color: Colors.black),
                         );
                       },

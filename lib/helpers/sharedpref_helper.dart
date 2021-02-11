@@ -3,10 +3,10 @@ import 'package:medisains/app.dart';
 import 'package:medisains/pages/auth/models/user_model.dart';
 
 class SharedPrefHelper{
-  static saveUserInfo(User user){
+  static saveUserInfo(User user, {String name, String email}){
     App().sharedPreferences.setString('uid', user.uid);
-    App().sharedPreferences.setString('displayName', user.displayName);
-    App().sharedPreferences.setString('email', user.email);
+    App().sharedPreferences.setString('displayName', user.displayName != null ? user.displayName : name);
+    App().sharedPreferences.setString('email', user.email != null ? user.email : email);
     App().sharedPreferences.setString('phoneNumber', user.phoneNumber);
     App().sharedPreferences.setString('photoUrl', user.photoURL);
   }
@@ -23,11 +23,5 @@ class SharedPrefHelper{
     App().sharedPreferences.remove('email');
     App().sharedPreferences.remove('phone_number');
     App().sharedPreferences.remove('photo_url');
-  }
-
-  static saveTempUserLogin(UserModel userModel){
-    App().sharedPreferences.setString('uidTempUserLogin', userModel.uid);
-    App().sharedPreferences.setString('emailTempUserLogin', userModel.email);
-    App().sharedPreferences.setString('usernameTempUserLogin', userModel.username);
   }
 }
