@@ -32,19 +32,6 @@ class FragmentHomePage extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: _widgetBodySection(context),
       ),
-        floatingActionButton: SpeedDial(
-          child: Icon(Icons.add),
-          animationSpeed: 1,
-          backgroundColor: primaryColor,
-          children: [
-            SpeedDialChild(
-                child: Icon(Icons.description),
-                label: "Content",
-                backgroundColor: blueColor,
-                onTap: () => Navigator.pushNamed(context, contentFormPage)
-            ),
-          ],
-        )
     );
   }
 

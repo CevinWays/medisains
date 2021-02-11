@@ -4,7 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/pages/home/fragment_content_page.dart';
 import 'package:medisains/pages/home/fragment_home_page.dart';
+import 'package:medisains/pages/home/fragment_new_content_page.dart';
 import 'package:medisains/pages/home/fragment_profile_page.dart';
+
+import 'fragment_my_content_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,6 +19,8 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _children = [
     FragmentHomePage(),
     FragmentContentPage(),
+    FragmentNewContentPage(),
+    FragmentMyContentPage(),
     FragmentProfilePage()
   ];
 
@@ -33,14 +38,19 @@ class _HomePageState extends State<HomePage> {
   Widget _widgetFooterSection() {
     return ConvexAppBar(
         items: [
-          TabItem(icon: Icons.home_outlined, title: 'Home'),
-          TabItem(icon: Icons.search, title: 'Explore'),
-          TabItem(icon: Icons.person_outline, title: 'Profile'),
+          TabItem(icon: _currentIndex == 0 ? Icons.home : Icons.home_outlined),
+          TabItem(icon: _currentIndex == 1 ? Icons.saved_search : Icons.search_outlined),
+          TabItem(icon: _currentIndex == 2 ? Icons.add : Icons.add),
+          TabItem(icon: _currentIndex == 3 ? Icons.article : Icons.article_outlined),
+          TabItem(icon: _currentIndex == 4 ? Icons.person : Icons.person_outline),
         ],
         color: primaryColor,
         backgroundColor: Colors.white,
         activeColor: primaryColor,
         onTap: onTabTapped,
+
+      top: -18.0,
+      style: TabStyle.fixedCircle,
     );
   }
 
