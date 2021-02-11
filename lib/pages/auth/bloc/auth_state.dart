@@ -1,3 +1,4 @@
+import 'package:medisains/pages/auth/models/user_model.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -42,10 +43,9 @@ class LogoutState extends AuthState{
 }
 
 class ReadUserDataState extends AuthState{
-  final String username;
-  final String email;
+  final UserModel userModel;
 
-  ReadUserDataState({this.username, this.email});
+  ReadUserDataState({this.userModel});
   @override
   String toString() => 'ReadUserDataState';
 }

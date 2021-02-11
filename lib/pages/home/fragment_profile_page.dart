@@ -104,13 +104,14 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
                         return Text(
                             App().sharedPreferences.getString("displayName") != null
                                 ? App().sharedPreferences.getString("displayName")
-                                : "Anonymus",
+                                : "Username",
                           style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold, color: Colors.black),
                         );
                       },
                     ),
+                    SizedBox(height: 8,),
                     Text(
-                        "S1 Kedokteran"
+                        App().sharedPreferences.getString("email")
                     ),
                   ],
                 ),

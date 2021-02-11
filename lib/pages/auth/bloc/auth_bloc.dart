@@ -143,7 +143,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await firestoreUsers.doc(App().sharedPreferences.getString('uid')).get().then((querySnapshot){
         this.userModel = UserModel.fromJson(querySnapshot.data());
       });
-      yield ReadUserDataState(email: userModel.email,username: userModel.username);
+      yield ReadUserDataState(userModel: this.userModel);
     }catch(e){
       yield AuthErrorState(e.toString());
     }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/pages/auth/bloc/bloc.dart';
+import 'package:medisains/pages/auth/models/user_model.dart';
 import 'package:medisains/pages/profile/edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -12,41 +13,46 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   AuthBloc _authBloc;
+  UserModel userModel;
 
   @override
   void initState() {
     // TODO: implement initState
+    super.initState();
     _authBloc = AuthBloc(InitialAuthState());
     _authBloc.add(ReadUserDataEvent());
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
+    return BlocListener(
       cubit: _authBloc,
-      builder: (context,state){
-        return Scaffold(
-          appBar: AppBar(
-            elevation: 0.0,
+      listener: (context,state){},
+      child: BlocBuilder(
+        cubit: _authBloc,
+        builder: (context,state){
+          return Scaffold(
+            appBar: AppBar(
+              elevation: 0.0,
+              backgroundColor: Colors.white,
+              automaticallyImplyLeading: false,
+              leading: IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: Icon(Icons.arrow_back,color: Colors.black,),),
+              title: Text("Informasi Pengguna",style: TextStyle(color: Colors.black),),
+            ),
             backgroundColor: Colors.white,
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(Icons.arrow_back,color: Colors.black,),),
-            title: Text("Informasi Pengguna",style: TextStyle(color: Colors.black),),
-          ),
-          backgroundColor: Colors.white,
-          body: _widgetContentSection(state),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: primaryColor,
-            child: Icon(Icons.edit),
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfilePage(isWizard: false,)));
-            },
-          ),
-        );
-      },
+            body: _widgetContentSection(state),
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: primaryColor,
+              child: Icon(Icons.edit),
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfilePage(isWizard: false,)));
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -55,6 +61,13 @@ class _ProfilePageState extends State<ProfilePage> {
       margin: EdgeInsets.all(16),
       child: ListView(
         children: <Widget>[
+          ListTile(
+            title: Text("ID"),
+            trailing: Text(App().sharedPreferences.getString("uid") != null
+                ? App().sharedPreferences.getString("uid")
+                : "uid"
+            ),
+          ),
           ListTile(
             title: Text("Username"),
             trailing: Text(App().sharedPreferences.getString("displayName") != null
@@ -68,7 +81,27 @@ class _ProfilePageState extends State<ProfilePage> {
                 ? App().sharedPreferences.getString("email")
                 : "Email"
             ),
-          ),
+          ),ListTile(
+            title: Text("Edukasi"),
+            trailing: Text(state is ReadUserDataState && state.userModel.education != null ? state.userModel.education : "Belum ada data"
+            ),
+          ),ListTile(
+            title: Text("Gender"),
+            trailing: Text(state is ReadUserDataState && state.userModel.gender != null ? state.userModel.gender : "Belum ada data"
+            ),
+          ),ListTile(
+            title: Text("Instansi"),
+            trailing: Text(state is ReadUserDataState && state.userModel.instansi != null ? state.userModel.instansi : "Belum ada data"
+            ),
+          ),ListTile(
+            title: Text("Location"),
+            trailing: Text(state is ReadUserDataState && state.userModel.location != null ? state.userModel.location : "Belum ada data"
+            ),
+          ),ListTile(
+            title: Text("No Hp"),
+            trailing: Text(state is ReadUserDataState && state.userModel.noHp != null ? state.userModel.noHp : "Belum ada data"
+            ),
+          )
         ],
       ),
     );
