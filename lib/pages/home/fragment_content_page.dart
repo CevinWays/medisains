@@ -232,7 +232,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.coronavirus_rounded,color: primaryColor,size: 35,),
+                  Icon(Icons.coronavirus_outlined,color: primaryColor,size: 35,),
                   SizedBox(width: 8,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -266,7 +266,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.medical_services_rounded,color: primaryColor,size: 35,),
+                  Icon(Icons.medical_services_outlined,color: primaryColor,size: 35,),
                   SizedBox(width: 8,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -301,7 +301,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.favorite,color: primaryColor,size: 35,),
+                  Icon(Icons.favorite_border,color: primaryColor,size: 35,),
                   SizedBox(width: 8,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

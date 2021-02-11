@@ -43,10 +43,15 @@ class _ContentPageState extends State<ContentPage> {
         }
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text(widget.contentModel.title,style: TextStyle(color: Colors.white)),
-          backgroundColor: primaryColor,
-          centerTitle: true,
+          title: Text("Detail Content",style: TextStyle(color: Colors.black)),
+          elevation: 0.0,
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(Icons.arrow_back,color: Colors.black,),),
           actions: [
             widget.contentModel.uid == App().sharedPreferences.getString("uid")
                 ? Padding(

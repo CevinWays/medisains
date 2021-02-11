@@ -60,10 +60,15 @@ class _EditContentPageState extends State<EditContentPage> {
         }
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text("Edit Content"),
-          backgroundColor: primaryColor,
-          centerTitle: true,
+          title: Text("Edit Content",style: TextStyle(color: Colors.black),),
+          elevation: 0.0,
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(Icons.arrow_back,color: Colors.black,),),
         ),
         body: BlocBuilder(
           cubit: _contentBloc,
@@ -81,203 +86,134 @@ class _EditContentPageState extends State<EditContentPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                            child: TextFormField(
-                              controller: _titleController,
-                              keyboardType: TextInputType.text,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              validator: (String value) =>
-                                  ValidatorHelper.validatorEmpty(
-                                      label: "Judul", value: value),
-                              decoration: InputDecoration(
-                                labelText: "Judul",
-                                hintText: "Judul",
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: primaryColor),
+                          Card(
+                            elevation: 2.0,
+                            child: Container(
+                              padding: EdgeInsets.only(right:8,left: 8 ),
+                              child: TextFormField(
+                                controller: _titleController,
+                                keyboardType: TextInputType.text,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Judul",value: value),
+                                decoration: InputDecoration(
+                                  hintText: "Judul",
+                                  enabledBorder: InputBorder.none,
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
                                 ),
-                                labelStyle:
-                                TextStyle(color: Colors.black, fontSize: 16.0),
+                              ),
+                            ),
+                          ),
+                          Card(
+                            elevation: 2.0,
+                            child: Container(
+                              padding: EdgeInsets.only(left: 8,right: 8),
+                              width: MediaQuery.of(context).size.width,
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  hint: Text("Pilih Kategori"),
+                                  value: dropdownValue,
+                                  icon: Icon(Icons.arrow_drop_down),
+                                  iconSize: 24,
+                                  elevation: 16,
+                                  style: TextStyle(color: Colors.black),
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      dropdownValue = newValue;
+                                    });
+                                  },
+                                  items: <String>['Lainnya', 'Penyakit', 'Obat', 'Kesehatan']
+                                      .map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Card(
+                            elevation: 2.0,
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              child: TextFormField(
+                                controller: _descController,
+                                keyboardType: TextInputType.text,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                maxLines: 3,
+                                validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Deskripsi",value: value),
+                                decoration: InputDecoration(
+                                  enabledBorder: InputBorder.none,
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  hintText: "Deskripsi Singkat",
+                                  labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+
+                                ),
                               ),
                             ),
                           ),
                           Container(
+                            width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.only(top: 16),
-                            width: MediaQuery.of(context).size.width,
-                            child: DropdownButton<String>(
-                              value: dropdownValue,
-                              icon: Icon(Icons.arrow_drop_down),
-                              iconSize: 24,
-                              elevation: 16,
-                              style: TextStyle(color: Colors.black),
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  dropdownValue = newValue;
-                                });
-                              },
-                              items: <String>['Penyakit', 'Obat', 'Kesehatan', 'Lainnya']
-                                  .map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                          Container(
-                            child: TextFormField(
-                              controller: _descController,
-                              keyboardType: TextInputType.text,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              validator: (String value) =>
-                                  ValidatorHelper.validatorEmpty(
-                                      label: "Deskripsi", value: value),
-                              decoration: InputDecoration(
-                                labelText: "Deskripsi",
-                                hintText: "Deskripsi Singkat",
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: primaryColor),
+                            child: Card(
+                              child: ListTile(
+                                leading: Container(
+                                    child: _image == null
+                                        ? widget.contentModel.imageUrl != null && widget.contentModel.imageUrl != ""
+                                        ? Container(
+                                      width: 25,
+                                      height: 25,
+                                      margin: EdgeInsets.symmetric(vertical: 8),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(8.0),
+                                          image: DecorationImage(
+                                              fit: BoxFit.contain,
+                                              image: CachedNetworkImageProvider(
+                                                widget.contentModel.imageUrl,
+                                              ))),
+                                    ) : Icon(Icons.image_outlined,size: 25,color: primaryColor)
+                                        : Container(child: Image.file(_image,width: 25,height: 25,),)
                                 ),
-                                labelStyle:
-                                TextStyle(color: Colors.black, fontSize: 16.0),
+                                title: Text(_image == null
+                                    ? widget.contentModel.imageUrl != null && widget.contentModel.imageUrl != ""
+                                    ? widget.contentModel.imageUrl.split('/').last.toString()
+                                    : 'Pilih Gambar'
+                                    : _image.path.split('/').last.toString(),
+                                  overflow: TextOverflow.ellipsis,),
+                                trailing: InkWell(
+                                    onTap: () async {
+                                      await getImage();
+                                    },
+                                    child:  _image == null ? Icon(Icons.attach_file_outlined) : Icon(Icons.check_circle, color: blueColor,)),
                               ),
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.symmetric(vertical: 16),
                             width: MediaQuery.of(context).size.width,
-                            child: Row(
-                              children: [
-                                _image == null
-                                    ? widget.contentModel.imageUrl != null && widget.contentModel.imageUrl != ""
-                                    ? Container(
-                                  width: 100,
-                                  height: 100,
-                                  margin: EdgeInsets.symmetric(vertical: 8),
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(8.0),
-                                      image: DecorationImage(
-                                          fit: BoxFit.contain,
-                                          image: CachedNetworkImageProvider(
-                                            widget.contentModel.imageUrl,
-                                          ))),
-                                )
-                                    : Container(
-                                  padding: EdgeInsets.all(16),
-                                  child: Icon(
-                                    Icons.image_outlined,
-                                    size: 40,
-                                    color: Colors.white,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: lightRedColor,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                )
-                                    : Container(
-                                  child: Image.file(
-                                    _image,
-                                    width: 80,
-                                    height: 80,
-                                  ),
+                            margin: EdgeInsets.only(bottom: 16,top: 8),
+                            child: Card(
+                              child: ListTile(
+                                leading: Container(
+                                  child: Icon(Icons.description_outlined,size: 25,color: primaryColor),
                                 ),
-                                SizedBox(
-                                  width: 16,
-                                ),
-                                Column(
-                                  children: [
-                                    Container(
-                                        width: 150,
-                                        child: _image == null
-                                            ? widget.contentModel.imageUrl != null && widget.contentModel.imageUrl != ""
-                                            ? Text(widget.contentModel.imageUrl,
-                                            overflow: TextOverflow.ellipsis)
-                                            : Text("No image selected")
-                                            : Text(
-                                          _image.path.toString(),
-                                          overflow: TextOverflow.ellipsis,
-                                        )),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Container(
-                                      width: 150,
-                                      child: FlatButton(
-                                        padding: EdgeInsets.all(16),
-                                        onPressed: () async {
-                                          await getImage();
-                                        },
-                                        color: primaryColor,
-                                        child: Text(
-                                          "Pick Image",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(4)),
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
+                                title: Text(_doc == null
+                                    ? widget.contentModel.docUrl != null && widget.contentModel.docUrl != ""
+                                    ? widget.contentModel.docUrl.split('/').last.toString()
+                                    : 'Pilih Dokumen'
+                                    : _doc.path.split('/').last.toString(),
+                                  overflow: TextOverflow.ellipsis,),
+                                trailing: InkWell(
+                                    onTap: () async {
+                                      await getDocument();
+                                    },
+                                    child: _doc == null ? Icon(Icons.attach_file_outlined) : Icon(Icons.check_circle, color: blueColor,)),
+                              ),
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 16),
-                            width: MediaQuery.of(context).size.width,
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(16),
-                                  child: Icon(
-                                    Icons.description_outlined,
-                                    size: 40,
-                                    color: Colors.white,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: lightRedColor,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 16,
-                                ),
-                                Column(
-                                  children: [
-                                    Container(
-                                        width: 150,
-                                        child: _doc == null
-                                            ? Text(
-                                          widget.contentModel.docUrl,
-                                          overflow: TextOverflow.ellipsis,
-                                        )
-                                            : Text(
-                                          _doc.path.toString(),
-                                          overflow: TextOverflow.ellipsis,
-                                        )),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Container(
-                                      width: 150,
-                                      child: FlatButton(
-                                        padding: EdgeInsets.all(16),
-                                        onPressed: () async {
-                                          await getDocument();
-                                        },
-                                        color: primaryColor,
-                                        child: Text(
-                                          "Pick Document",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(4)),
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
                         ],
                       ),
                     ),

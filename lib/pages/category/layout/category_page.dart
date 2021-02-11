@@ -32,7 +32,7 @@ class _CategoryPageState extends State<CategoryPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.0,
-        title: Text("Category "+widget.contentModel.category,style: TextStyle(color: Colors.black),),
+        title: Text("Kategori "+widget.contentModel.category,style: TextStyle(color: Colors.black),),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         actions: <Widget>[

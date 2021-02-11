@@ -27,8 +27,13 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (context,state){
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: primaryColor,
-            title: Text("Informasi Pengguna"),
+            elevation: 0.0,
+            backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(Icons.arrow_back,color: Colors.black,),),
+            title: Text("Informasi Pengguna",style: TextStyle(color: Colors.black),),
           ),
           backgroundColor: Colors.white,
           body: _widgetContentSection(state),
