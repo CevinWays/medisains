@@ -15,7 +15,6 @@ import 'package:medisains/helpers/validator_helper.dart';
 import 'package:medisains/pages/content/bloc/bloc.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class EditContentPage extends StatefulWidget {
   final ContentModel contentModel;
@@ -29,13 +28,13 @@ class EditContentPage extends StatefulWidget {
 class _EditContentPageState extends State<EditContentPage> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descController = TextEditingController();
-  TextEditingController _catController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String dateTimeNow = DateTimeHelper.currentDate();
   File _image;
   File _doc;
   final picker = ImagePicker();
   ContentBloc _contentBloc;
+  String dropdownValue;
 
   @override
   void initState() {
@@ -44,7 +43,7 @@ class _EditContentPageState extends State<EditContentPage> {
     _contentBloc = ContentBloc(InitialContentState());
     _titleController.text = widget.contentModel.title;
     _descController.text = widget.contentModel.desc;
-    _catController.text = widget.contentModel.category;
+    dropdownValue = widget.contentModel.category;
   }
 
   @override
@@ -102,19 +101,26 @@ class _EditContentPageState extends State<EditContentPage> {
                             ),
                           ),
                           Container(
-                            child: TextFormField(
-                              controller: _catController,
-                              keyboardType: TextInputType.text,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              decoration: InputDecoration(
-                                labelText: "Kategori Penyakit",
-                                hintText: "Kategori",
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: primaryColor),
-                                ),
-                                labelStyle:
-                                TextStyle(color: Colors.black, fontSize: 16.0),
-                              ),
+                            margin: EdgeInsets.only(top: 16),
+                            width: MediaQuery.of(context).size.width,
+                            child: DropdownButton<String>(
+                              value: dropdownValue,
+                              icon: Icon(Icons.arrow_drop_down),
+                              iconSize: 24,
+                              elevation: 16,
+                              style: TextStyle(color: Colors.black),
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  dropdownValue = newValue;
+                                });
+                              },
+                              items: <String>['Penyakit', 'Obat', 'Kesehatan', 'Lainnya']
+                                  .map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
                             ),
                           ),
                           Container(
@@ -124,10 +130,10 @@ class _EditContentPageState extends State<EditContentPage> {
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               validator: (String value) =>
                                   ValidatorHelper.validatorEmpty(
-                                      label: "Studi kasus", value: value),
+                                      label: "Deskripsi", value: value),
                               decoration: InputDecoration(
                                 labelText: "Deskripsi",
-                                hintText: "Deskripsi",
+                                hintText: "Deskripsi Singkat",
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: primaryColor),
                                 ),
@@ -312,7 +318,7 @@ class _EditContentPageState extends State<EditContentPage> {
     _contentBloc.add(UpdateContentEvent(
       title: _titleController.text,
       desc: _descController.text,
-      category: _catController.text,
+      category: dropdownValue,
       contentModel: widget.contentModel,
       fileImage: _image,
       fileDoc: _doc,

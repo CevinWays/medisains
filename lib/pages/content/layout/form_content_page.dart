@@ -20,12 +20,12 @@ class FormContentPage extends StatefulWidget {
 class _FormContentPageState extends State<FormContentPage> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descController = TextEditingController();
-  TextEditingController _catController = TextEditingController();
   ContentBloc _contentBloc;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   File _image;
   File _doc;
   final picker = ImagePicker();
+  String dropdownValue = 'Lainnya';
 
   @override
   void initState() {
@@ -87,18 +87,26 @@ class _FormContentPageState extends State<FormContentPage> {
                               ),
                             ),
                             Container(
-                              child: TextFormField(
-                                controller: _catController,
-                                keyboardType: TextInputType.text,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                decoration: InputDecoration(
-                                  labelText: "Kategori",
-                                  hintText: "Kategori",
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: primaryColor),
-                                  ),
-                                  labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
-                                ),
+                              margin: EdgeInsets.only(top: 16),
+                              width: MediaQuery.of(context).size.width,
+                              child: DropdownButton<String>(
+                                value: dropdownValue,
+                                icon: Icon(Icons.arrow_drop_down),
+                                iconSize: 24,
+                                elevation: 16,
+                                style: TextStyle(color: Colors.black),
+                                onChanged: (String newValue) {
+                                  setState(() {
+                                    dropdownValue = newValue;
+                                  });
+                                },
+                                items: <String>['Penyakit', 'Obat', 'Kesehatan', 'Lainnya']
+                                    .map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
                               ),
                             ),
                             Container(
@@ -107,7 +115,7 @@ class _FormContentPageState extends State<FormContentPage> {
                                 keyboardType: TextInputType.text,
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
                                 maxLines: 3,
-                                validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Studi kasus",value: value),
+                                validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Deskripsi",value: value),
                                 decoration: InputDecoration(
                                   labelText: "Deskripsi",
                                   hintText: "Deskripsi Singkat",
@@ -257,7 +265,7 @@ class _FormContentPageState extends State<FormContentPage> {
       if(_formKey.currentState.validate()){
         if(fileImage != null && fileDoc != null){
           _contentBloc.add(CreateContentEvent(
-              category: _catController.text,
+              category: dropdownValue,
               title: _titleController.text,
               desc: _descController.text,
               fileImage: fileImage,
@@ -268,7 +276,7 @@ class _FormContentPageState extends State<FormContentPage> {
         }
       }
     }catch (e){
-      Fluttertoast.showToast(msg: 'Lengkapi semua data');
+      Fluttertoast.showToast(msg: 'Lengkapi semua data terlebih dahulu');
     }
   }
 
@@ -280,7 +288,7 @@ class _FormContentPageState extends State<FormContentPage> {
     var permissionCameraStatus = await Permission.camera.status;
 
     if(permissionCameraStatus.isGranted){
-      final pickedFile = await picker.getImage(source: ImageSource.camera);
+      final pickedFile = await picker.getImage(source: ImageSource.camera,maxWidth: 640,maxHeight: 480,imageQuality: 50);
       setState(() {
         if (pickedFile != null) {
           _image = File(pickedFile.path);
@@ -294,19 +302,24 @@ class _FormContentPageState extends State<FormContentPage> {
   }
 
   Future getDocument() async{
-    // await Permission.photos.request();
+    FlutterDocumentPickerParams params;
+    String path;
     await Permission.storage.request();
 
     var permissionStorageStatus = await Permission.storage.status;
 
     if(permissionStorageStatus.isGranted){
-      FlutterDocumentPickerParams params = FlutterDocumentPickerParams(
-        allowedFileExtensions: ['pdf'],
-      );
-      final path = await FlutterDocumentPicker.openDocument(params: params);
-      setState(() {
-        _doc = File(path);
-      });
+      try{
+        params = FlutterDocumentPickerParams(
+          allowedFileExtensions: ['pdf'],
+        );
+        path = await FlutterDocumentPicker.openDocument(params: params);
+        setState(() {
+          _doc = File(path);
+        });
+      }catch(e){
+        Fluttertoast.showToast(msg: 'Hanya format pdf yang di izinkan');
+      }
     }else{
       Fluttertoast.showToast(msg: "Tidak di izinkan, silahkan coba lagi");
     }
