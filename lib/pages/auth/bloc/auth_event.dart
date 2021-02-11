@@ -56,4 +56,17 @@ class ResetPassEvent extends AuthEvent{
   String toString() => 'ResetPassEvent';
 }
 
+class UpdateProfileEvent extends AuthEvent{
+  final String instansi;
+  final String noHp;
+  final String gender;
+  final String location;
+  final String education;
+
+  UpdateProfileEvent({this.instansi, this.noHp, this.gender,this.location, this.education});
+
+  @override
+  String toString() => 'UpdateProfileEvent';
+}
+
 

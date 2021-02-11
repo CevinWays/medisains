@@ -38,8 +38,14 @@ class _FragmentNewContentPageState extends State<FragmentNewContentPage> {
       cubit: _contentBloc,
       listener: (context,state){
         if(state is CreateContentState){
-          Fluttertoast.showToast(msg: "Sukses menambahkan content");
-          Navigator.pop(context);
+          _titleController.text = "";
+          _descController.text = "";
+          _image = null;
+          _doc = null;
+          dropdownValue = null;
+          Fluttertoast.showToast(
+            toastLength: Toast.LENGTH_LONG,
+              msg: "Sukses menambahkan content, Silahkan Ke halaman My Content");
         }
         else if(state is ContentErrorState){
           Fluttertoast.showToast(msg: state.message);

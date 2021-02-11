@@ -37,6 +37,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapRegisterGoogle();
     else if(event is ResetPassEvent)
       yield* _mapResetPassword(event);
+    else if(event is UpdateProfileEvent)
+      yield* _mapUpdateProfile(event);
   }
 
   Stream<AuthState> _mapRegister(RegisterEvent event) async*{
@@ -197,6 +199,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     }catch(e){
       yield AuthErrorState(e.toString());
+    }
+  }
+
+  Stream<AuthState> _mapUpdateProfile(UpdateProfileEvent event) async*{
+    try{
+      yield InitialAuthState();
+      yield LoadingState();
+
+      auth.User _user = await AuthRepository().loginWithGoogleService();
+
+      await firestoreUsers.doc(_user.uid).update(({
+        'instansi' : event.instansi,
+        'no_hp' : event.noHp,
+        'gender' : event.gender,
+        'location' : event.location,
+        'education' : event.education,
+        'update_date' : dateTimeNow
+      }));
+
+      yield UpdateProfileState();
+    }catch(e){
+      yield AuthErrorState("Gagal perbaharui data profile");
     }
   }
 }

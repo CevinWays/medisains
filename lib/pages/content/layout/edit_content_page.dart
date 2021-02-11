@@ -251,14 +251,16 @@ class _EditContentPageState extends State<EditContentPage> {
   }
 
   _saveEditedContent() {
-    _contentBloc.add(UpdateContentEvent(
-      title: _titleController.text,
-      desc: _descController.text,
-      category: dropdownValue,
-      contentModel: widget.contentModel,
-      fileImage: _image,
-      fileDoc: _doc,
-    ));
+    if(_formKey.currentState.validate()){
+      _contentBloc.add(UpdateContentEvent(
+        title: _titleController.text,
+        desc: _descController.text,
+        category: dropdownValue,
+        contentModel: widget.contentModel,
+        fileImage: _image,
+        fileDoc: _doc,
+      ));
+    }
   }
 
   Future getImage() async {

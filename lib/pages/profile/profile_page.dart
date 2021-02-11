@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/pages/auth/bloc/bloc.dart';
+import 'package:medisains/pages/profile/edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -37,6 +38,13 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           backgroundColor: Colors.white,
           body: _widgetContentSection(state),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: primaryColor,
+            child: Icon(Icons.edit),
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfilePage()));
+            },
+          ),
         );
       },
     );

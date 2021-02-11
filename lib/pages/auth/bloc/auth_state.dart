@@ -64,3 +64,8 @@ class ResetPassState extends AuthState{
   @override
   String toString() => 'ResetPassState';
 }
+
+class UpdateProfileState extends AuthState{
+  @override
+  String toString() => 'UpdateProfileState';
+}

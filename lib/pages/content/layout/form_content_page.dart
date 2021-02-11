@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
+import 'package:medisains/helpers/constant_routes.dart';
 import 'package:medisains/helpers/toast_helper.dart';
 import 'package:medisains/helpers/validator_helper.dart';
 import 'package:medisains/pages/content/bloc/bloc.dart';
@@ -41,7 +42,6 @@ class _FormContentPageState extends State<FormContentPage> {
       listener: (context,state){
         if(state is CreateContentState){
           Fluttertoast.showToast(msg: "Sukses menambahkan content");
-          Navigator.pop(context);
         }
         else if(state is ContentErrorState){
           Fluttertoast.showToast(msg: state.message);

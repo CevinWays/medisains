@@ -30,8 +30,11 @@ class _FragmentMyContentPageState extends State<FragmentMyContentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: _widgetAppBarSection(),
-      body: _widgetMedicines(),
+      body: Container(
+        padding: EdgeInsets.all(16),
+          child: _widgetMedicines()),
     );
   }
 
@@ -143,7 +146,7 @@ class _FragmentMyContentPageState extends State<FragmentMyContentPage> {
                       SizedBox(height: 4),
                       Row(
                         children: [
-                          Icon(Icons.location_on_outlined,color: Colors.grey,size: 20),
+                          Icon(Icons.school_outlined,color: Colors.grey,size: 20),
                           Padding(
                             padding: const EdgeInsets.only(left: 16),
                             child: Text(item.data()['instance']),

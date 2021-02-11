@@ -276,7 +276,7 @@ class FragmentHomePage extends StatelessWidget {
                           SizedBox(height: 4),
                           Row(
                             children: [
-                              Icon(Icons.location_on_outlined,color: Colors.grey,size: 20),
+                              Icon(Icons.school_outlined,color: Colors.grey,size: 20),
                               Padding(
                                 padding: const EdgeInsets.only(left: 16),
                                 child: Text(item.data()['instance']),
@@ -402,7 +402,7 @@ class FragmentHomePage extends StatelessWidget {
                           SizedBox(height: 4),
                           Row(
                             children: [
-                              Icon(Icons.location_on_outlined,color: Colors.grey,size: 20),
+                              Icon(Icons.school_outlined,color: Colors.grey,size: 20),
                               Padding(
                                 padding: const EdgeInsets.only(left: 16),
                                 child: Text(item.data()['instance']),
