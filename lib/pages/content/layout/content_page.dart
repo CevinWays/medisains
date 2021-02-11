@@ -60,7 +60,7 @@ class _ContentPageState extends State<ContentPage> {
                   onTap: ()async{
                     await _deleteDialog();
                   },
-                  child: Icon(Icons.delete,color: Colors.white,size: 24,)),
+                  child: Icon(Icons.delete,color: primaryColor,size: 24,)),
             ) : Container()
           ],
         ),
@@ -195,13 +195,14 @@ class _ContentPageState extends State<ContentPage> {
             ],
           )
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: widget.contentModel.uid == App().sharedPreferences.getString("uid")
+            ? FloatingActionButton(
           backgroundColor: primaryColor,
           child: Icon(Icons.edit),
           onPressed: (){
             Navigator.pushNamed(context, editContentPage,arguments: widget.contentModel);
           },
-        ),
+        ) : Container(),
       ),
     );
   }

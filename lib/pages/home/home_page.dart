@@ -1,3 +1,4 @@
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medisains/helpers/constant_color.dart';
@@ -30,26 +31,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _widgetFooterSection() {
-    return BottomNavigationBar(
-        selectedItemColor: primaryColor,
-        backgroundColor: Colors.white,
-        unselectedItemColor: Colors.grey,
-        onTap: onTabTapped,
-        currentIndex: _currentIndex,
+    return ConvexAppBar(
         items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "Explore",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: "Profile",
-          ),
-        ]
+          TabItem(icon: Icons.home_outlined, title: 'Home'),
+          TabItem(icon: Icons.search, title: 'Explore'),
+          TabItem(icon: Icons.person_outline, title: 'Profile'),
+        ],
+        color: primaryColor,
+        backgroundColor: Colors.white,
+        activeColor: primaryColor,
+        onTap: onTabTapped,
     );
   }
 
