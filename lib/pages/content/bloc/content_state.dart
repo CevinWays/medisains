@@ -48,3 +48,8 @@ class UpdateContentState extends ContentState{
   @override
   String toString() => 'UpdateContentState';
 }
+
+class DeleteContentState extends ContentState{
+  @override
+  String toString() => 'DeleteContentState';
+}
