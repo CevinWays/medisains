@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
@@ -24,6 +25,7 @@ class _FragmentMyContentPageState extends State<FragmentMyContentPage> {
     // TODO: implement initState
     _categoryBloc = CategoryBloc(InitialCategoryState());
     _contentBloc = ContentBloc(InitialContentState());
+    _contentBloc.add(ReadContentEvent());
     super.initState();
   }
 
@@ -32,9 +34,15 @@ class _FragmentMyContentPageState extends State<FragmentMyContentPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _widgetAppBarSection(),
-      body: Container(
-        padding: EdgeInsets.all(16),
-          child: _widgetMedicines()),
+      body: BlocBuilder(
+        cubit: _contentBloc,
+        builder: (context,state){
+          return state is ReadContentState && state.listContentModel.length > 0
+              ? Container(
+              padding: EdgeInsets.all(16),
+              child: _widgetMedicines()) : Container(child: Center(child: Text("Kamu belum memiliki data content"),),);
+        },
+      ),
     );
   }
 
