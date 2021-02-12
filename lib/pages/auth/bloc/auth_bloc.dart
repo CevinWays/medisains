@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/datetime_helper.dart';
 import 'package:medisains/helpers/sharedpref_helper.dart';
@@ -42,31 +43,43 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Stream<AuthState> _mapRegister(RegisterEvent event) async*{
+    yield InitialAuthState();
+    yield LoadingState();
     try{
-      yield InitialAuthState();
-      yield LoadingState();
-      _userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
-          email: event.email,
-          password: event.password
-      );
-      
-      if(_userCredential.user != null){
-        DocumentReference documentReference = firestoreUsers.doc(_userCredential.user.uid);
-        if(documentReference.id != null){
-          documentReference.set({
-            'email' : event.email,
-            'username' : event.username,
-            'uid' : _userCredential.user.uid,
-            'create_date' : dateTimeNow,
-            'update_date' : null,
-          });
-          SharedPrefHelper.saveUserInfo(_userCredential.user,email: event.email,name: event.username);
-          yield RegisterState();
+
+      List<DocumentSnapshot> listUserExist = (await firestoreUsers.where('email',isEqualTo: event.email).get()).docs;
+      List<UserModel> _listUserModel = List<UserModel>();
+
+      listUserExist.forEach((item) {
+        _listUserModel.add(UserModel.fromJson(item.data()));
+      });
+
+      if(_listUserModel.length <= 0){
+        _userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+            email: event.email,
+            password: event.password
+        );
+
+        if(_userCredential.user != null){
+          DocumentReference documentReference = firestoreUsers.doc(_userCredential.user.uid);
+          if(documentReference.id != null){
+            documentReference.set({
+              'email' : event.email,
+              'username' : event.username,
+              'uid' : _userCredential.user.uid,
+              'create_date' : dateTimeNow,
+              'update_date' : null,
+            });
+            SharedPrefHelper.saveUserInfo(_userCredential.user,email: event.email,name: event.username);
+            yield RegisterState();
+          }else{
+            yield AuthErrorState("Gagal membuat akun");
+          }
         }else{
           yield AuthErrorState("Gagal membuat akun");
         }
       }else{
-        yield AuthErrorState("Gagal membuat akun");
+        yield AuthErrorState('Akun sudah pernah di daftarkan');
       }
     }on auth.FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -75,7 +88,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         yield AuthErrorState('Akun sudah pernah di daftarkan');
       }
     }catch(e){
-      yield AuthErrorState(e.toString());
+      yield AuthErrorState("Terjadi Kesalahan");
     }
   }
 
@@ -85,34 +98,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield LoadingState();
       UserModel userModel = UserModel();
       String name;
+      
+      List<DocumentSnapshot> listUserExist = (await firestoreUsers.where('email',isEqualTo: event.email).get()).docs;
+      List<UserModel> _listUserModel = List<UserModel>();
 
-      _userCredential = await _firebaseAuth.signInWithEmailAndPassword(
-          email: event.email,
-          password: event.password
-      );
-      if(_userCredential.user != null){
+      listUserExist.forEach((item) {
+        _listUserModel.add(UserModel.fromJson(item.data()));
+      });
 
-        List<DocumentSnapshot> listUsers = (await firestoreUsers.where('uid',isEqualTo: _userCredential.user.uid).get()).docs;
-        List<UserModel> _listUserModel = List<UserModel>();
+      if(_listUserModel.length > 0){
+        _userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+            email: event.email,
+            password: event.password
+        );
+        if(_userCredential.user != null){
+          _listUserModel.forEach((item) {
+            userModel = UserModel(
+                email: item.email,
+                uid: item.uid,
+                username: item.username
+            );
+          });
 
-        listUsers.forEach((item) {
-          _listUserModel.add(UserModel.fromJson(item.data()));
-        });
+          name = userModel.username;
 
-        _listUserModel.forEach((item) {
-          userModel = UserModel(
-            email: item.email,
-            uid: item.uid,
-            username: item.username
-          );
-        });
-
-        name = userModel.username;
-
-        SharedPrefHelper.saveUserInfo(_userCredential.user,email: event.email,name: name);
-        yield LoginState();
+          SharedPrefHelper.saveUserInfo(_userCredential.user,email: event.email,name: name);
+          yield LoginState();
+        }else{
+          yield AuthErrorState("Gagal Login");
+        }
       }else{
-        yield AuthErrorState("Gagal Login");
+        yield AuthErrorState("Email belum terdaftar, silahkan registrasi terlebih dahulu");
       }
     }on auth.FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -121,7 +137,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         yield AuthErrorState('Wrong password provided for that user.');
       }
     } catch(e){
-      yield AuthErrorState(e.toString());
+      yield AuthErrorState("Terjadi Kesalahan");
     }
   }
 
@@ -133,7 +149,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       SharedPrefHelper.deleteUserInfo();
       yield LogoutState();
     }catch(e){
-      yield AuthErrorState(e.toString());
+      yield AuthErrorState("Terjadi Kesalahan");
     }
   }
 
@@ -145,7 +161,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       });
       yield ReadUserDataState(userModel: this.userModel);
     }catch(e){
-      yield AuthErrorState(e.toString());
+      yield AuthErrorState("Terjadi Kesalahan");
     }
   }
 
@@ -153,16 +169,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     yield InitialAuthState();
     yield LoadingState();
     try{
-      auth.User _user = await AuthRepository().loginWithGoogleService();
-      await firestoreUsers.doc(_user.uid).get().then((querySnapShot){
-        this.userModel = UserModel.fromJson(querySnapShot.data());
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+
+      List<DocumentSnapshot> listUserExist = (await firestoreUsers.where('email',isEqualTo: googleSignInAccount.email).get()).docs;
+      List<UserModel> _listUserModel = List<UserModel>();
+
+      listUserExist.forEach((item) {
+        _listUserModel.add(UserModel.fromJson(item.data()));
       });
 
-      if(this.userModel.uid != "null"){
+      if(_listUserModel.length > 0){
+        auth.User _user = await AuthRepository().loginWithGoogleService();
         if(_user != null){
           SharedPrefHelper.saveUserInfo(_user);
           yield LoginGoogleState();
         }else{
+          AuthRepository().signOutGoogle();
           yield AuthErrorState("Gagal Login, silahkan coba kembali");
         }
       }else{
@@ -172,7 +195,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }catch(e){
       AuthRepository().signOutGoogle();
       SharedPrefHelper.deleteUserInfo();
-      yield AuthErrorState(e.toString());
+      yield AuthErrorState("Terjadi Kesalahan");
     }
   }
 
@@ -180,27 +203,45 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     yield InitialAuthState();
     yield LoadingState();
     try{
-      auth.User _user = await AuthRepository().loginWithGoogleService();
-      if(_user != null){
-        DocumentReference documentReference = firestoreUsers.doc(_user.uid);
-        if(documentReference.id != null){
-          documentReference.set({
-            'email' : _user.email,
-            'username' : _user.displayName,
-            'uid' : _user.uid,
-            'create_date' : dateTimeNow,
-            'update_date' : null,
-          });
-          SharedPrefHelper.saveUserInfo(_user);
-          yield RegisterGoogleState();
+
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+
+      List<DocumentSnapshot> listUserExist = (await firestoreUsers.where('email',isEqualTo: googleSignInAccount.email).get()).docs;
+      List<UserModel> _listUserModel = List<UserModel>();
+
+      listUserExist.forEach((item) {
+        _listUserModel.add(UserModel.fromJson(item.data()));
+      });
+
+      if(_listUserModel.length <= 0){
+        auth.User _user = await AuthRepository().loginWithGoogleService();
+        if(_user != null){
+          DocumentReference documentReference = firestoreUsers.doc(_user.uid);
+          if(documentReference.id != null){
+            documentReference.set({
+              'email' : _user.email,
+              'username' : _user.displayName,
+              'uid' : _user.uid,
+              'create_date' : dateTimeNow,
+              'update_date' : null,
+            });
+            SharedPrefHelper.saveUserInfo(_user);
+            yield RegisterGoogleState();
+          }else{
+            AuthRepository().signOutGoogle();
+            yield AuthErrorState("Gagal membuat akun");
+          }
         }else{
-          yield AuthErrorState("Gagal membuat akun");
+          AuthRepository().signOutGoogle();
+          yield AuthErrorState("Gagal Login, silahkan coba kembali");
         }
       }else{
-        yield AuthErrorState("Gagal Login, silahkan coba kembali");
+        AuthRepository().signOutGoogle();
+        yield AuthErrorState('Akun sudah pernah di daftarkan');
       }
     }catch(e){
-      yield AuthErrorState(e.toString());
+      yield AuthErrorState("Terjadi Kesalahan");
     }
   }
 
@@ -219,7 +260,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         yield AuthErrorState("Masukkan email yang valid");
       }
     }catch(e){
-      yield AuthErrorState(e.toString());
+      yield AuthErrorState("Terjadi Kesalahan");
     }
   }
 
