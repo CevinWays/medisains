@@ -43,4 +43,30 @@ class DateTimeHelper {
         [dd, '/', mm, '/', yyyy]);
     return format;
   }
+
+  static String dateTimeMoreShort(String date) {
+    String format = formatDate(
+        DateTime(
+            int.parse(date.toString().split(" ").first.split("-")[0]),
+            int.parse(date.toString().split(" ").first.split("-")[1]),
+            int.parse(date.toString().split(" ").first.split("-")[2]),
+            int.parse(date.toString().split(" ").last.split(":")[0]),
+            int.parse(date.toString().split(" ").last.split(":")[1]),
+            int.parse(date.toString().split(" ").last.split(":")[2])),
+        [d, '/', m, '/', yy]);
+    return format;
+  }
+
+  static String dateFormatsSeparator(String date){
+    String _format =  formatDate(
+        DateTime(
+            int.parse(date.toString().split(" ").first.split("-")[0]),
+            int.parse(date.toString().split(" ").first.split("-")[1]),
+            int.parse(date.toString().split(" ").first.split("-")[2]),
+            int.parse(date.toString().split(" ").last.split(":")[0]),
+            int.parse(date.toString().split(" ").last.split(":")[1]),
+            int.parse(date.toString().split(" ").last.split(":")[2])),
+        [dd, ' ', M, ' ', yyyy]);
+    return _format;
+  }
 }

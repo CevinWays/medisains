@@ -148,7 +148,7 @@ class _SearchContentPageState extends State<SearchContentPage> {
                                 itemCount: 1,
                                 itemPadding: EdgeInsets.only(right: 4),
                                 itemBuilder: (context, _) => Icon(
-                                  Icons.star,
+                                  Icons.star_rounded,
                                   color: primaryColor,
                                 ),
                                 updateOnDrag: false,

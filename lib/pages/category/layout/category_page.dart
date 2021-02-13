@@ -82,7 +82,9 @@ class _CategoryPageState extends State<CategoryPage> {
                   children: <Widget>[
                     Row(
                       children: [
-                        Text(contentModel.title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: textDark)),
+                        Container(
+                          width: 270,
+                            child: Text(contentModel.title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: textDark),overflow: TextOverflow.ellipsis,)),
                         Row(
                           children: [
                             Padding(
@@ -98,7 +100,7 @@ class _CategoryPageState extends State<CategoryPage> {
                               itemCount: 1,
                               itemPadding: EdgeInsets.only(right: 4),
                               itemBuilder: (context, _) => Icon(
-                                Icons.star,
+                                Icons.star_rounded,
                                 color: primaryColor,
                               ),
                               updateOnDrag: false,

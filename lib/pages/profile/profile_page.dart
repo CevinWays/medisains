@@ -62,44 +62,44 @@ class _ProfilePageState extends State<ProfilePage> {
       child: ListView(
         children: <Widget>[
           ListTile(
-            title: Text("ID"),
-            trailing: Text(App().sharedPreferences.getString("uid") != null
-                ? App().sharedPreferences.getString("uid")
-                : "uid"
-            ),
-          ),
-          ListTile(
+            leading: Icon(Icons.person_outline,color: blueColor),
             title: Text("Username"),
             trailing: Text(App().sharedPreferences.getString("displayName") != null
                 ? App().sharedPreferences.getString("displayName")
-                : "Username"
+                : "Username",style: TextStyle(fontWeight: FontWeight.bold)
             ) ,
           ),
           ListTile(
+            leading: Icon(Icons.email_outlined,color: Colors.deepPurpleAccent,),
             title: Text("Email"),
             trailing: Text(App().sharedPreferences.getString("email") != null
                 ? App().sharedPreferences.getString("email")
-                : "Email"
+                : "Email",style: TextStyle(fontWeight: FontWeight.bold)
             ),
           ),ListTile(
-            title: Text("Edukasi"),
-            trailing: Text(state is ReadUserDataState && state.userModel.education != null ? state.userModel.education : "Belum ada data"
+            leading: Icon(Icons.school_outlined,color: primaryColor),
+            title: Text("Pendidikan"),
+            trailing: Text(state is ReadUserDataState && state.userModel.education != null ? state.userModel.education : "Belum ada data",style: TextStyle(fontWeight: FontWeight.bold)
             ),
           ),ListTile(
+            leading: Icon(Icons.toggle_off, color: Colors.greenAccent),
             title: Text("Gender"),
-            trailing: Text(state is ReadUserDataState && state.userModel.gender != null ? state.userModel.gender : "Belum ada data"
+            trailing: Text(state is ReadUserDataState && state.userModel.gender != null ? state.userModel.gender : "Belum ada data",style: TextStyle(fontWeight: FontWeight.bold)
             ),
           ),ListTile(
+            leading: Icon(Icons.work_outline_rounded,color: Colors.amberAccent),
             title: Text("Instansi"),
-            trailing: Text(state is ReadUserDataState && state.userModel.instansi != null ? state.userModel.instansi : "Belum ada data"
+            trailing: Text(state is ReadUserDataState && state.userModel.instansi != null ? state.userModel.instansi : "Belum ada data",style: TextStyle(fontWeight: FontWeight.bold)
             ),
           ),ListTile(
+            leading: Icon(Icons.location_on_outlined, color: Colors.deepOrangeAccent),
             title: Text("Location"),
-            trailing: Text(state is ReadUserDataState && state.userModel.location != null ? state.userModel.location : "Belum ada data"
+            trailing: Text(state is ReadUserDataState && state.userModel.location != null ? state.userModel.location : "Belum ada data",style: TextStyle(fontWeight: FontWeight.bold)
             ),
           ),ListTile(
+            leading: Icon(Icons.phone_iphone_outlined, color: Colors.black),
             title: Text("No Hp"),
-            trailing: Text(state is ReadUserDataState && state.userModel.noHp != null ? state.userModel.noHp : "Belum ada data"
+            trailing: Text(state is ReadUserDataState && state.userModel.noHp != null ? state.userModel.noHp : "Belum ada data",style: TextStyle(fontWeight: FontWeight.bold),
             ),
           )
         ],

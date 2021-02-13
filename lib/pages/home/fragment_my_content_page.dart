@@ -125,7 +125,9 @@ class _FragmentMyContentPageState extends State<FragmentMyContentPage> {
                     children: <Widget>[
                       Row(
                         children: [
-                          Text(item.data()['title'],style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: textDark)),
+                          Container(
+                              width: 270,
+                              child: Text(item.data()['title'],style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: textDark),overflow: TextOverflow.ellipsis,)),
                           Row(
                             children: [
                               Padding(
@@ -141,7 +143,7 @@ class _FragmentMyContentPageState extends State<FragmentMyContentPage> {
                                 itemCount: 1,
                                 itemPadding: EdgeInsets.only(right: 4),
                                 itemBuilder: (context, _) => Icon(
-                                  Icons.star,
+                                  Icons.star_rounded,
                                   color: primaryColor,
                                 ),
                                 updateOnDrag: false,
