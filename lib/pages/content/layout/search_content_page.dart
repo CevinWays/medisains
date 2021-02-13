@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
 import 'package:medisains/helpers/datetime_helper.dart';
@@ -150,9 +151,8 @@ class _SearchContentPageState extends State<SearchContentPage> {
                                   Icons.star,
                                   color: primaryColor,
                                 ),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
+                                updateOnDrag: false,
+                                onRatingUpdate: null,
                               ),
                             ],
                           ),
@@ -201,7 +201,18 @@ class _SearchContentPageState extends State<SearchContentPage> {
                 ),
               );
             },
-          ) : Container(child: Center(child: Text('Belum ada hasil pencarian'),));
+          ) : Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset("assets/images/img_search.svg",height: 150,width: 150,),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text("Tidak ada hasil pencarian",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),),
+                ),
+              ],
+            ),);
         }
     );
   }

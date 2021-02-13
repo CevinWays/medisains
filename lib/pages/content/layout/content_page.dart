@@ -127,9 +127,8 @@ class _ContentPageState extends State<ContentPage> {
                   Icons.star,
                   color: primaryColor,
                 ),
-                onRatingUpdate: (rating) {
-                  print(rating);
-                },
+                updateOnDrag: false,
+                onRatingUpdate: null,
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -170,7 +169,8 @@ class _ContentPageState extends State<ContentPage> {
                 margin: EdgeInsets.symmetric(vertical: 8),
                 child: Text("Asset Dokumen", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold),),
               ),
-              Container(
+              widget.contentModel.imageUrl != null
+                  && widget.contentModel.imageUrl != "" ? Container(
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(bottom: 16,top: 8),
                 child: Card(
@@ -187,7 +187,7 @@ class _ContentPageState extends State<ContentPage> {
                         child: Icon(Icons.open_in_new_outlined)),
                   ),
                 ),
-              ),
+              ) : Container(child: Text("Tidak ada asset dokumen"),),
             ],
           )
         ),

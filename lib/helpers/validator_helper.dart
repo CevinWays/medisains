@@ -35,4 +35,15 @@ class ValidatorHelper{
     else
       return null;
   }
+
+  static String validatorPhoneNum({String value,String label}){
+    if(value.isEmpty)
+      return '$label tidak boleh kosong';
+    else if (value.length < 10)
+      return '$label harus lebih dari 10 digit';
+    else if (value.length > 13)
+      return '$label tidak boleh lebih dari 12 digit';
+    else
+      return null;
+  }
 }

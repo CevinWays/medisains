@@ -149,9 +149,8 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                                 Icons.star,
                                 color: primaryColor,
                               ),
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
+                              updateOnDrag: false,
+                              onRatingUpdate: null,
                             ),
                           ],
                         ),
@@ -283,7 +282,6 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
           InkWell(
             onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
                 category: "Kesehatan",
-                uid: App().sharedPreferences.getString("uid")
             )),
             child: Container(
               padding: EdgeInsets.all(16),

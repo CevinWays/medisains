@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
@@ -40,7 +41,20 @@ class _FragmentMyContentPageState extends State<FragmentMyContentPage> {
           return state is ReadContentState && state.listContentModel.length > 0
               ? Container(
               padding: EdgeInsets.all(16),
-              child: _widgetMedicines()) : Container(child: Center(child: Text("Kamu belum memiliki data content"),),);
+              child: _widgetMedicines())
+              : Container(child:
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset("assets/images/img_content.svg",height: 150,width: 150,),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text("Kamu belum menambahkan content",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),),
+                ),
+              ],
+            ),),);
         },
       ),
     );
@@ -130,9 +144,8 @@ class _FragmentMyContentPageState extends State<FragmentMyContentPage> {
                                   Icons.star,
                                   color: primaryColor,
                                 ),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
+                                updateOnDrag: false,
+                                onRatingUpdate: null,
                               ),
                             ],
                           ),

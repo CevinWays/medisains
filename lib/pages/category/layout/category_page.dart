@@ -101,9 +101,8 @@ class _CategoryPageState extends State<CategoryPage> {
                                 Icons.star,
                                 color: primaryColor,
                               ),
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
+                              updateOnDrag: false,
+                              onRatingUpdate: null,
                             ),
                           ],
                         ),
@@ -152,7 +151,21 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
             );
           },
-        ) : Center(child: SvgPicture.asset("assets/images/img_empty.svg",height: 200,width: 200,),);
+        ) : Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset("assets/images/img_empty.svg",height: 150,width: 150,),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  widget.contentModel.uid != null
+                      ? "Kamu belum menambahkan content \n dengan kategori "+widget.contentModel.category
+                      : "Tidak ada content di kategori "+widget.contentModel.category,textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),),
+              ),
+            ],
+          ),);
       },
     );
   }

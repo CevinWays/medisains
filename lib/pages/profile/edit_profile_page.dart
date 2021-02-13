@@ -128,9 +128,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 controller: _educationController,
                                 keyboardType: TextInputType.text,
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                                validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Judul",value: value),
+                                validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Pendidikan Terakhir",value: value),
                                 decoration: InputDecoration(
-                                  hintText: "Edukasi",
+                                  hintText: "Pendidikan Terakhir",
                                   enabledBorder: InputBorder.none,
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
@@ -147,7 +147,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 controller: _instansiController,
                                 keyboardType: TextInputType.text,
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                                validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Judul",value: value),
+                                validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Instansi",value: value),
                                 decoration: InputDecoration(
                                   hintText: "Instansi",
                                   enabledBorder: InputBorder.none,
@@ -195,7 +195,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 controller: _noHpController,
                                 keyboardType: TextInputType.phone,
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                                validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Judul",value: value),
+                                validator: (String value)=>ValidatorHelper.validatorPhoneNum(label: "No Hp",value: value),
                                 decoration: InputDecoration(
                                   hintText: "No Hp",
                                   enabledBorder: InputBorder.none,

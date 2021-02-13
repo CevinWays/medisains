@@ -252,9 +252,8 @@ class FragmentHomePage extends StatelessWidget {
                                       Icons.star,
                                       color: primaryColor,
                                     ),
-                                    onRatingUpdate: (rating) {
-                                      print(rating);
-                                    },
+                                    updateOnDrag: false,
+                                    onRatingUpdate: null,
                                   ),
                                 ],
                               ),
@@ -377,9 +376,8 @@ class FragmentHomePage extends StatelessWidget {
                                       Icons.star,
                                       color: primaryColor,
                                     ),
-                                    onRatingUpdate: (rating) {
-                                      print(rating);
-                                    },
+                                    updateOnDrag: false,
+                                    onRatingUpdate: null,
                                   ),
                                 ],
                               ),
