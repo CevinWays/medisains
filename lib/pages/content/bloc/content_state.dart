@@ -53,3 +53,12 @@ class DeleteContentState extends ContentState{
   @override
   String toString() => 'DeleteContentState';
 }
+
+class RecommendationInDetailState extends ContentState{
+  final List<ContentModel> listRecommContentDetail;
+
+  RecommendationInDetailState({this.listRecommContentDetail});
+
+  @override
+  String toString() => 'RecommendationInDetailState';
+}

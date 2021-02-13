@@ -36,6 +36,9 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     else if(event is DeleteContentEvent){
       yield* _mapDeleteContent(event);
     }
+    else if(event is RecommendationInDetailEvent){
+      yield* _mapRecommendInDetail(event);
+    }
   }
 
   Stream<ContentState> _mapReadContent(ReadContentEvent event) async*{
@@ -206,6 +209,26 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       yield DeleteContentState();
     }catch(e){
       yield ContentErrorState("Gagal delete data, coba lagi");
+    }
+  }
+
+  Stream<ContentState> _mapRecommendInDetail(RecommendationInDetailEvent event) async*{
+    try{
+      yield InitialContentState();
+      yield LoadingState();
+
+      List<DocumentSnapshot> listContent;
+      List<ContentModel> listContentModel = List<ContentModel>();
+
+      listContent = (await fireStoreUsers.limit(5).where('category',isEqualTo: event.contentModel.category).get()).docs;
+
+      listContent.forEach((item) {
+        listContentModel.add(ContentModel.fromJson(item.data()));
+      });
+
+      yield RecommendationInDetailState(listRecommContentDetail: listContentModel);
+    }catch(e){
+      yield ContentErrorState("Gagal mendapatkan data");
     }
   }
 }

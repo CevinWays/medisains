@@ -62,3 +62,12 @@ class DeleteContentEvent extends ContentEvent{
   String toString() => 'DeleteContentEvent';
 }
 
+class RecommendationInDetailEvent extends ContentEvent{
+  final ContentModel contentModel;
+
+  RecommendationInDetailEvent({this.contentModel});
+
+  @override
+  String toString() => 'RecommendationInDetailEvent';
+}
+
