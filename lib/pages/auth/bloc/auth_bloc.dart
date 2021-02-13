@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medisains/app.dart';
+import 'package:medisains/helpers/crashlytics_helper.dart';
 import 'package:medisains/helpers/datetime_helper.dart';
 import 'package:medisains/helpers/sharedpref_helper.dart';
 import 'package:medisains/helpers/validator_helper.dart';
@@ -87,8 +88,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else if (e.code == 'email-already-in-use') {
         yield AuthErrorState('Akun sudah pernah di daftarkan');
       }
-    }catch(e){
+    }catch(e,stackTrace){
       yield AuthErrorState("Terjadi Kesalahan");
+      await CrashlyticsHelper.crash(e, stackTrace, "auth register");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
     }
   }
 
@@ -136,8 +139,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } else if (e.code == 'wrong-password') {
         yield AuthErrorState('Wrong password provided for that user.');
       }
-    } catch(e){
+    } catch(e,stackTrace){
       yield AuthErrorState("Terjadi Kesalahan");
+      await CrashlyticsHelper.crash(e, stackTrace, "auth login");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
     }
   }
 
@@ -149,8 +154,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AuthRepository().signOutGoogle();
       SharedPrefHelper.deleteUserInfo();
       yield LogoutState();
-    }catch(e){
+    }catch(e,stackTrace){
       yield AuthErrorState("Terjadi Kesalahan");
+      await CrashlyticsHelper.crash(e, stackTrace, "auth logout");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
     }
   }
 
@@ -161,8 +168,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         this.userModel = UserModel.fromJson(querySnapshot.data());
       });
       yield ReadUserDataState(userModel: this.userModel);
-    }catch(e){
+    }catch(e,stackTrace){
       yield AuthErrorState("Terjadi Kesalahan");
+      await CrashlyticsHelper.crash(e, stackTrace, "read user data");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
     }
   }
 
@@ -193,10 +202,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         AuthRepository().signOutGoogle();
         yield AuthErrorState("Akun tidak ditemukan, daftar terlebih dahulu");
       }
-    }catch(e){
+    }catch(e,stackTrace){
       AuthRepository().signOutGoogle();
       SharedPrefHelper.deleteUserInfo();
       yield AuthErrorState("Terjadi Kesalahan");
+      await CrashlyticsHelper.crash(e, stackTrace, "auth login google");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
     }
   }
 
@@ -241,8 +252,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         AuthRepository().signOutGoogle();
         yield AuthErrorState('Akun sudah pernah di daftarkan');
       }
-    }catch(e){
+    }catch(e,stackTrace){
       yield AuthErrorState("Terjadi Kesalahan");
+      await CrashlyticsHelper.crash(e, stackTrace, "auth register google");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
     }
   }
 
@@ -260,8 +273,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }else{
         yield AuthErrorState("Masukkan email yang valid");
       }
-    }catch(e){
+    }catch(e,stackTrace){
       yield AuthErrorState("Terjadi Kesalahan");
+      await CrashlyticsHelper.crash(e, stackTrace, "reset password");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
     }
   }
 
@@ -280,8 +295,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }));
 
       yield UpdateProfileState();
-    }catch(e){
+    }catch(e,stackTrace){
       yield AuthErrorState("Gagal perbaharui data profile");
+      await CrashlyticsHelper.crash(e, stackTrace, "update profile");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
     }
   }
 }

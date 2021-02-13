@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,5 +20,13 @@ class App {
 
   Future<Null> init() async {
     sharedPreferences = await SharedPreferences.getInstance();
+
+    // Pass all uncaught errors to Crashlytics.
+    Function originalOnError = FlutterError.onError;
+    FlutterError.onError = (FlutterErrorDetails errorDetails) async {
+      await FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+      // Forward to original handler.
+      originalOnError(errorDetails);
+    };
   }
 }

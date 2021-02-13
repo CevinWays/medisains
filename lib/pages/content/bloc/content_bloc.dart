@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/app.dart';
+import 'package:medisains/helpers/crashlytics_helper.dart';
 import 'package:medisains/helpers/datetime_helper.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -68,8 +69,10 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
         });
       }
       yield ReadContentState(listContentModel: listContentModel);
-    }catch(e){
+    }catch(e,stackTrace){
       yield ContentErrorState(e.toString());
+      await CrashlyticsHelper.crash(e, stackTrace, "read content");
+      await CrashlyticsHelper.setUserIdentifier(event.uid);
     }
   }
 
@@ -118,8 +121,10 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       }else{
         yield ContentErrorState("Gagal membuat data");
       }
-    }catch(e){
+    }catch(e,stackTrace){
       yield ContentErrorState(e.toString());
+      await CrashlyticsHelper.crash(e, stackTrace, "create content");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
     }
   }
 
@@ -140,8 +145,10 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       listSearchContentModelTemp = listSearchContentModel.where((i) => i.title.contains(event.searchText)).toList();
 
       yield SearchContentState(listContentSearchResult: listSearchContentModelTemp);
-    }catch(e){
+    }catch(e,stackTrace){
       yield ContentErrorState(e.toString());
+      await CrashlyticsHelper.crash(e, stackTrace, "search content");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
     }
   }
 
@@ -194,8 +201,10 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       });
 
       yield UpdateContentState();
-    }catch(e){
+    }catch(e,stackTrace){
       yield ContentErrorState("Gagal update data, coba lagi");
+      await CrashlyticsHelper.crash(e, stackTrace, "update content");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
     }
   }
 
@@ -207,8 +216,10 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       await fireStoreUsers.doc(event.contentModel.idCont).delete();
 
       yield DeleteContentState();
-    }catch(e){
+    }catch(e,stackTrace){
       yield ContentErrorState("Gagal delete data, coba lagi");
+      await CrashlyticsHelper.crash(e, stackTrace, "delete content");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
     }
   }
 
@@ -227,8 +238,10 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       });
 
       yield RecommendationInDetailState(listRecommContentDetail: listContentModel);
-    }catch(e){
+    }catch(e,stackTrace){
       yield ContentErrorState("Gagal mendapatkan data");
+      await CrashlyticsHelper.crash(e, stackTrace, "recommend detail content");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
     }
   }
 }
