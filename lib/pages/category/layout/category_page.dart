@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
@@ -151,7 +152,7 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
             );
           },
-        ) : Center(child: CircularProgressIndicator(),);
+        ) : Center(child: SvgPicture.asset("assets/images/img_empty.svg",height: 200,width: 200,),);
       },
     );
   }

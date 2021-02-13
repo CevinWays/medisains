@@ -302,7 +302,6 @@ class FragmentHomePage extends StatelessWidget {
                       ),
                     ),
                   ) : Container();
-                      // : Image.asset("assets/images/img_no_cat.png");
                 }
                 ).toList()
             ),
@@ -428,7 +427,6 @@ class FragmentHomePage extends StatelessWidget {
                       ),
                     ),
                   ) : Container();
-                  // : Image.asset("assets/images/img_no_cat.png");
                 }
                 ).toList()
             ),
