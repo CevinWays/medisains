@@ -53,8 +53,8 @@ class _SearchContentPageState extends State<SearchContentPage> {
                     textCapitalization: TextCapitalization.sentences,
                     autofocus: true,
                     controller: _searcText,
-                    onEditingComplete: (){
-                      _contentBloc.add(SearchContentEvent(searchText: _searcText.text));
+                    onChanged: (value){
+                      _contentBloc.add(SearchContentEvent(searchText: value));
                     },
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(left: 14.0),

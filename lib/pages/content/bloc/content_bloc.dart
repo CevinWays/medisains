@@ -126,14 +126,17 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
 
       List<DocumentSnapshot> listMySearchContent = List<DocumentSnapshot>();
       List<ContentModel> listSearchContentModel = List<ContentModel>();
+      List<ContentModel> listSearchContentModelTemp = List<ContentModel>();
 
-      listMySearchContent = (await fireStoreUsers.where('title',isEqualTo: event.searchText).get()).docs;
+      listMySearchContent = (await fireStoreUsers.get()).docs;
 
       listMySearchContent.forEach((item) {
         listSearchContentModel.add(ContentModel.fromJson(item.data()));
       });
 
-      yield SearchContentState(listContentSearchResult: listSearchContentModel);
+      listSearchContentModelTemp = listSearchContentModel.where((i) => i.title.contains(event.searchText)).toList();
+
+      yield SearchContentState(listContentSearchResult: listSearchContentModelTemp);
     }catch(e){
       yield ContentErrorState(e.toString());
     }
