@@ -143,6 +143,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> _mapLogout() async*{
     yield InitialAuthState();
+    yield LoadingState();
     try{
       _firebaseAuth.signOut();
       AuthRepository().signOutGoogle();

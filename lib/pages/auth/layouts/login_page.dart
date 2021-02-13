@@ -187,10 +187,6 @@ class _LoginPageState extends State<LoginPage> {
       _authBloc.add(LoginEvent(email: _emailController.text,password: _passwordController.text));
   }
 
-  _navigateToRegister() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
-  }
-
   Future<bool> _onWillPop() {
     return SystemChannels.platform.invokeMethod('SystemNavigator.pop') ?? false;
   }

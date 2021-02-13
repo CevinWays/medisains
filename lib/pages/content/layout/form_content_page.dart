@@ -35,6 +35,22 @@ class _FormContentPageState extends State<FormContentPage> {
     super.initState();
   }
 
+  Future<void> retrieveLostData() async {
+    final LostData response = await picker.getLostData();
+    if (response == null) {
+      return;
+    }
+    if (response.file != null) {
+      setState(() {
+        if (response.type == RetrieveType.image) {
+          _image = File(response.file.path);
+        }
+      });
+    } else {
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener(
@@ -58,135 +74,140 @@ class _FormContentPageState extends State<FormContentPage> {
             onPressed: () => Navigator.pop(context),
             icon: Icon(Icons.arrow_back,color: Colors.black,),),
         ),
-        body: BlocBuilder(
-          cubit: _contentBloc,
-          builder: (context,state){
-            return state is LoadingState ? Center(child: CircularProgressIndicator()) : Form(
-              key: _formKey,
-              child: Container(
-                padding: EdgeInsets.all(16),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Card(
-                              elevation: 2.0,
-                              child: Container(
-                                padding: EdgeInsets.only(right:8,left: 8 ),
-                                child: TextFormField(
-                                  controller: _titleController,
-                                  keyboardType: TextInputType.text,
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                                  validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Judul",value: value),
-                                  decoration: InputDecoration(
-                                    hintText: "Judul",
-                                    enabledBorder: InputBorder.none,
-                                    border: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+        body: FutureBuilder<void>(
+          future: retrieveLostData(),
+          builder: (BuildContext context, snapshot){
+            return BlocBuilder(
+              cubit: _contentBloc,
+              builder: (context,state){
+                return state is LoadingState ? Center(child: CircularProgressIndicator()) : Form(
+                  key: _formKey,
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(top: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Card(
+                                  elevation: 2.0,
+                                  child: Container(
+                                    padding: EdgeInsets.only(right:8,left: 8 ),
+                                    child: TextFormField(
+                                      controller: _titleController,
+                                      keyboardType: TextInputType.text,
+                                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                                      validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Judul",value: value),
+                                      decoration: InputDecoration(
+                                        hintText: "Judul",
+                                        enabledBorder: InputBorder.none,
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Card(
-                              elevation: 2.0,
-                              child: Container(
-                                padding: EdgeInsets.only(left: 8,right: 8),
-                                width: MediaQuery.of(context).size.width,
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    hint: Text("Pilih Kategori"),
-                                    value: dropdownValue,
-                                    icon: Icon(Icons.arrow_drop_down),
-                                    iconSize: 24,
-                                    elevation: 16,
-                                    style: TextStyle(color: Colors.black),
-                                    onChanged: (String newValue) {
-                                      setState(() {
-                                        dropdownValue = newValue;
-                                      });
-                                    },
-                                    items: <String>['Lainnya', 'Penyakit', 'Obat', 'Kesehatan']
-                                        .map<DropdownMenuItem<String>>((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
+                                Card(
+                                  elevation: 2.0,
+                                  child: Container(
+                                    padding: EdgeInsets.only(left: 8,right: 8),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButton<String>(
+                                        hint: Text("Pilih Kategori"),
+                                        value: dropdownValue,
+                                        icon: Icon(Icons.arrow_drop_down),
+                                        iconSize: 24,
+                                        elevation: 16,
+                                        style: TextStyle(color: Colors.black),
+                                        onChanged: (String newValue) {
+                                          setState(() {
+                                            dropdownValue = newValue;
+                                          });
+                                        },
+                                        items: <String>['Lainnya', 'Penyakit', 'Obat', 'Kesehatan']
+                                            .map<DropdownMenuItem<String>>((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Card(
-                              elevation: 2.0,
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                child: TextFormField(
-                                  controller: _descController,
-                                  keyboardType: TextInputType.text,
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                                  maxLines: 3,
-                                  validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Deskripsi",value: value),
-                                  decoration: InputDecoration(
-                                    enabledBorder: InputBorder.none,
-                                    border: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    hintText: "Deskripsi Singkat",
-                                    labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                                Card(
+                                  elevation: 2.0,
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: TextFormField(
+                                      controller: _descController,
+                                      keyboardType: TextInputType.text,
+                                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                                      maxLines: 3,
+                                      validator: (String value)=>ValidatorHelper.validatorEmpty(label: "Deskripsi",value: value),
+                                      decoration: InputDecoration(
+                                        enabledBorder: InputBorder.none,
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        hintText: "Deskripsi Singkat",
+                                        labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.only(top: 16),
-                              child: Card(
-                                child: ListTile(
-                                  leading: Container(
-                                    child: _image == null
-                                        ? Icon(Icons.image_outlined,size: 25,color: primaryColor)
-                                        : Container(child: Image.file(_image,width: 25,height: 25,),)
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(top: 16),
+                                  child: Card(
+                                    child: ListTile(
+                                      leading: Container(
+                                          child: _image == null
+                                              ? Icon(Icons.image_outlined,size: 25,color: primaryColor)
+                                              : Container(child: Image.file(_image,width: 25,height: 25,),)
+                                      ),
+                                      title: Text(_image == null ? 'Pilih Gambar' : _image.path.split('/').last.toString(),
+                                        overflow: TextOverflow.ellipsis,),
+                                      trailing: InkWell(
+                                          onTap: () async {
+                                            await getImage();
+                                          },
+                                          child:  _image == null ? Icon(Icons.attach_file_outlined) : Icon(Icons.check_circle, color: blueColor,)),
+                                    ),
                                   ),
-                                  title: Text(_image == null ? 'Pilih Gambar' : _image.path.split('/').last.toString(),
-                                    overflow: TextOverflow.ellipsis,),
-                                  trailing: InkWell(
-                                    onTap: () async {
-                                        await getImage();
-                                      },
-                                      child:  _image == null ? Icon(Icons.attach_file_outlined) : Icon(Icons.check_circle, color: blueColor,)),
                                 ),
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.only(bottom: 16,top: 8),
-                              child: Card(
-                                child: ListTile(
-                                  leading: Container(
-                                    child: Icon(Icons.description_outlined,size: 25,color: primaryColor),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(bottom: 16,top: 8),
+                                  child: Card(
+                                    child: ListTile(
+                                      leading: Container(
+                                        child: Icon(Icons.description_outlined,size: 25,color: primaryColor),
+                                      ),
+                                      title: Text(_doc == null ? 'Pilih Dokumen' : _doc.path.split('/').last.toString(),
+                                        overflow: TextOverflow.ellipsis,),
+                                      trailing: InkWell(
+                                          onTap: () async {
+                                            await getDocument();
+                                          },
+                                          child: _doc == null ? Icon(Icons.attach_file_outlined) : Icon(Icons.check_circle, color: blueColor,)),
+                                    ),
                                   ),
-                                  title: Text(_doc == null ? 'Pilih Dokumen' : _doc.path.split('/').last.toString(),
-                                  overflow: TextOverflow.ellipsis,),
-                                  trailing: InkWell(
-                                    onTap: () async {
-                                      await getDocument();
-                                    },
-                                      child: _doc == null ? Icon(Icons.attach_file_outlined) : Icon(Icons.check_circle, color: blueColor,)),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ) ;
+                ) ;
+              },
+            );
           },
         ),
         bottomSheet: BlocBuilder(

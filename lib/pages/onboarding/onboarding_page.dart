@@ -35,11 +35,11 @@ class OnBoardingPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset("assets/images/splash_image_1.png"),
+            SvgPicture.asset("assets/images/img_doctors.svg",height: 200,width: 200,),
             Container(
               margin: EdgeInsets.only(top: 32),
               child: Text(
-                "Bersama medisains menjadi lebih mudah \n segera tulis penelitian mu",
+                "Bersama medisains menjadi lebih mudah \n segera buat content penelitian mu",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
@@ -52,7 +52,7 @@ class OnBoardingPage extends StatelessWidget {
 
   Widget _widgetFooterSection(BuildContext context){
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.only(top: 8,bottom: 16,left: 8,right: 8),
       child: FlatButton(
         onPressed: (){
           _navigateToOnBoardingSecond(context);
