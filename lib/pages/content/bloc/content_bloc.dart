@@ -40,6 +40,9 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     else if(event is RecommendationInDetailEvent){
       yield* _mapRecommendInDetail(event);
     }
+    else if(event is CommonDataEvent){
+      yield* _mapCommonData();
+    }
   }
 
   Stream<ContentState> _mapReadContent(ReadContentEvent event) async*{
@@ -238,6 +241,35 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       });
 
       yield RecommendationInDetailState(listRecommContentDetail: listContentModel);
+    }catch(e,stackTrace){
+      yield ContentErrorState("Gagal mendapatkan data");
+      await CrashlyticsHelper.crash(e, stackTrace, "recommend detail content");
+      await CrashlyticsHelper.setUserIdentifier(App().sharedPreferences.getString("uid"));
+    }
+  }
+
+  Stream<ContentState> _mapCommonData() async*{
+    try{
+      yield InitialContentState();
+      yield LoadingState();
+
+      List<DocumentSnapshot> listCommon;
+      List<ContentModel> listCommonModel = List<ContentModel>();
+      List<DocumentSnapshot> listUnusual;
+      List<ContentModel> listUnusualModel = List<ContentModel>();
+
+      listCommon = (await fireStoreUsers.where('isCommon',isEqualTo: true).get()).docs;
+      listUnusual = (await fireStoreUsers.where('isUnusual',isEqualTo: true).get()).docs;
+
+      listCommon.forEach((item) {
+        listCommonModel.add(ContentModel.fromJson(item.data()));
+      });
+
+      listUnusual.forEach((item) {
+        listUnusualModel.add(ContentModel.fromJson(item.data()));
+      });
+
+      yield CommonDataState(listCommon: listCommonModel,listUnusual: listUnusualModel);
     }catch(e,stackTrace){
       yield ContentErrorState("Gagal mendapatkan data");
       await CrashlyticsHelper.crash(e, stackTrace, "recommend detail content");

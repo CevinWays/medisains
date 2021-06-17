@@ -62,3 +62,12 @@ class RecommendationInDetailState extends ContentState{
   @override
   String toString() => 'RecommendationInDetailState';
 }
+
+class CommonDataState extends ContentState{
+  final List<ContentModel> listCommon;
+  final List<ContentModel> listUnusual;
+
+  CommonDataState({this.listCommon,this.listUnusual});
+  @override
+  String toString() => 'CommonDataState';
+}

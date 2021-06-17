@@ -71,3 +71,8 @@ class RecommendationInDetailEvent extends ContentEvent{
   String toString() => 'RecommendationInDetailEvent';
 }
 
+class CommonDataEvent extends ContentEvent{
+  @override
+  String toString() => 'CommonDataEvent';
+}
+

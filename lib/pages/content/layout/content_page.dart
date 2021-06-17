@@ -10,6 +10,7 @@ import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
 import 'package:medisains/helpers/datetime_helper.dart';
+import 'package:medisains/helpers/validator_helper.dart';
 import 'package:medisains/pages/content/bloc/bloc.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
 import 'package:share/share.dart';
@@ -25,11 +26,14 @@ class ContentPage extends StatefulWidget {
 
 class _ContentPageState extends State<ContentPage> {
   ContentBloc _contentBloc;
+  TextEditingController _commentController = TextEditingController();
+  double initRating;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    initRating = 1;
     _contentBloc = ContentBloc(InitialContentState());
     _contentBloc.add(RecommendationInDetailEvent(contentModel: widget.contentModel));
   }
@@ -301,6 +305,72 @@ class _ContentPageState extends State<ContentPage> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.only(top: 16,bottom: 8),
+                  child: Text("Beri Penilaian", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 8),
+                  child: RatingBar.builder(
+                    itemSize: 22,
+                    initialRating: initRating,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemPadding: EdgeInsets.only(right: 4),
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star_rounded,
+                      color: primaryColor,
+                    ),
+                    onRatingUpdate: (rating) {
+                      print(rating);
+                    },
+                  ),
+                ),
+                Container(
+                  child: Card(
+                    elevation: 2.0,
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      child: TextFormField(
+                        controller: _commentController,
+                        keyboardType: TextInputType.text,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        maxLines: 3,
+                        decoration: InputDecoration(
+                          enabledBorder: InputBorder.none,
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          hintText: "Komentar anda",
+                          labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.symmetric(horizontal: 3),
+                  child: FlatButton(
+                    padding: EdgeInsets.all(8),
+                    onPressed: () {
+                      setState(() {
+                        initRating = 1;
+                        _commentController.text = "";
+                      });
+                      Fluttertoast.showToast(msg: 'Terimakasih sudah memberikan penilaian');
+                    },
+                    color: primaryColor,
+                    child: Text(
+                      "Beri Komentar",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4), side: BorderSide(color: primaryColor)),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 32,bottom: 8),
                   child: Text("Rekomendasi Lainnya", textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
                 ),
                 Container(
