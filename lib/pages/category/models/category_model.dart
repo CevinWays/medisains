@@ -11,7 +11,7 @@ class CategoryModel {
     this.desc = obj["desc"];
   }
 
-  CategoryModel.fromJson(Map<String,dynamic> json) {
+  CategoryModel.fromJson(Map<String, dynamic> json) {
     this.title = json["title"];
     this.desc = json["desc"];
   }
@@ -22,15 +22,14 @@ class CategoryModel {
     map["desc"] = desc;
     return map;
   }
-
 }
 
-class CategoryListMap{
+class CategoryListMap {
   List<CategoryModel> data;
 
-  CategoryListMap.fromJson(List<Map<String,dynamic>> json) {
-    if(json != null){
-      data = List.generate(json.length, (index){
+  CategoryListMap.fromJson(List<Map<String, dynamic>> json) {
+    if (json != null) {
+      data = List.generate(json.length, (index) {
         return CategoryModel.fromJson(json[index]);
       });
     }

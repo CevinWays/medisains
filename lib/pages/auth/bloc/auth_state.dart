@@ -7,27 +7,28 @@ abstract class AuthState {
   List<Object> get props => [];
 }
 
-class LoadingState extends AuthState{}
+class LoadingState extends AuthState {}
 
 class InitialAuthState extends AuthState {
   @override
   String toString() => 'InitialAuthState';
 }
 
-class AuthErrorState extends AuthState{
+class AuthErrorState extends AuthState {
   final String msg;
 
   AuthErrorState(this.msg);
+
   @override
   String toString() => 'AuthErrorState';
 }
 
-class RegisterState extends AuthState{
+class RegisterState extends AuthState {
   @override
   String toString() => 'RegisterState';
 }
 
-class LoginState extends AuthState{
+class LoginState extends AuthState {
   final String email;
   final String password;
 
@@ -37,35 +38,36 @@ class LoginState extends AuthState{
   String toString() => 'LoginState';
 }
 
-class LogoutState extends AuthState{
+class LogoutState extends AuthState {
   @override
   String toString() => 'LogoutState';
 }
 
-class ReadUserDataState extends AuthState{
+class ReadUserDataState extends AuthState {
   final UserModel userModel;
 
   ReadUserDataState({this.userModel});
+
   @override
   String toString() => 'ReadUserDataState';
 }
 
-class LoginGoogleState extends AuthState{
+class LoginGoogleState extends AuthState {
   @override
   String toString() => 'LoginGoogleState';
 }
 
-class RegisterGoogleState extends AuthState{
+class RegisterGoogleState extends AuthState {
   @override
   String toString() => 'RegisterGoogleState';
 }
 
-class ResetPassState extends AuthState{
+class ResetPassState extends AuthState {
   @override
   String toString() => 'ResetPassState';
 }
 
-class UpdateProfileState extends AuthState{
+class UpdateProfileState extends AuthState {
   @override
   String toString() => 'UpdateProfileState';
 }

@@ -8,28 +8,31 @@ abstract class ContentEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class CreateContentEvent extends ContentEvent{
+class CreateContentEvent extends ContentEvent {
   final String title;
   final String desc;
   final String category;
   final File fileImage;
   final File fileDoc;
 
-  CreateContentEvent({this.fileImage,this.category, this.title, this.desc, this.fileDoc});
+  CreateContentEvent(
+      {this.fileImage, this.category, this.title, this.desc, this.fileDoc});
+
   @override
   String toString() => 'CreateContentEvent';
 }
 
-class ReadContentEvent extends ContentEvent{
+class ReadContentEvent extends ContentEvent {
   final String category;
   final String uid;
 
-  ReadContentEvent({this.category,this.uid});
+  ReadContentEvent({this.category, this.uid});
+
   @override
   String toString() => 'ReadContentEvent';
 }
 
-class SearchContentEvent extends ContentEvent{
+class SearchContentEvent extends ContentEvent {
   final String searchText;
 
   SearchContentEvent({this.searchText});
@@ -38,7 +41,7 @@ class SearchContentEvent extends ContentEvent{
   String toString() => 'SearchContentEvent';
 }
 
-class UpdateContentEvent extends ContentEvent{
+class UpdateContentEvent extends ContentEvent {
   final String title;
   final String desc;
   final String category;
@@ -46,23 +49,28 @@ class UpdateContentEvent extends ContentEvent{
   final File fileDoc;
   final ContentModel contentModel;
 
-  UpdateContentEvent({this.title, this.desc, this.category, this.fileImage,
-    this.fileDoc,this.contentModel});
+  UpdateContentEvent(
+      {this.title,
+      this.desc,
+      this.category,
+      this.fileImage,
+      this.fileDoc,
+      this.contentModel});
 
   @override
-  String toString() =>'UpdateContentEvent';
-
+  String toString() => 'UpdateContentEvent';
 }
 
-class DeleteContentEvent extends ContentEvent{
+class DeleteContentEvent extends ContentEvent {
   final ContentModel contentModel;
 
   DeleteContentEvent({this.contentModel});
+
   @override
   String toString() => 'DeleteContentEvent';
 }
 
-class RecommendationInDetailEvent extends ContentEvent{
+class RecommendationInDetailEvent extends ContentEvent {
   final ContentModel contentModel;
 
   RecommendationInDetailEvent({this.contentModel});
@@ -71,8 +79,7 @@ class RecommendationInDetailEvent extends ContentEvent{
   String toString() => 'RecommendationInDetailEvent';
 }
 
-class CommonDataEvent extends ContentEvent{
+class CommonDataEvent extends ContentEvent {
   @override
   String toString() => 'CommonDataEvent';
 }
-

@@ -1,13 +1,9 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
 import 'package:medisains/helpers/datetime_helper.dart';
-import 'package:medisains/helpers/sharedpref_helper.dart';
 import 'package:medisains/pages/category/bloc/bloc.dart';
 import 'package:medisains/pages/content/bloc/bloc.dart';
 import 'package:medisains/pages/content/layout/search_content_page.dart';
@@ -35,29 +31,34 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: _widgetAppBarSection(),
-          body: _widgetBodySection(context),
+        backgroundColor: Colors.white,
+        appBar: _widgetAppBarSection(),
+        body: _widgetBodySection(context),
       ),
     );
   }
 
-  Widget _widgetAppBarSection(){
+  Widget _widgetAppBarSection() {
     return AppBar(
       elevation: 0.0,
       backgroundColor: Colors.white,
       automaticallyImplyLeading: false,
       title: Text(
         "Explore",
-        style: TextStyle(color: Colors.black ,fontSize: 18.0, fontWeight: FontWeight.bold),
+        style: TextStyle(
+            color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold),
       ),
       actions: <Widget>[
         InkWell(
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchContentPage())),
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => SearchContentPage())),
           child: Container(
             margin: EdgeInsets.only(right: 16),
             alignment: Alignment.centerRight,
-            child: Icon(Icons.search, color: Colors.black,),
+            child: Icon(
+              Icons.search,
+              color: Colors.black,
+            ),
           ),
         ),
       ],
@@ -75,149 +76,171 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
     );
   }
 
-  Widget _widgetBodySection(BuildContext context){
+  Widget _widgetBodySection(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16),
       child: TabBarView(
-        children: <Widget>[
-          _widgetMedicines(),
-          _widgetCategory()
-        ],
+        children: <Widget>[_widgetMedicines(), _widgetCategory()],
       ),
     );
   }
 
-  Widget _widgetMedicines(){
-    CollectionReference fireStoreContent = FirebaseFirestore.instance.collection("content");
+  Widget _widgetMedicines() {
+    CollectionReference fireStoreContent =
+        FirebaseFirestore.instance.collection("content");
     return StreamBuilder<QuerySnapshot>(
       stream: fireStoreContent.snapshots(includeMetadataChanges: true),
-      builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
-
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Center(child: Text("Terjadi Kesalahan"));
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
-        } else if(!snapshot.hasData){
+        } else if (!snapshot.hasData) {
           return Center(child: Text("Data belum tersedia"));
-        } else if(snapshot.data == null){
+        } else if (snapshot.data == null) {
           return Center(child: Text("Data belum tersedia"));
         }
 
         return ListView(
-          children: snapshot.data.docs.map((DocumentSnapshot item) {
-            return InkWell(
-              onTap: () {
-                ContentModel _contentModel = ContentModel.fromJson(item.data());
-                Navigator.pushNamed(context, contentPage, arguments: _contentModel);
-              },
-              child: Container(
-                padding: EdgeInsets.all(16),
-                margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black38,
-                          blurRadius: 2,
-                          spreadRadius: 0.2,
-                          offset:Offset(0,2)
-                      )
-                    ]
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      children: [
-                        Container(
-                            child: Text(item.data()['title'],style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: textDark),overflow: TextOverflow.ellipsis,),
-                          width: 270,
+            children: snapshot.data.docs.map((DocumentSnapshot item) {
+          return InkWell(
+            onTap: () {
+              ContentModel _contentModel = ContentModel.fromJson(item.data());
+              Navigator.pushNamed(context, contentPage,
+                  arguments: _contentModel);
+            },
+            child: Container(
+              padding: EdgeInsets.all(16),
+              margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black38,
+                        blurRadius: 2,
+                        spreadRadius: 0.2,
+                        offset: Offset(0, 2))
+                  ]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: [
+                      Container(
+                        child: Text(
+                          item.data()['title'],
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: textDark),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 6),
-                              child: Text(double.parse(item.data()['rating'].toString()).toString(),style: TextStyle(fontSize: 14,color: textDark,fontWeight: FontWeight.w300)),
+                        width: 270,
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 6),
+                            child: Text(
+                                double.parse(item.data()['rating'].toString())
+                                    .toString(),
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: textDark,
+                                    fontWeight: FontWeight.w300)),
+                          ),
+                          RatingBar.builder(
+                            itemSize: 18,
+                            initialRating:
+                                double.parse(item.data()['rating'].toString()),
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 1,
+                            itemPadding: EdgeInsets.only(right: 4),
+                            itemBuilder: (context, _) => Icon(
+                              Icons.star_rounded,
+                              color: primaryColor,
                             ),
-                            RatingBar.builder(
-                              itemSize: 18,
-                              initialRating: double.parse(item.data()['rating'].toString()),
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 1,
-                              itemPadding: EdgeInsets.only(right: 4),
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star_rounded,
-                                color: primaryColor,
-                              ),
-                              updateOnDrag: false,
-                              onRatingUpdate: null,
-                            ),
-                          ],
+                            updateOnDrag: false,
+                            onRatingUpdate: null,
+                          ),
+                        ],
+                      ),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ),
+                  SizedBox(height: 5),
+                  Text(item.data()['category'],
+                      style:
+                          TextStyle(fontSize: 12, color: disableTextGreyColor)),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(Icons.person_outline, color: Colors.grey, size: 20),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Text(
+                          item.data()['author_name'],
+                          style: TextStyle(color: textDark),
                         ),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    ),
-                    SizedBox(height: 5),
-                    Text(item.data()['category'],style: TextStyle(fontSize: 12,color: disableTextGreyColor)),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Icon(Icons.person_outline,color: Colors.grey,size: 20),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: Text(item.data()['author_name'],style: TextStyle(color: textDark),),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Icon(Icons.school_outlined,color: Colors.grey,size: 20),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: Text(item.data()['instance']),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Icon(Icons.date_range_outlined,color: Colors.grey,size: 20),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16),
-                          child: Text(DateTimeHelper.dateTimeFormatFromString(item.data()['create_date'])),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 4),
-                    Divider(),
-                    Text("Description",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.black)),
-                    SizedBox(height: 5),
-                    Text(item.data()['desc'],style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(Icons.school_outlined, color: Colors.grey, size: 20),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Text(item.data()['instance']),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(Icons.date_range_outlined,
+                          color: Colors.grey, size: 20),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Text(DateTimeHelper.dateTimeFormatFromString(
+                            item.data()['create_date'])),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 4),
+                  Divider(),
+                  Text("Description",
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                  SizedBox(height: 5),
+                  Text(item.data()['desc'],
+                      style: TextStyle(fontSize: 12),
+                      overflow: TextOverflow.ellipsis),
+                ],
               ),
-            );
-          }
-        ).toList()
-      );
+            ),
+          );
+        }).toList());
       },
     );
   }
 
-  Widget _widgetCategory(){
+  Widget _widgetCategory() {
     return Container(
       padding: EdgeInsets.all(8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           InkWell(
-            onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
-                category: "Penyakit",
-            )),
+            onTap: () => Navigator.pushNamed(context, categoryPage,
+                arguments: ContentModel(
+                  category: "Penyakit",
+                )),
             child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -228,30 +251,49 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                         color: Colors.black38,
                         blurRadius: 2,
                         spreadRadius: 0.2,
-                        offset:Offset(0,2)
-                    )
-                  ]
-              ),
+                        offset: Offset(0, 2))
+                  ]),
               child: Row(
                 children: [
-                  Icon(Icons.coronavirus_outlined,color: primaryColor,size: 35,),
-                  SizedBox(width: 8,),
+                  Icon(
+                    Icons.coronavirus_outlined,
+                    color: primaryColor,
+                    size: 35,
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text("Penyakit",style: TextStyle(fontWeight: FontWeight.w500,),),
-                      SizedBox(height: 4,),
-                    Text("Penyakit adalah kondisi abnormal tertentu... ",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12),)
-                  ],)
+                      Text(
+                        "Penyakit",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "Penyakit adalah kondisi abnormal tertentu... ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300, fontSize: 12),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),
           ),
-          SizedBox(height: 16,),
+          SizedBox(
+            height: 16,
+          ),
           InkWell(
-            onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
-                category: "Obat",
-            )),
+            onTap: () => Navigator.pushNamed(context, categoryPage,
+                arguments: ContentModel(
+                  category: "Obat",
+                )),
             child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -262,30 +304,49 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                         color: Colors.black38,
                         blurRadius: 2,
                         spreadRadius: 0.2,
-                        offset:Offset(0,2)
-                    )
-                  ]
-              ),
+                        offset: Offset(0, 2))
+                  ]),
               child: Row(
                 children: [
-                  Icon(Icons.medical_services_outlined,color: primaryColor,size: 35,),
-                  SizedBox(width: 8,),
+                  Icon(
+                    Icons.medical_services_outlined,
+                    color: primaryColor,
+                    size: 35,
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Obat",style: TextStyle(fontWeight: FontWeight.w500,),),
-                      SizedBox(height: 4,),
-                      Text("Obat didefinisikan sebagai zat yang digunakan...",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12),)
-                    ],)
+                      Text(
+                        "Obat",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "Obat didefinisikan sebagai zat yang digunakan...",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300, fontSize: 12),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),
           ),
-          SizedBox(height: 16,),
+          SizedBox(
+            height: 16,
+          ),
           InkWell(
-            onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
-                category: "Kesehatan",
-            )),
+            onTap: () => Navigator.pushNamed(context, categoryPage,
+                arguments: ContentModel(
+                  category: "Kesehatan",
+                )),
             child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -296,30 +357,49 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                         color: Colors.black38,
                         blurRadius: 2,
                         spreadRadius: 0.2,
-                        offset:Offset(0,2)
-                    )
-                  ]
-              ),
+                        offset: Offset(0, 2))
+                  ]),
               child: Row(
                 children: [
-                  Icon(Icons.favorite_border,color: primaryColor,size: 35,),
-                  SizedBox(width: 8,),
+                  Icon(
+                    Icons.favorite_border,
+                    color: primaryColor,
+                    size: 35,
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Kesehatan",style: TextStyle(fontWeight: FontWeight.w500,),),
-                      SizedBox(height: 4,),
-                      Text("Kesehatan adalah keadaan sejahtera dari badan... ",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12),)
-                    ],)
+                      Text(
+                        "Kesehatan",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "Kesehatan adalah keadaan sejahtera dari badan... ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300, fontSize: 12),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),
           ),
-          SizedBox(height: 16,),
+          SizedBox(
+            height: 16,
+          ),
           InkWell(
-            onTap: () => Navigator.pushNamed(context, categoryPage,arguments: ContentModel(
-              category: "Lainnya",
-            )),
+            onTap: () => Navigator.pushNamed(context, categoryPage,
+                arguments: ContentModel(
+                  category: "Lainnya",
+                )),
             child: Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -330,21 +410,37 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                         color: Colors.black38,
                         blurRadius: 2,
                         spreadRadius: 0.2,
-                        offset:Offset(0,2)
-                    )
-                  ]
-              ),
+                        offset: Offset(0, 2))
+                  ]),
               child: Row(
                 children: [
-                  Icon(Icons.accessibility_new_outlined,color: primaryColor,size: 35,),
-                  SizedBox(width: 8,),
+                  Icon(
+                    Icons.accessibility_new_outlined,
+                    color: primaryColor,
+                    size: 35,
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Lainnya",style: TextStyle(fontWeight: FontWeight.w500,),),
-                      SizedBox(height: 4,),
-                      Text("Hidup sehat adalah hidup yang bebas dari... ",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12),)
-                    ],)
+                      Text(
+                        "Lainnya",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "Hidup sehat adalah hidup yang bebas dari... ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300, fontSize: 12),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),

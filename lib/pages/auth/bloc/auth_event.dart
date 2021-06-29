@@ -6,7 +6,7 @@ abstract class AuthEvent {
   List<Object> get props => [];
 }
 
-class RegisterEvent extends AuthEvent{
+class RegisterEvent extends AuthEvent {
   final String email;
   final String password;
   final String username;
@@ -17,7 +17,7 @@ class RegisterEvent extends AuthEvent{
   String toString() => 'RegisterEvent';
 }
 
-class LoginEvent extends AuthEvent{
+class LoginEvent extends AuthEvent {
   final String email;
   final String password;
 
@@ -27,27 +27,27 @@ class LoginEvent extends AuthEvent{
   String toString() => 'LoginEvent';
 }
 
-class LogoutEvent extends AuthEvent{
+class LogoutEvent extends AuthEvent {
   @override
   String toString() => 'LogoutEvent';
 }
 
-class ReadUserDataEvent extends AuthEvent{
+class ReadUserDataEvent extends AuthEvent {
   @override
   String toString() => 'ReadUserDataEvent';
 }
 
-class LoginGoogleEvent extends AuthEvent{
+class LoginGoogleEvent extends AuthEvent {
   @override
   String toString() => 'LoginGoogleEvent';
 }
 
-class RegisterGoogleEvent extends AuthEvent{
+class RegisterGoogleEvent extends AuthEvent {
   @override
   String toString() => 'RegisterGoogleEvent';
 }
 
-class ResetPassEvent extends AuthEvent{
+class ResetPassEvent extends AuthEvent {
   final String email;
 
   ResetPassEvent({this.email});
@@ -56,17 +56,16 @@ class ResetPassEvent extends AuthEvent{
   String toString() => 'ResetPassEvent';
 }
 
-class UpdateProfileEvent extends AuthEvent{
+class UpdateProfileEvent extends AuthEvent {
   final String instansi;
   final String noHp;
   final String gender;
   final String location;
   final String education;
 
-  UpdateProfileEvent({this.instansi, this.noHp, this.gender,this.location, this.education});
+  UpdateProfileEvent(
+      {this.instansi, this.noHp, this.gender, this.location, this.education});
 
   @override
   String toString() => 'UpdateProfileEvent';
 }
-
-

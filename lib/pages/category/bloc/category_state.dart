@@ -10,22 +10,23 @@ class InitialCategoryState extends CategoryState {
   String toString() => 'InitialCategoryState';
 }
 
-class CategoryErrorState extends CategoryState{
+class CategoryErrorState extends CategoryState {
   final String message;
 
   CategoryErrorState(this.message);
+
   @override
   String toString() => 'CategoryErrorState';
 }
 
-class CreateCategoryState extends CategoryState{
+class CreateCategoryState extends CategoryState {
   @override
   String toString() => 'CreateCategoryState';
 }
 
-class ReadCategoryState extends CategoryState{
+class ReadCategoryState extends CategoryState {
   @override
   String toString() => 'ReadCategoryState';
 }
 
-class LoadingState extends CategoryState{}
+class LoadingState extends CategoryState {}

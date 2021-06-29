@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/helpers/constant_color.dart';
-import 'package:medisains/helpers/toast_helper.dart';
 import 'package:medisains/helpers/validator_helper.dart';
 import 'package:medisains/pages/auth/bloc/bloc.dart';
 import 'package:medisains/pages/auth/layouts/register_page.dart';
@@ -32,14 +31,14 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return BlocListener(
       cubit: _authBloc,
-      listener: (context,state){
-        if(state is LoginState){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
-        }
-        else if(state is LoginGoogleState){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
-        }
-        else if(state is AuthErrorState){
+      listener: (context, state) {
+        if (state is LoginState) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
+        } else if (state is LoginGoogleState) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
+        } else if (state is AuthErrorState) {
           Fluttertoast.showToast(msg: state.msg);
         }
       },
@@ -70,9 +69,13 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text("Selamat Datang,",
-                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 28)),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 28)),
                     Text("Masuk untuk lanjutkan",
-                        style: TextStyle(color: disableTextGreyColor, fontSize: 20)),
+                        style: TextStyle(
+                            color: disableTextGreyColor, fontSize: 20)),
                   ],
                 ),
               ),
@@ -86,14 +89,16 @@ class _LoginPageState extends State<LoginPage> {
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (String value) => ValidatorHelper.validateEmail(value: value),
+                        validator: (String value) =>
+                            ValidatorHelper.validateEmail(value: value),
                         decoration: InputDecoration(
                           labelText: "Email",
                           hintText: "Your Email",
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: primaryColor),
                           ),
-                          labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                          labelStyle:
+                              TextStyle(color: Colors.black, fontSize: 16.0),
                         ),
                       ),
                     ),
@@ -102,16 +107,23 @@ class _LoginPageState extends State<LoginPage> {
                       keyboardType: TextInputType.text,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       obscureText: hidePassword,
-                      validator: (String value) => ValidatorHelper.validatorEmpty(value: value,label: "Password"),
+                      validator: (String value) =>
+                          ValidatorHelper.validatorEmpty(
+                              value: value, label: "Password"),
                       decoration: InputDecoration(
                           labelText: "Password",
                           hintText: "Your Password",
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: primaryColor),
                           ),
-                          labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                          labelStyle:
+                              TextStyle(color: Colors.black, fontSize: 16.0),
                           suffixIcon: IconButton(
-                              icon: Icon(!hidePassword ? Icons.visibility : Icons.visibility_off, color: primaryColor),
+                              icon: Icon(
+                                  !hidePassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: primaryColor),
                               onPressed: () {
                                 setState(() {
                                   hidePassword = !hidePassword;
@@ -124,19 +136,28 @@ class _LoginPageState extends State<LoginPage> {
               ),
               BlocBuilder(
                 cubit: _authBloc,
-                builder: (context,state){
+                builder: (context, state) {
                   return Container(
                     width: MediaQuery.of(context).size.width,
                     child: FlatButton(
                       padding: EdgeInsets.all(16),
                       onPressed: () => state is LoadingState ? null : _login(),
-                      color: state is LoadingState ? disableTextGreyColor : primaryColor,
+                      color: state is LoadingState
+                          ? disableTextGreyColor
+                          : primaryColor,
                       child: Text(
                         "MASUK",
-                        style: TextStyle(color: state is LoadingState ? darkGreyColor :  Colors.white),
+                        style: TextStyle(
+                            color: state is LoadingState
+                                ? darkGreyColor
+                                : Colors.white),
                       ),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4), side: BorderSide(color: state is LoadingState ? disableTextGreyColor : primaryColor)),
+                          borderRadius: BorderRadius.circular(4),
+                          side: BorderSide(
+                              color: state is LoadingState
+                                  ? disableTextGreyColor
+                                  : primaryColor)),
                     ),
                   );
                 },
@@ -144,7 +165,10 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.all(16),
-                child: Text("atau",textAlign: TextAlign.center,),
+                child: Text(
+                  "atau",
+                  textAlign: TextAlign.center,
+                ),
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -158,11 +182,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _widgetFooterSection(){
+  Widget _widgetFooterSection() {
     return Container(
       padding: EdgeInsets.all(16),
       child: GestureDetector(
-        onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterPage())),
+        onTap: () => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => RegisterPage())),
         child: Text("Belum punya akun ? Daftar",
             style: TextStyle(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center),
@@ -183,17 +208,18 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _login() {
-    if(_formKey.currentState.validate())
-      _authBloc.add(LoginEvent(email: _emailController.text,password: _passwordController.text));
+    if (_formKey.currentState.validate())
+      _authBloc.add(LoginEvent(
+          email: _emailController.text, password: _passwordController.text));
   }
 
   Future<bool> _onWillPop() {
     return SystemChannels.platform.invokeMethod('SystemNavigator.pop') ?? false;
   }
 
-  Widget _widgetButtonGoogle(){
+  Widget _widgetButtonGoogle() {
     return FlatButton(
-      onPressed: (){
+      onPressed: () {
         _authBloc.add(LoginGoogleEvent());
       },
       color: Colors.white,
@@ -204,7 +230,9 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image(image: AssetImage("assets/images/img_google.png"), height: 30.0),
+            Image(
+                image: AssetImage("assets/images/img_google.png"),
+                height: 30.0),
             Container(
               margin: EdgeInsets.only(left: 15),
               child: Text(

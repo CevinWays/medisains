@@ -14,7 +14,6 @@ class UserModel {
   String updateDate;
   String instansi;
 
-
   UserModel(
       {this.email,
       this.uid,
@@ -33,17 +32,17 @@ class UserModel {
     this.username = obj["username"];
   }
 
-  UserModel.fromJson(Map<String, dynamic> json):
-    uid = json != null ? json['uid'] : "null",
-    username = json != null ? json['username'] : "null",
-    email = json != null ? json['email'] : "null",
-    education = json != null ? json['education'] : "null",
-    noHp = json != null ? json['no_hp'] : "null",
-    gender = json != null ? json['gender'] : "null",
-    location = json != null ? json['location'] : "null",
-    createDate = json != null ? json['create_date'] : "null",
-    updateDate = json != null ? json['update_date'] : "null",
-    instansi = json != null ? json['instansi'] : "null";
+  UserModel.fromJson(Map<String, dynamic> json)
+      : uid = json != null ? json['uid'] : "null",
+        username = json != null ? json['username'] : "null",
+        email = json != null ? json['email'] : "null",
+        education = json != null ? json['education'] : "null",
+        noHp = json != null ? json['no_hp'] : "null",
+        gender = json != null ? json['gender'] : "null",
+        location = json != null ? json['location'] : "null",
+        createDate = json != null ? json['create_date'] : "null",
+        updateDate = json != null ? json['update_date'] : "null",
+        instansi = json != null ? json['instansi'] : "null";
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
@@ -52,5 +51,4 @@ class UserModel {
     map["username"] = username;
     return map;
   }
-
 }

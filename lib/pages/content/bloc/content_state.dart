@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:medisains/pages/content/model/content_model.dart';
 
@@ -12,30 +11,32 @@ class InitialContentState extends ContentState {
   String toString() => 'InitialContentState';
 }
 
-class ContentErrorState extends ContentState{
+class ContentErrorState extends ContentState {
   final String message;
 
   ContentErrorState(this.message);
+
   @override
   String toString() => 'ContentErrorState';
 }
 
-class ReadContentState extends ContentState{
+class ReadContentState extends ContentState {
   final List<ContentModel> listContentModel;
 
   ReadContentState({this.listContentModel});
+
   @override
   String toString() => 'ReadContentState';
 }
 
-class CreateContentState extends ContentState{
+class CreateContentState extends ContentState {
   @override
   String toString() => 'CreateContentState';
 }
 
-class LoadingState extends ContentState{}
+class LoadingState extends ContentState {}
 
-class SearchContentState extends ContentState{
+class SearchContentState extends ContentState {
   final List<ContentModel> listContentSearchResult;
 
   SearchContentState({this.listContentSearchResult});
@@ -44,17 +45,17 @@ class SearchContentState extends ContentState{
   String toString() => 'SearchContentState';
 }
 
-class UpdateContentState extends ContentState{
+class UpdateContentState extends ContentState {
   @override
   String toString() => 'UpdateContentState';
 }
 
-class DeleteContentState extends ContentState{
+class DeleteContentState extends ContentState {
   @override
   String toString() => 'DeleteContentState';
 }
 
-class RecommendationInDetailState extends ContentState{
+class RecommendationInDetailState extends ContentState {
   final List<ContentModel> listRecommContentDetail;
 
   RecommendationInDetailState({this.listRecommContentDetail});
@@ -63,11 +64,12 @@ class RecommendationInDetailState extends ContentState{
   String toString() => 'RecommendationInDetailState';
 }
 
-class CommonDataState extends ContentState{
+class CommonDataState extends ContentState {
   final List<ContentModel> listCommon;
   final List<ContentModel> listUnusual;
 
-  CommonDataState({this.listCommon,this.listUnusual});
+  CommonDataState({this.listCommon, this.listUnusual});
+
   @override
   String toString() => 'CommonDataState';
 }

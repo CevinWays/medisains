@@ -5,16 +5,17 @@ abstract class CategoryEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class CreateCategoryEvent extends CategoryEvent{
+class CreateCategoryEvent extends CategoryEvent {
   final String title;
   final String desc;
 
   CreateCategoryEvent({this.title, this.desc});
+
   @override
   String toString() => 'CreateCategoryEvent';
 }
 
-class ReadCategoryEvent extends CategoryEvent{
+class ReadCategoryEvent extends CategoryEvent {
   @override
   String toString() => 'ReadCategoryEvent';
 }

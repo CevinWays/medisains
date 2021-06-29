@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/app.dart';
 import 'package:medisains/helpers/constant_color.dart';
 import 'package:medisains/helpers/constant_routes.dart';
-import 'package:medisains/helpers/toast_helper.dart';
 import 'package:medisains/pages/auth/bloc/bloc.dart';
 import 'package:medisains/pages/auth/layouts/login_page.dart';
 import 'package:medisains/pages/profile/profile_page.dart';
@@ -17,8 +16,8 @@ class FragmentProfilePage extends StatefulWidget {
 
 class _FragmentProfilePageState extends State<FragmentProfilePage> {
   AuthBloc _authBloc;
-  List<Map<dynamic,dynamic>> listProfileData;
-  List<Map<dynamic,dynamic>> listProfileSettings;
+  List<Map<dynamic, dynamic>> listProfileData;
+  List<Map<dynamic, dynamic>> listProfileSettings;
 
   @override
   void initState() {
@@ -26,45 +25,38 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
     _authBloc = AuthBloc(InitialAuthState());
     listProfileData = [
       {
-        "icon" : Icons.account_circle,
-        "title" : "Informasi Pengguna",
-        Function : _navigateToUserInformation
+        "icon": Icons.account_circle,
+        "title": "Informasi Pengguna",
+        Function: _navigateToUserInformation
       },
       {
-        "icon" : Icons.question_answer,
-        "title" : "Forum Diskusi",
-        Function : _comingSoon
+        "icon": Icons.question_answer,
+        "title": "Forum Diskusi",
+        Function: _comingSoon
       },
-
       {
-        "icon" : Icons.menu_book_outlined,
-        "title" : "Buku Panduan",
-        Function : _comingSoon
+        "icon": Icons.menu_book_outlined,
+        "title": "Buku Panduan",
+        Function: _comingSoon
       },
     ];
 
     listProfileSettings = [
-      {
-        "icon" : Icons.settings,
-        "title" : "Ubah Password",
-        Function : _resetPass
-      },
-      {
-        "icon" : Icons.exit_to_app,
-        "title" : "Keluar",
-        Function : _logout
-      },
+      {"icon": Icons.settings, "title": "Ubah Password", Function: _resetPass},
+      {"icon": Icons.exit_to_app, "title": "Keluar", Function: _logout},
     ];
     _authBloc.add(ReadUserDataEvent());
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener(
       cubit: _authBloc,
-      listener: (context,state){
-        if(state is LogoutState)
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+      listener: (context, state) {
+        if (state is LogoutState)
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => LoginPage()));
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -79,70 +71,89 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
             children: <Widget>[
               App().sharedPreferences.getString("photoUrl") != null
                   ? Container(
-                width: 80,
-                height: 80,
-                margin: EdgeInsets.only(right: 16),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.contain,
-                        image: CachedNetworkImageProvider(
-                          App().sharedPreferences.getString("photoUrl"),
-                        )
+                      width: 80,
+                      height: 80,
+                      margin: EdgeInsets.only(right: 16),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              fit: BoxFit.contain,
+                              image: CachedNetworkImageProvider(
+                                App().sharedPreferences.getString("photoUrl"),
+                              ))),
                     )
-                ),
-              ) : Container(
-                child: Icon(Icons.account_circle,color: Colors.grey,size: 80,),
-              ),
+                  : Container(
+                      child: Icon(
+                        Icons.account_circle,
+                        color: Colors.grey,
+                        size: 80,
+                      ),
+                    ),
               Container(
                 margin: EdgeInsets.only(bottom: 16),
                 child: Column(
                   children: <Widget>[
                     BlocBuilder(
                       cubit: _authBloc,
-                      builder: (context,state){
+                      builder: (context, state) {
                         return Text(
-                            App().sharedPreferences.getString("displayName") != null
-                                ? App().sharedPreferences.getString("displayName")
-                                : "Username",
-                          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold, color: Colors.black),
+                          App().sharedPreferences.getString("displayName") !=
+                                  null
+                              ? App().sharedPreferences.getString("displayName")
+                              : "Username",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
                         );
                       },
                     ),
-                    SizedBox(height: 8,),
-                    Text(
-                        App().sharedPreferences.getString("email")
+                    SizedBox(
+                      height: 8,
                     ),
+                    Text(App().sharedPreferences.getString("email")),
                   ],
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(top: 16),
                 child: Column(
-                  children: listProfileData.map((i){
+                  children: listProfileData.map((i) {
                     return Builder(
                       builder: (BuildContext context) {
                         return ListTile(
                           onTap: i[Function],
-                          leading: Icon(i["icon"], color: primaryColor,),
+                          leading: Icon(
+                            i["icon"],
+                            color: primaryColor,
+                          ),
                           title: Text(i["title"]),
-                          trailing: Icon(Icons.arrow_forward_ios, color: primaryColor, size: 20,),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: primaryColor,
+                            size: 20,
+                          ),
                         );
                       },
                     );
                   }).toList(),
                 ),
               ),
-              Divider(height: 2,),
+              Divider(
+                height: 2,
+              ),
               Container(
                 margin: EdgeInsets.only(top: 16),
                 child: Column(
-                  children: listProfileSettings.map((i){
+                  children: listProfileSettings.map((i) {
                     return Builder(
                       builder: (BuildContext context) {
                         return ListTile(
                           onTap: i[Function],
-                          leading: Icon(i["icon"], color: darkGreyColor,),
+                          leading: Icon(
+                            i["icon"],
+                            color: darkGreyColor,
+                          ),
                           title: Text(i["title"]),
                         );
                       },
@@ -157,19 +168,20 @@ class _FragmentProfilePageState extends State<FragmentProfilePage> {
     );
   }
 
-  void _comingSoon(){
+  void _comingSoon() {
     Fluttertoast.showToast(msg: "Coming Soon");
   }
 
-  void _navigateToUserInformation(){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfilePage()));
+  void _navigateToUserInformation() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ProfilePage()));
   }
 
-  void _logout(){
+  void _logout() {
     _authBloc.add(LogoutEvent());
   }
 
-  void _resetPass(){
+  void _resetPass() {
     Navigator.pushNamed(context, resetPassPage);
   }
 }

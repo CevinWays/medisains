@@ -32,7 +32,7 @@ dependencies:
   shared_preferences: ^0.5.11
   firebase_auth: ^0.20.0+1
   cloud_firestore: ^0.16.0
-  firebase_core : ^0.7.0
+  firebase_core: ^0.7.0
   google_sign_in: ^4.5.4
   date_format: ^1.0.9
   flutter_rating_bar: ^3.2.0+1

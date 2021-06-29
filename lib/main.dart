@@ -7,9 +7,8 @@ import 'package:medisains/main_app.dart';
 
 Future<Null> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: primaryColor
-  ));
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: primaryColor));
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);

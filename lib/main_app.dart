@@ -23,7 +23,7 @@ class _MainAppState extends State<MainApp> {
       onGenerateRoute: Routes.generateRoute,
       initialRoute: 'splashPage',
       routes: {
-        'splashPage' : (context) => SplashPage(),
+        'splashPage': (context) => SplashPage(),
       },
       home: SplashPage(),
     );

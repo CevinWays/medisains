@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/helpers/constant_color.dart';
-import 'package:medisains/helpers/toast_helper.dart';
 import 'package:medisains/helpers/validator_helper.dart';
 import 'package:medisains/pages/auth/bloc/bloc.dart';
 import 'package:medisains/pages/auth/layouts/login_page.dart';
-import 'package:medisains/pages/home/home_page.dart';
 import 'package:medisains/pages/profile/edit_profile_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -39,10 +37,18 @@ class _RegisterPageState extends State<RegisterPage> {
       listener: (context, state) {
         if (state is RegisterState)
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => EditProfilePage(isWizard: true,)));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditProfilePage(
+                        isWizard: true,
+                      )));
         else if (state is RegisterGoogleState)
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => EditProfilePage(isWizard: true,)));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditProfilePage(
+                        isWizard: true,
+                      )));
         else if (state is AuthErrorState)
           Fluttertoast.showToast(msg: state.msg);
       },
@@ -188,12 +194,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: FlatButton(
                       padding: EdgeInsets.all(16),
                       onPressed: () {
-                        if(isAgree == true){
-                          state is LoadingState
-                              ? null
-                              : _register();
-                        }else{
-                          Fluttertoast.showToast(msg: "Silahkan klik setuju dengan kebijakan dan privasi terlebih dahulu");
+                        if (isAgree == true) {
+                          state is LoadingState ? null : _register();
+                        } else {
+                          Fluttertoast.showToast(
+                              msg:
+                                  "Silahkan klik setuju dengan kebijakan dan privasi terlebih dahulu");
                         }
                       },
                       color: state is LoadingState
@@ -264,36 +270,26 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: <Widget>[
                       Text(
                         'Saya setuju dengan ',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey),
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                       GestureDetector(
-                        onTap: () {
-                        },
+                        onTap: () {},
                         child: Text(
                           'syarat dan kondisi ',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: primaryColor),
+                          style: TextStyle(fontSize: 14, color: primaryColor),
                         ),
                       ),
                       Text(
                         'serta ',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey),
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                     ],
                   ),
                   GestureDetector(
-                    onTap: (){
-                    },
+                    onTap: () {},
                     child: Text(
                       'kebijakan privasi medisains',
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: primaryColor),
+                      style: TextStyle(fontSize: 14, color: primaryColor),
                     ),
                   )
                 ],
@@ -332,7 +328,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   _register() {
     if (_confirmPasswordController.text != _passwordController.text)
-      Fluttertoast.showToast(msg: "Konfirmasi password harus sama dengan password");
+      Fluttertoast.showToast(
+          msg: "Konfirmasi password harus sama dengan password");
     else if (_formKey.currentState.validate())
       _authBloc.add(RegisterEvent(
           email: _emailController.text,
@@ -348,10 +345,12 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _widgetButtonGoogle() {
     return FlatButton(
       onPressed: () {
-        if(isAgree == true){
+        if (isAgree == true) {
           _authBloc.add(RegisterGoogleEvent());
-        }else{
-          Fluttertoast.showToast(msg: "Silahkan klik setuju dengan kebijakan dan privasi terlebih dahulu");
+        } else {
+          Fluttertoast.showToast(
+              msg:
+                  "Silahkan klik setuju dengan kebijakan dan privasi terlebih dahulu");
         }
       },
       color: Colors.white,

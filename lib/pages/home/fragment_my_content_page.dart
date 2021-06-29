@@ -37,167 +37,213 @@ class _FragmentMyContentPageState extends State<FragmentMyContentPage> {
       appBar: _widgetAppBarSection(),
       body: BlocBuilder(
         cubit: _contentBloc,
-        builder: (context,state){
+        builder: (context, state) {
           return state is ReadContentState && state.listContentModel.length > 0
               ? Container(
-              padding: EdgeInsets.all(16),
-              child: _widgetMedicines())
-              : Container(child:
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset("assets/images/img_content.svg",height: 150,width: 150,),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Text("Kamu belum menambahkan content",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),),
-                ),
-              ],
-            ),),);
+                  padding: EdgeInsets.all(16), child: _widgetMedicines())
+              : Container(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/images/img_content.svg",
+                          height: 150,
+                          width: 150,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text(
+                            "Kamu belum menambahkan content",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
         },
       ),
     );
   }
 
-  Widget _widgetAppBarSection(){
+  Widget _widgetAppBarSection() {
     return AppBar(
       elevation: 0.0,
       backgroundColor: Colors.white,
       automaticallyImplyLeading: false,
       title: Text(
         "My Content",
-        style: TextStyle(color: Colors.black ,fontSize: 18.0, fontWeight: FontWeight.bold),
+        style: TextStyle(
+            color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold),
       ),
       actions: <Widget>[
         InkWell(
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchContentPage())),
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => SearchContentPage())),
           child: Container(
             margin: EdgeInsets.only(right: 16),
             alignment: Alignment.centerRight,
-            child: Icon(Icons.search, color: Colors.black,),
+            child: Icon(
+              Icons.search,
+              color: Colors.black,
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _widgetMedicines(){
-    CollectionReference fireStoreContent = FirebaseFirestore.instance.collection("content");
+  Widget _widgetMedicines() {
+    CollectionReference fireStoreContent =
+        FirebaseFirestore.instance.collection("content");
     return StreamBuilder<QuerySnapshot>(
       stream: fireStoreContent.snapshots(includeMetadataChanges: true),
-      builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
-
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Center(child: Text("Terjadi Kesalahan"));
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
-        } else if(!snapshot.hasData){
+        } else if (!snapshot.hasData) {
           return Center(child: Text("Data belum tersedia"));
-        } else if(snapshot.data == null){
+        } else if (snapshot.data == null) {
           return Center(child: Text("Data belum tersedia"));
         }
 
         return ListView(
             children: snapshot.data.docs.map((DocumentSnapshot item) {
-              return item.data()["uid"] == App().sharedPreferences.getString("uid") ? InkWell(
-                onTap: () {
-                  ContentModel _contentModel = ContentModel.fromJson(item.data());
-                  Navigator.pushNamed(context, contentPage, arguments: _contentModel);
-                },
-                child: Container(
-                  padding: EdgeInsets.all(16),
-                  margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black38,
-                            blurRadius: 2,
-                            spreadRadius: 0.2,
-                            offset:Offset(0,2)
-                        )
-                      ]
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          Container(
-                              width: 270,
-                              child: Text(item.data()['title'],style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: textDark),overflow: TextOverflow.ellipsis,)),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 6),
-                                child: Text(double.parse(item.data()['rating'].toString()).toString(),style: TextStyle(fontSize: 14,color: textDark,fontWeight: FontWeight.w300)),
-                              ),
-                              RatingBar.builder(
-                                itemSize: 18,
-                                initialRating: double.parse(item.data()['rating'].toString()),
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 1,
-                                itemPadding: EdgeInsets.only(right: 4),
-                                itemBuilder: (context, _) => Icon(
-                                  Icons.star_rounded,
-                                  color: primaryColor,
+          return item.data()["uid"] == App().sharedPreferences.getString("uid")
+              ? InkWell(
+                  onTap: () {
+                    ContentModel _contentModel =
+                        ContentModel.fromJson(item.data());
+                    Navigator.pushNamed(context, contentPage,
+                        arguments: _contentModel);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black38,
+                              blurRadius: 2,
+                              spreadRadius: 0.2,
+                              offset: Offset(0, 2))
+                        ]),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Container(
+                                width: 270,
+                                child: Text(
+                                  item.data()['title'],
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: textDark),
+                                  overflow: TextOverflow.ellipsis,
+                                )),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 6),
+                                  child: Text(
+                                      double.parse(
+                                              item.data()['rating'].toString())
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: textDark,
+                                          fontWeight: FontWeight.w300)),
                                 ),
-                                updateOnDrag: false,
-                                onRatingUpdate: null,
+                                RatingBar.builder(
+                                  itemSize: 18,
+                                  initialRating: double.parse(
+                                      item.data()['rating'].toString()),
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 1,
+                                  itemPadding: EdgeInsets.only(right: 4),
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star_rounded,
+                                    color: primaryColor,
+                                  ),
+                                  updateOnDrag: false,
+                                  onRatingUpdate: null,
+                                ),
+                              ],
+                            ),
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        ),
+                        SizedBox(height: 5),
+                        Text(item.data()['category'],
+                            style: TextStyle(
+                                fontSize: 12, color: disableTextGreyColor)),
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Icon(Icons.person_outline,
+                                color: Colors.grey, size: 20),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                item.data()['author_name'],
+                                style: TextStyle(color: textDark),
                               ),
-                            ],
-                          ),
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      ),
-                      SizedBox(height: 5),
-                      Text(item.data()['category'],style: TextStyle(fontSize: 12,color: disableTextGreyColor)),
-                      SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Icon(Icons.person_outline,color: Colors.grey,size: 20),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16),
-                            child: Text(item.data()['author_name'],style: TextStyle(color: textDark),),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Icon(Icons.school_outlined,color: Colors.grey,size: 20),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16),
-                            child: Text(item.data()['instance']),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Icon(Icons.date_range_outlined,color: Colors.grey,size: 20),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16),
-                            child: Text(DateTimeHelper.dateTimeFormatFromString(item.data()['create_date'])),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 4),
-                      Divider(),
-                      Text("Description",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.black)),
-                      SizedBox(height: 5),
-                      Text(item.data()['desc'],style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis),
-                    ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(Icons.school_outlined,
+                                color: Colors.grey, size: 20),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(item.data()['instance']),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(Icons.date_range_outlined,
+                                color: Colors.grey, size: 20),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                  DateTimeHelper.dateTimeFormatFromString(
+                                      item.data()['create_date'])),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 4),
+                        Divider(),
+                        Text("Description",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black)),
+                        SizedBox(height: 5),
+                        Text(item.data()['desc'],
+                            style: TextStyle(fontSize: 12),
+                            overflow: TextOverflow.ellipsis),
+                      ],
+                    ),
                   ),
-                ),
-              ) : Container();
-            }
-            ).toList()
-        );
+                )
+              : Container();
+        }).toList());
       },
     );
   }

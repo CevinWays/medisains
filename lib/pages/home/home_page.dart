@@ -37,19 +37,23 @@ class _HomePageState extends State<HomePage> {
 
   Widget _widgetFooterSection() {
     return ConvexAppBar(
-        items: [
-          TabItem(icon: _currentIndex == 0 ? Icons.home : Icons.home_outlined),
-          TabItem(icon: _currentIndex == 1 ? Icons.saved_search : Icons.search_outlined),
-          TabItem(icon: _currentIndex == 2 ? Icons.add_circle_outlined : Icons.add),
-          TabItem(icon: _currentIndex == 3 ? Icons.article : Icons.article_outlined),
-          TabItem(icon: _currentIndex == 4 ? Icons.person : Icons.person_outline),
-        ],
-        initialActiveIndex: 0,
-        color: primaryColor,
-        backgroundColor: Colors.white,
-        activeColor: primaryColor,
-        onTap: onTabTapped,
-
+      items: [
+        TabItem(icon: _currentIndex == 0 ? Icons.home : Icons.home_outlined),
+        TabItem(
+            icon: _currentIndex == 1
+                ? Icons.saved_search
+                : Icons.search_outlined),
+        TabItem(
+            icon: _currentIndex == 2 ? Icons.add_circle_outlined : Icons.add),
+        TabItem(
+            icon: _currentIndex == 3 ? Icons.article : Icons.article_outlined),
+        TabItem(icon: _currentIndex == 4 ? Icons.person : Icons.person_outline),
+      ],
+      initialActiveIndex: 0,
+      color: primaryColor,
+      backgroundColor: Colors.white,
+      activeColor: primaryColor,
+      onTap: onTabTapped,
       top: -18.0,
       style: TabStyle.fixedCircle,
     );
@@ -63,26 +67,30 @@ class _HomePageState extends State<HomePage> {
 
   Future<bool> _onWillPop() {
     return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Konfirmasi Keluar', style: TextStyle(color: primaryColor, fontSize: 20.0)),
-        content: Text('Apakah anda ingin keluar?'),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () {
-              // this line exits the app.
-              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-            },
-            child: Text('YA', style: TextStyle(fontSize: 18.0, color: primaryColor)),
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Konfirmasi Keluar',
+                style: TextStyle(color: primaryColor, fontSize: 20.0)),
+            content: Text('Apakah anda ingin keluar?'),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  // this line exits the app.
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                },
+                child: Text('YA',
+                    style: TextStyle(fontSize: 18.0, color: primaryColor)),
+              ),
+              FlatButton(
+                color: primaryColor,
+                onPressed: () => Navigator.pop(context),
+                // this line dismisses the dialog
+                child: Text('TIDAK',
+                    style: TextStyle(fontSize: 18.0, color: Colors.white)),
+              )
+            ],
           ),
-          FlatButton(
-            color: primaryColor,
-            onPressed: () => Navigator.pop(context),
-            // this line dismisses the dialog
-            child: Text('TIDAK', style: TextStyle(fontSize: 18.0, color: Colors.white)),
-          )
-        ],
-      ),
-    ) ?? false;
+        ) ??
+        false;
   }
 }

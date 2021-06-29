@@ -49,7 +49,7 @@ class _ResetPassPageState extends State<ResetPassPage> {
             ),
             BlocBuilder(
               cubit: _authBloc,
-              builder: (context,state){
+              builder: (context, state) {
                 if (state is ResetPassState) {
                   Fluttertoast.showToast(
                       msg: "Ubah password berhasil, Silahkan cek email anda");
@@ -61,14 +61,18 @@ class _ResetPassPageState extends State<ResetPassPage> {
                   width: MediaQuery.of(context).size.width,
                   child: FlatButton(
                     padding: EdgeInsets.all(16),
-                    onPressed: () => state is LoadingState ? null : _resetPass(resetPassController.text),
-                    color:
-                    state is LoadingState ? disableTextGreyColor : primaryColor,
+                    onPressed: () => state is LoadingState
+                        ? null
+                        : _resetPass(resetPassController.text),
+                    color: state is LoadingState
+                        ? disableTextGreyColor
+                        : primaryColor,
                     child: Text(
                       "Kirim",
                       style: TextStyle(
-                          color:
-                          state is LoadingState ? darkGreyColor : Colors.white),
+                          color: state is LoadingState
+                              ? darkGreyColor
+                              : Colors.white),
                     ),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
@@ -86,7 +90,7 @@ class _ResetPassPageState extends State<ResetPassPage> {
     );
   }
 
-  void _resetPass(String email){
+  void _resetPass(String email) {
     _authBloc.add(ResetPassEvent(email: email));
   }
 }

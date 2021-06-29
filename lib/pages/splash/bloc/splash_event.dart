@@ -1,5 +1,3 @@
-
-
 import 'package:equatable/equatable.dart';
 
 abstract class SplashEvent extends Equatable {
@@ -12,4 +10,3 @@ class LoadNextPageEvent extends SplashEvent {
   @override
   String toString() => 'LoadNextPageEvent';
 }
-

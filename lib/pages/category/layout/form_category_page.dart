@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medisains/helpers/constant_color.dart';
-import 'package:medisains/helpers/toast_helper.dart';
 import 'package:medisains/helpers/validator_helper.dart';
 import 'package:medisains/pages/category/bloc/bloc.dart';
 
@@ -28,16 +27,19 @@ class _FormCategoryPageState extends State<FormCategoryPage> {
   Widget build(BuildContext context) {
     return BlocListener(
       cubit: _categoryBloc,
-      listener: (context,state){
-        if(state is CreateCategoryState)
+      listener: (context, state) {
+        if (state is CreateCategoryState)
           Navigator.pop(context);
-        else if(state is CategoryErrorState)
+        else if (state is CategoryErrorState)
           Fluttertoast.showToast(msg: state.message);
       },
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text("New Category",style: TextStyle(color: Colors.black),),
+          title: Text(
+            "New Category",
+            style: TextStyle(color: Colors.black),
+          ),
           elevation: 0.0,
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
@@ -57,14 +59,17 @@ class _FormCategoryPageState extends State<FormCategoryPage> {
                         child: TextFormField(
                           controller: _titleController,
                           keyboardType: TextInputType.text,
-                          validator: (String value) => ValidatorHelper.validatorEmpty(label: "Nama Kategori",value: value),
+                          validator: (String value) =>
+                              ValidatorHelper.validatorEmpty(
+                                  label: "Nama Kategori", value: value),
                           decoration: InputDecoration(
                             labelText: "Nama Kategori Penyakit",
                             hintText: "Nama Kategori",
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: primaryColor),
                             ),
-                            labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                            labelStyle:
+                                TextStyle(color: Colors.black, fontSize: 16.0),
                           ),
                         ),
                       ),
@@ -72,14 +77,17 @@ class _FormCategoryPageState extends State<FormCategoryPage> {
                         child: TextFormField(
                           controller: _descController,
                           keyboardType: TextInputType.text,
-                          validator: (String value) => ValidatorHelper.validatorEmpty(label: "Deskripsi",value: value),
+                          validator: (String value) =>
+                              ValidatorHelper.validatorEmpty(
+                                  label: "Deskripsi", value: value),
                           decoration: InputDecoration(
                             labelText: "Deskripsi Singkat",
                             hintText: "Deskripsi",
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: primaryColor),
                             ),
-                            labelStyle: TextStyle(color: Colors.black, fontSize: 16.0),
+                            labelStyle:
+                                TextStyle(color: Colors.black, fontSize: 16.0),
                           ),
                         ),
                       ),
@@ -92,20 +100,28 @@ class _FormCategoryPageState extends State<FormCategoryPage> {
         ),
         bottomSheet: BlocBuilder(
           cubit: _categoryBloc,
-          builder: (context,state){
+          builder: (context, state) {
             return Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.all(16),
               child: FlatButton(
                 padding: EdgeInsets.all(16),
-                onPressed: () => state is LoadingState ? null : _createCategory(),
-                color: state is LoadingState ? disableTextGreyColor :primaryColor,
+                onPressed: () =>
+                    state is LoadingState ? null : _createCategory(),
+                color:
+                    state is LoadingState ? disableTextGreyColor : primaryColor,
                 child: Text(
                   "Submit",
-                  style: TextStyle(color: state is LoadingState ? darkGreyColor : Colors.white),
+                  style: TextStyle(
+                      color:
+                          state is LoadingState ? darkGreyColor : Colors.white),
                 ),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4), side: BorderSide(color: state is LoadingState ? disableTextGreyColor : primaryColor)),
+                    borderRadius: BorderRadius.circular(4),
+                    side: BorderSide(
+                        color: state is LoadingState
+                            ? disableTextGreyColor
+                            : primaryColor)),
               ),
             );
           },
@@ -114,11 +130,9 @@ class _FormCategoryPageState extends State<FormCategoryPage> {
     );
   }
 
-  void _createCategory(){
-    if(_formKey.currentState.validate())
+  void _createCategory() {
+    if (_formKey.currentState.validate())
       _categoryBloc.add(CreateCategoryEvent(
-          title: _titleController.text,
-          desc: _descController.text
-      ));
+          title: _titleController.text, desc: _descController.text));
   }
 }

@@ -1,13 +1,13 @@
-class ValidatorHelper{
-  static String validatorEmpty({String value,String label}){
-    if(value.isEmpty)
+class ValidatorHelper {
+  static String validatorEmpty({String value, String label}) {
+    if (value.isEmpty)
       return '$label tidak boleh kosong';
     else
       return null;
   }
 
-  static String validatorUsername({String value,String label}){
-    if(value.isEmpty)
+  static String validatorUsername({String value, String label}) {
+    if (value.isEmpty)
       return '$label tidak boleh kosong';
     else if (value.length <= 1)
       return '$label harus lebih dari 1 huruf';
@@ -27,8 +27,8 @@ class ValidatorHelper{
       return null;
   }
 
-  static String validatorPassword({String value,String label}){
-    if(value.isEmpty)
+  static String validatorPassword({String value, String label}) {
+    if (value.isEmpty)
       return '$label tidak boleh kosong';
     else if (value.length < 8)
       return '$label harus lebih dari 8 karakter';
@@ -36,8 +36,8 @@ class ValidatorHelper{
       return null;
   }
 
-  static String validatorPhoneNum({String value,String label}){
-    if(value.isEmpty)
+  static String validatorPhoneNum({String value, String label}) {
+    if (value.isEmpty)
       return '$label tidak boleh kosong';
     else if (value.length < 10)
       return '$label harus lebih dari 10 digit';

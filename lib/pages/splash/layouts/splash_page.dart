@@ -26,50 +26,50 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return BlocListener(
       cubit: _splashBloc,
-      listener: (context, state){
-        if(state is GoToHomePageState)
+      listener: (context, state) {
+        if (state is GoToHomePageState)
           _navigateToHome();
-        else if(state is GotoOnBoardingState)
-          _navigateToOnBoardingPage();
+        else if (state is GotoOnBoardingState) _navigateToOnBoardingPage();
       },
       child: _widgetSplashLayout(),
     );
   }
 
-  _navigateToOnBoardingPage(){
+  _navigateToOnBoardingPage() {
     var _duration = const Duration(seconds: 3);
-    return Timer(_duration, (){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> OnBoardingPage()));
+    return Timer(_duration, () {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => OnBoardingPage()));
     });
   }
 
-  _navigateToHome(){
+  _navigateToHome() {
     var _duration = const Duration(seconds: 3);
-    return Timer(_duration, (){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
+    return Timer(_duration, () {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
     });
   }
 
-  Widget _widgetSplashLayout(){
+  Widget _widgetSplashLayout() {
     return Scaffold(
       body: Container(
         color: Colors.white,
         child: Center(
             child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SvgPicture.asset("assets/images/ic_medisains_basic.svg"),
-                Container(
-                  margin: EdgeInsets.only(top: 20.0),
-                  child: Text(
-                    "Medisains",
-                    style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            )
-        ),
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SvgPicture.asset("assets/images/ic_medisains_basic.svg"),
+            Container(
+              margin: EdgeInsets.only(top: 20.0),
+              child: Text(
+                "Medisains",
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        )),
       ),
     );
   }

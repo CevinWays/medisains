@@ -14,28 +14,34 @@ class OnBoardingPage extends StatelessWidget {
     );
   }
 
-  Widget _widgetHeaderSection(){
+  Widget _widgetHeaderSection() {
     return AppBar(
       elevation: 0.0,
       backgroundColor: Colors.white,
       leading: Container(
           margin: EdgeInsets.only(left: 16),
-          child: SvgPicture.asset("assets/images/ic_medisains_basic.svg", width: 30, height: 30)),
+          child: SvgPicture.asset("assets/images/ic_medisains_basic.svg",
+              width: 30, height: 30)),
       title: Text(
         "Medisains",
-        style: TextStyle(color: Colors.black ,fontSize: 18.0, fontWeight: FontWeight.bold),
+        style: TextStyle(
+            color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold),
       ),
     );
   }
 
-  Widget _widgetContentSection(){
+  Widget _widgetContentSection() {
     return Container(
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SvgPicture.asset("assets/images/img_doctors.svg",height: 200,width: 200,),
+            SvgPicture.asset(
+              "assets/images/img_doctors.svg",
+              height: 200,
+              width: 200,
+            ),
             Container(
               margin: EdgeInsets.only(top: 32),
               child: Text(
@@ -50,24 +56,27 @@ class OnBoardingPage extends StatelessWidget {
     );
   }
 
-  Widget _widgetFooterSection(BuildContext context){
+  Widget _widgetFooterSection(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 8,bottom: 16,left: 8,right: 8),
+      padding: EdgeInsets.only(top: 8, bottom: 16, left: 8, right: 8),
       child: FlatButton(
-        onPressed: (){
+        onPressed: () {
           _navigateToOnBoardingSecond(context);
         },
         color: primaryColor,
-        child: Text("LANJUT", style: TextStyle(color: Colors.white),),
+        child: Text(
+          "LANJUT",
+          style: TextStyle(color: Colors.white),
+        ),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4),
-            side: BorderSide(color: primaryColor)
-        ),
+            side: BorderSide(color: primaryColor)),
       ),
     );
   }
 
-  _navigateToOnBoardingSecond(BuildContext context){
-    return Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+  _navigateToOnBoardingSecond(BuildContext context) {
+    return Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LoginPage()));
   }
 }

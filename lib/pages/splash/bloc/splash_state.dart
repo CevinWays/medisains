@@ -6,19 +6,17 @@ abstract class SplashState extends Equatable {
   List<Object> get props => throw UnimplementedError();
 }
 
-class SplashInitState extends SplashState{
+class SplashInitState extends SplashState {
   @override
   String toString() => 'SplashInitState';
 }
 
-class GoToHomePageState extends SplashState{
+class GoToHomePageState extends SplashState {
   @override
   String toString() => 'GoToHomePageState';
 }
 
-class GotoOnBoardingState extends SplashState{
+class GotoOnBoardingState extends SplashState {
   @override
   String toString() => 'GotoOnBoardingState';
 }
-
-
