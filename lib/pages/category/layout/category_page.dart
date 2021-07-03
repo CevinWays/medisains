@@ -96,16 +96,16 @@ class _CategoryPageState extends State<CategoryPage> {
                         children: <Widget>[
                           Row(
                             children: [
-                              Container(
-                                  width: 270,
-                                  child: Text(
-                                    contentModel.title,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: textDark),
-                                    overflow: TextOverflow.ellipsis,
-                                  )),
+                              Expanded(
+                                child: Text(
+                                  contentModel.title,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: textDark),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                               Row(
                                 children: [
                                   Padding(
