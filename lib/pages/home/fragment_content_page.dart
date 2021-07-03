@@ -127,7 +127,7 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                 children: <Widget>[
                   Row(
                     children: [
-                      Container(
+                      Expanded(
                         child: Text(
                           item.data()['title'],
                           style: TextStyle(
@@ -136,7 +136,6 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                               color: textDark),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        width: 270,
                       ),
                       Row(
                         children: [
@@ -263,24 +262,27 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                   SizedBox(
                     width: 8,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Penyakit",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Penyakit",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        "Penyakit adalah kondisi abnormal tertentu... ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w300, fontSize: 12),
-                      )
-                    ],
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          "Penyakit adalah kondisi abnormal tertentu... ",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300, fontSize: 12),
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -316,24 +318,27 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                   SizedBox(
                     width: 8,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Obat",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Obat",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        "Obat didefinisikan sebagai zat yang digunakan...",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w300, fontSize: 12),
-                      )
-                    ],
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          "Obat didefinisikan sebagai zat yang digunakan...",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300, fontSize: 12),
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -369,24 +374,27 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                   SizedBox(
                     width: 8,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Kesehatan",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Kesehatan",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        "Kesehatan adalah keadaan sejahtera dari badan... ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w300, fontSize: 12),
-                      )
-                    ],
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          "Kesehatan adalah keadaan sejahtera dari badan... ",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300, fontSize: 12),
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -422,24 +430,27 @@ class _FragmentContentPageState extends State<FragmentContentPage> {
                   SizedBox(
                     width: 8,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Lainnya",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Lainnya",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        "Hidup sehat adalah hidup yang bebas dari... ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w300, fontSize: 12),
-                      )
-                    ],
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          "Hidup sehat adalah hidup yang bebas dari... ",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300, fontSize: 12),
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),

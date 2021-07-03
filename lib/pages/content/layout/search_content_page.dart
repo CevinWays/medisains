@@ -148,11 +148,13 @@ class _SearchContentPageState extends State<SearchContentPage> {
                           children: <Widget>[
                             Row(
                               children: [
-                                Text(contentModel.title,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: textDark)),
+                                Expanded(
+                                  child: Text(contentModel.title,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: textDark)),
+                                ),
                                 Row(
                                   children: [
                                     Padding(

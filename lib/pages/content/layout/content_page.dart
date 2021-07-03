@@ -643,13 +643,15 @@ class _ContentPageState extends State<ContentPage> {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black)),
                           SizedBox(height: 5),
-                          Container(
-                              width: 150,
-                              child: Text(
-                                contentModel.desc,
-                                style: TextStyle(fontSize: 12),
-                                overflow: TextOverflow.ellipsis,
-                              )),
+                          Expanded(
+                            child: Container(
+                                width: 150,
+                                child: Text(
+                                  contentModel.desc,
+                                  style: TextStyle(fontSize: 12),
+                                  overflow: TextOverflow.ellipsis,
+                                )),
+                          ),
                         ],
                       ),
                     ),

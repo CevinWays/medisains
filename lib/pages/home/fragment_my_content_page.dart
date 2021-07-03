@@ -141,16 +141,16 @@ class _FragmentMyContentPageState extends State<FragmentMyContentPage> {
                       children: <Widget>[
                         Row(
                           children: [
-                            Container(
-                                width: 270,
-                                child: Text(
-                                  item.data()['title'],
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: textDark),
-                                  overflow: TextOverflow.ellipsis,
-                                )),
+                            Expanded(
+                              child: Text(
+                                item.data()['title'],
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: textDark),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                             Row(
                               children: [
                                 Padding(
